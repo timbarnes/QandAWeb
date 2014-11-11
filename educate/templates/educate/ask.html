@@ -1,0 +1,12 @@
+<h1>{{ question.category.category_text }}</h1>
+<h2>{{ question.question_text }}</h2>
+
+{% if error_message %}<p><string>{{ error_message }}</p>{% endif %}
+
+<form action="{{ question_id }}answer/" method="post">
+{% csrf_token %}
+{{ form }}
+<input type="submit" value="Check your answer" />
+</form>
+
+  
