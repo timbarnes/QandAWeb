@@ -1,0 +1,62 @@
+dj / educate
+============
+
+Goal
+====
+A web application that will manage and manipulate educational content, in the form of questions and answers.
+
+The purpose is to facilitate the gathering and organizing of this information so it can be presented
+back to users in the form of quizzes and other educational tools.
+
+Ideally we would eventually be able to support multiple users, each with their own content,
+private and shared.
+
+Features
+========
+
+The data model supports categories of information, questions, and answers.
+The application keeps track of which questions have been accessed in a session.
+Questions can be presented individually (better for mobile).
+Questions can be presented in tabular form (better for large screens).
+Answers can be typed in, and will be scored against stored answers.
+Statistics will be made available to show a variety of things:
+- how many questions have been asked
+- success / correctness measures
+- coverage data by category
+
+GUI
+===
+Main page:
+     Login
+     Navigation
+     System dashboard / statistics
+     List of topics
+     News
+
+User home page:
+     Navigation
+     Personal information / dashboard
+     Personal content
+
+Category page:
+     Navigation
+     Category name and description
+     List of questions for that category, paged if necessary
+
+Quiz page:
+     Navigation
+     List of questions
+     Text box for answers
+     Grading
+
+Study page:
+     Navigation
+     List of questions and answers
+
+Mobile page:
+     Navigation
+     Show a single question
+     Text box for an answer
+     Grading and correct answer display
+     
+

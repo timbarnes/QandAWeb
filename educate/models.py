@@ -4,6 +4,7 @@ from django.db import models
 
 class Category(models.Model):
     category_text = models.CharField(max_length=40)
+    category_description = models.CharField(max_length=200)
 
     def __unicode__(self):
         return self.category_text
