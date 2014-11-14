@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.views import generic
 from django import forms
 
-from educate.models import Category, Question
+from educate.models import Subject, Category, Question
 
 # Create your views here.
 
@@ -21,6 +21,26 @@ def home(request):
     return render(request, 'educate/home.html')
 
     
+class AllSubjectsView(generic.ListView):
+    """List of all the subjects.
+    """
+    template_name = 'educate/subjects.html'
+    context_name = 'subject_list'
+
+    def get_queryset(self):
+        return Subject.objects.order_by('name')
+
+
+class AllCategoriesView(generic.ListView):
+    """List of all the categories.
+    """
+    template_name = 'educate/categories.html'
+    context_name = 'category_list'
+
+    def get_queryset(self):
+        return Category.objects.order_by('name')
+
+
 class CategoriesView(generic.ListView):
     """List of all the categories.
     """
@@ -28,19 +48,21 @@ class CategoriesView(generic.ListView):
     context_object_name = 'category_list'
 
     def get_queryset(self):
-        return Category.objects.order_by('category_text')
+        sub = self.kwargs['subject']
+        return Category.objects.filter(subject__name=sub)
+
 
 class QuestionsView(generic.ListView):
     """List of all the questions in a category.
     """
     template_name = 'educate/questions.html'
-    context_object_name = 'questions'
+    context_object_name = 'question_list'
 
     def get_queryset(self):
         cat = self.kwargs['category']
         print 'Category was:', cat
-        print Question.objects.filter(category__category_text=cat)
-        return Question.objects.filter(category__category_text=cat)
+        print Question.objects.filter(category__name=cat)
+        return Question.objects.filter(category__name=cat)
                 
 
 def ask(request, question_id):

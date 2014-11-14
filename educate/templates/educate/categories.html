@@ -1,7 +1,7 @@
 {% if category_list %}
 <ul>
   {% for category in category_list %}
-  <li><a href="{% url 'questions' category.category_text %}">{{ category.category_text }}</a></li>
+  <li><a href="{% url 'questions' category.name %}">{{category.name }}</a></li>
   {% endfor %}
 </ul>
 {% else %}
