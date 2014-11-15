@@ -1,9 +1,20 @@
-{% if subject_list %}
-<ul>
-  {% for sub in subject_list %}
-  <li><a href="{% url 'categories' sub.name %}">{{ sub.name }}</a></li>
-  {% endfor %}
-</ul>
-{% else %}
-<p>No subjects are available</p>
-{% endif %}
+{% extends "educate/base.html" %}
+{% block banner %}
+{% endblock %}
+{% block title %}
+<h1 class="pagetitle">Subjects</h1>
+{% endblock %}
+{% block content %}
+  {% if subject_list %}
+  <ul>
+    {% for sub in subject_list %}
+    <li><a href="{% url 'categories' sub.name %}">{{ sub.name }}</a>
+      <br />
+      <p>{{ sub.description }}</p>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>No subjects found</p>
+  {% endif %}
+{% endblock %}

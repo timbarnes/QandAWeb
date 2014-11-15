@@ -1,9 +1,34 @@
-{% if category_list %}
+{% extends "educate/base.html" %}
+{% block banner %}
+{% endblock %}
+{% block title %}
+<h1 class="pagetitle">Subjects</h1>
+{% endblock %}
+{% block menu %}
+<h3>Subjects:</h3>
+{% if subject_list %}
 <ul>
-  {% for category in category_list %}
-  <li><a href="{% url 'questions' category.name %}">{{category.name }}</a></li>
+  {% for sub in subject_list %}
+  <li><a href="{% url 'categories' sub.name %}">{{ sub.name }}</a></li>
   {% endfor %}
 </ul>
 {% else %}
-<p>No categories are available</p>
+<p>No subjects are available</p>
 {% endif %}
+{% endblock %}
+{% block content %}
+  {% if category_subset %}
+  <ul>
+    {% for cat in category_subset %}
+    <li><a href="{% url 'questions' cat.name %}">{{ cat.name }}</a> ({{ cat.subject.name }})
+      <br />
+      <p>{{ cat.description }}</p>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>No categories found</p>
+  {% endif %}
+{% endblock %}
+
+

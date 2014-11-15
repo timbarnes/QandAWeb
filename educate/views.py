@@ -18,7 +18,10 @@ class AnswerForm(forms.Form):
 def home(request):
     """Home page for the Educate project.
     """
-    return render(request, 'educate/home.html')
+    return render(request, 'educate/home.html',
+                  {'subject_list': Subject.objects.order_by('name'),
+                   'category_list': Category.objects.order_by('name')
+               })
 
     
 class AllSubjectsView(generic.ListView):
@@ -27,6 +30,13 @@ class AllSubjectsView(generic.ListView):
     template_name = 'educate/subjects.html'
     context_name = 'subject_list'
 
+    def get_context_data(self, **kwargs):
+        context = super(AllSubjectsView, self).get_context_data(**kwargs)
+        context.update({
+            'category_list': Category.objects.order_by('name'),
+        })
+        return context
+    
     def get_queryset(self):
         return Subject.objects.order_by('name')
 
@@ -37,19 +47,34 @@ class AllCategoriesView(generic.ListView):
     template_name = 'educate/categories.html'
     context_name = 'category_list'
 
+    def get_context_data(self, **kwargs):
+        context = super(AllCategoriesView, self).get_context_data(**kwargs)
+        context.update({
+            'subject_list': Subject.objects.order_by('name'),
+            'category_list': Category.objects.order_by('name'),
+        })
+        return context
+    
     def get_queryset(self):
         return Category.objects.order_by('name')
 
 
 class CategoriesView(generic.ListView):
-    """List of all the categories.
+    """List of the categories for a specific subject.
     """
     template_name = 'educate/categories.html'
-    context_object_name = 'category_list'
+    context_object_name = 'category_subset'
 
+    def get_context_data(self, **kwargs):
+        context = super(CategoriesView, self).get_context_data(**kwargs)
+        context.update({
+            'subject_list': Subject.objects.order_by('name'),
+            'category_list': Category.objects.order_by('name'),
+        })
+        return context
+    
     def get_queryset(self):
-        sub = self.kwargs['subject']
-        return Category.objects.filter(subject__name=sub)
+        return Category.objects.filter(subject__name=self.kwargs['subject'])
 
 
 class QuestionsView(generic.ListView):
@@ -58,11 +83,17 @@ class QuestionsView(generic.ListView):
     template_name = 'educate/questions.html'
     context_object_name = 'question_list'
 
+    def get_context_data(self, **kwargs):
+        context = super(QuestionsView, self).get_context_data(**kwargs)
+        context.update({
+            'category': self.kwargs['category'],
+            'subject_list': Subject.objects.order_by('name'),
+            'category_list': Category.objects.order_by('name'),
+        })
+        return context
+    
     def get_queryset(self):
-        cat = self.kwargs['category']
-        print 'Category was:', cat
-        print Question.objects.filter(category__name=cat)
-        return Question.objects.filter(category__name=cat)
+        return Question.objects.filter(category__name=self.kwargs['category'])
                 
 
 def ask(request, question_id):

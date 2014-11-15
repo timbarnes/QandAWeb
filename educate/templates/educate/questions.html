@@ -1,19 +1,19 @@
-<h1>{{ question.category.name }}</h1>
-<h2>{{ question.question }}</h2>
-
-{% if error_message %}<p><string>{{ error_message }}</p>{% endif %}
-
-{% for q in question_list %}
-<li><a href="{% url 'ask' q.id %}"> {{ q.question }}</a></li>
-{% endfor %}
-
-{% comment %}
-
-<form action="{% url 'educate:answer' question.id %}" method="post">
-{% csrf_token %}
-{{ form }}
-<input type="submit" value="Check your answer" />
-</form>
-
-{% endcomment %}
+{% extends "educate/base.html" %}
+{% block banner %}
+{% endblock %}
+{% block title %}
+<h1 class="pagetitle">{{ category }}: Questions</h1>
+{% endblock %}
+{% block content %}
+  {% if question_list %}
+  <ul>
+    {% for q in question_list %}
+    <li><a href="{% url 'ask' q.id %}">{{ q.question }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>No questions found</p>
+  {% endif %}
+{% endblock %}
   
