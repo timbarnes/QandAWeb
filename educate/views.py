@@ -5,6 +5,7 @@ from django.views import generic
 from django import forms
 
 from educate.models import Subject, Category, Question
+from educate.score import score
 
 # Create your views here.
 
@@ -136,9 +137,11 @@ def answer(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     form = AnswerForm(request.POST)
     if form.is_valid():
+        sc = score(str(question.answer), form.cleaned_data['user_answer'])
         return render(request, 'educate/answer.html', {
             'question': question,
             'answer': form.cleaned_data['user_answer'],
+            'score': sc,
             'subject_list': Subject.objects.order_by('name'),
             'category_list': Category.objects.order_by('name'),
         })
@@ -146,6 +149,7 @@ def answer(request, question_id):
         return render(request, 'educate/answer.html', {
             'question': question,
             'answer': '(No answer provided)',
+            'score': 0,
             'subject_list': Subject.objects.order_by('name'),
             'category_list': Category.objects.order_by('name'),
         })
