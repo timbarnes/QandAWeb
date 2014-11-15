@@ -8,7 +8,7 @@
   {% if question_list %}
   <ul>
     {% for q in question_list %}
-    <li><a href="{% url 'ask' q.id %}">{{ q.question }}</a>
+    <li><a href="{% url 'ask' q.id %}">{{ q.question }}?</a>
     </li>
     {% endfor %}
   </ul>

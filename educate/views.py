@@ -68,6 +68,7 @@ class CategoriesView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(CategoriesView, self).get_context_data(**kwargs)
         context.update({
+            'subject': self.kwargs['subject'],
             'subject_list': Subject.objects.order_by('name'),
             'category_list': Category.objects.order_by('name'),
         })
@@ -101,7 +102,12 @@ def ask(request, question_id):
     """
     question = get_object_or_404(Question, pk=question_id)
     form = AnswerForm()
-    return render(request, 'educate/ask.html', {'question': question, 'form': form})
+    return render(request, 'educate/ask.html', {
+        'question': question,
+        'form': form,
+        'subject_list': Subject.objects.order_by('name'),
+        'category_list': Category.objects.order_by('name'),
+    })
 
 
 def answer(request, question_id):
@@ -110,10 +116,17 @@ def answer(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     form = AnswerForm(request.POST)
     if form.is_valid():
-        return render(request, 'educate/answer.html',
-                      {'question': question, 'answer': form.cleaned_data['user_answer']})
+        return render(request, 'educate/answer.html', {
+            'question': question,
+            'answer': form.cleaned_data['user_answer'],
+            'subject_list': Subject.objects.order_by('name'),
+            'category_list': Category.objects.order_by('name'),
+        })
     else:
-        return render(request, 'educate/answer.html',
-                      {'question': question, 'answer': '(No answer provided)'})
-
+        return render(request, 'educate/answer.html', {
+            'question': question,
+            'answer': '(No answer provided)',
+            'subject_list': Subject.objects.order_by('name'),
+            'category_list': Category.objects.order_by('name'),
+        })
 

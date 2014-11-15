@@ -1,12 +1,14 @@
-<h1>{{ question.category.category_text }}</h1>
-<h2>{{ question.question_text }}</h2>
-
-{% if error_message %}<p><string>{{ error_message }}</p>{% endif %}
+{% extends "educate/base.html" %}
+{% block title %}
+<h1 class="pagetitle">{{ category }}</h1>
+{% endblock %}
+{% block content %}
+<h2>{{ question.question }}?</h2>
 
 <form action="{{ question_id }}answer/" method="post">
 {% csrf_token %}
 {{ form }}
 <input type="submit" value="Check your answer" />
 </form>
-
+{% endblock %}
   

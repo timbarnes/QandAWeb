@@ -2,7 +2,7 @@
 {% block banner %}
 {% endblock %}
 {% block title %}
-<h1 class="pagetitle">Subjects</h1>
+<h1 class="pagetitle">{{ subject }}: Categories</h1>
 {% endblock %}
 {% block menu %}
 <h3>Subjects:</h3>
@@ -17,11 +17,11 @@
 {% endif %}
 {% endblock %}
 {% block content %}
+<h3>Click on a category to access questions for that category.</h3>
   {% if category_subset %}
   <ul>
     {% for cat in category_subset %}
-    <li><a href="{% url 'questions' cat.name %}">{{ cat.name }}</a> ({{ cat.subject.name }})
-      <br />
+    <li><a href="{% url 'questions' cat.name %}">{{ cat.name }}</a>
       <p>{{ cat.description }}</p>
     </li>
     {% endfor %}
