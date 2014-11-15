@@ -6,9 +6,19 @@
 {% endblock %}
 {% block content %}
   {% if question_list %}
+    {% if review %}
+      <a href="{% url 'questions' category %}">Hide answers</a>
+    {% else %}
+      <a href="{% url 'review_questions' category %}">Review answers</a>
+      <br /><br />
+      <p>Click on a question to test your knowledge.</p>
+    {% endif %}
   <ul>
     {% for q in question_list %}
     <li><a href="{% url 'ask' q.id %}">{{ q.question }}?</a>
+      {% if review %}
+      <p>{{ q.answer }}</p>
+      {% endif %}
     </li>
     {% endfor %}
   </ul>

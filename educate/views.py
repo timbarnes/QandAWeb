@@ -97,6 +97,26 @@ class QuestionsView(generic.ListView):
         return Question.objects.filter(category__name=self.kwargs['category'])
                 
 
+class ReviewQuestionsView(generic.ListView):
+    """List of all the questions in a category.
+    """
+    template_name = 'educate/questions.html'
+    context_object_name = 'question_list'
+
+    def get_context_data(self, **kwargs):
+        context = super(ReviewQuestionsView, self).get_context_data(**kwargs)
+        context.update({
+            'category': self.kwargs['category'],
+            'subject_list': Subject.objects.order_by('name'),
+            'category_list': Category.objects.order_by('name'),
+            'review':True,
+        })
+        return context
+    
+    def get_queryset(self):
+        return Question.objects.filter(category__name=self.kwargs['category'])
+                
+
 def ask(request, question_id):
     """Ask a single question.
     """

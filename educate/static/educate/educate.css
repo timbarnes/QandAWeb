@@ -3,13 +3,17 @@ a,address,blockquote,cite,code,dd,del,dfn,div,dl,dt,em,form,h1,h2,h3,h4,h5,h6,if
 ,samp,small,span,strong,sub,sup,ul,var,applet,b,big,center,dir,font,hr,i,menu,pre,s,strike,tt,u,abbr,acronym,
 bdo,button,fieldset,ins,label {text-align:left;border-bottom:0pt none;}
 p,li {font-size:11px;padding:0em;margin-top:0em;margin-bottom:.9em;line-height:1.5em;}
+a {text-decoration:none;background-color:transparent;}
+a:link {color:#c04000;}
+a:hover {background-color:#f4f4da;text-decoration:underline;}
+a:visited {color:#840000;}
 ins {text-decoration:none;font-weight:bold;}
 hr {background-color:#3e423a;size:1px;}
 body {font-family:Lato,Verdana,"Myriad Web",Syntax,Helvetica,sans-serif;text-align:center;height:100%;}
 .bannerad {padding-bottom:.5em;}
-#banner {padding:1em;background-color:#417378;margin-bottom:1em;}
-#banner h1 {font-size:x-large;text-color:#888;}
-#sidebar {float:right;width:280px;}
+.banner {padding:1em;background-color:#417378;margin-bottom:1em;}
+.banner a, h1 {font-size:x-large;color:white;}
+#sidebar {float:right;width:220px;}
 #menu {background-color:#ffe8a4;border:1px #aaa solid;margin-left:1em;padding-left:1em;padding-top:0.5em;padd
 													 ing-right:1em;padding-bottom:.5em;line-height:1.25em;color:red;}
 .main {  margin:0 auto;text-align:left;  padding:1em;}
@@ -37,10 +41,6 @@ body {font-family:Lato,Verdana,"Myriad Web",Syntax,Helvetica,sans-serif;text-ali
 #menu h2,h3,h4 {font-size:large;}
 #menu a {color:#666666;font-weight:normal;background-color:transparent;}
 #menu a:hover {color:#ff9900;background-color:#f4f4da;}
-a {text-decoration:none;background-color:transparent;}
-a:link {color:#c04000;}
-a:hover {background-color:#f4f4da;text-decoration:underline;}
-a:visited {color:#840000;}
 .outsetmenu a {color:#666666;}
 .outsetmenu a:hover {color:#ff9900;background-color:#f4f4da;}
 h1,h2,h3,h4,h5,h6 {line-height:1.33em;margin-bottom:0.33em;font-family:Lato,"Myriad Web",Arial,Helvetica,sans-seri
