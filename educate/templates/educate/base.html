@@ -1,0 +1,61 @@
+{% load staticfiles %}
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'>
+    <title>{% block pagetitle %}Questions and Quizzes // A Place for Learning{{ page.title }} // Tim Barnes{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'educate/educate.css' %}" />
+    {% block js %} {% endblock %}
+    <meta name="keywords" content="education, training, learning, online, architecture, are" {% block keywords %}{% endblock %}" />
+    <meta name="description" content="{% block description %}{{ page.summary }}.{% endblock %}"Learning tools for busy people" />
+    <meta name="distribution" content="Global" />
+  </head>
+
+  <body>
+    <div class="main">
+      <div class="banner">
+	<h1><a href="{% url 'home' %}">// Questions and Quizzes //</a></h1>
+      </div>
+      {% block title %}<h1 class="pagetitle">Home</h1>{% endblock %}
+      <div id="sidebar">
+	<div id="menu">
+	  {% block menu %}
+	  <h3><a href="{% url 'home' %}">Home</a></h3>
+	  <h3>Subjects:</h3>
+	  {% if subject_list %}
+	  <ul>
+	    {% for sub in subject_list %}
+	    <li><a href="{% url 'categories' sub.name %}">{{ sub.name }}</a></li>
+	    {% endfor %}
+	  </ul>
+	  {% else %}
+	  <p>No subjects are available</p>
+	  {% endif %}
+	  <h3>Categories:</h3>
+	  {% if category_list %}
+	  <ul>
+	    {% for cat in category_list %}
+	    <li><a href="{% url 'questions' cat.name %}">{{ cat.name }}</a></li>
+	    {% endfor %}
+	  </ul>
+	  {% else %}
+	  <p>No categories are available</p>
+	  {% endif %}
+	  {% endblock %}
+	  {% block submenu %}{% endblock %}
+	</div>
+      </div>
+      <div class=content>
+	{% block content %}{% endblock %}
+	{% block footer %}
+	<div class="byline">
+	  <h2>About this site</h2>
+	  <p>A simple resource for learning, by Tim Barnes.</p>
+	  <p>Information is provided on an as-is basis. No warranty is expressed or implied. Use at your own risk.</p<>
+	</div>
+	{% endblock %}
+      </div>
+    </div>
+</div>
+</body>
+</html>

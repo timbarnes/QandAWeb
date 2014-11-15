@@ -1,10 +1,18 @@
-<h1>{{ question.category.category_text }}</h1>
-<h2>{{ question.question_text }}</h2>
-
-{% if error_message %}<p><string>{{ error_message }}</p>{% endif %}
-<h3>He said:</h3>
-<p>{{ question.answer_text }}</p>
-<h3>You said:</h3>
-<p>{{ answer }}</p>
-
+{% extends "educate/base.html" %}
+{% block title %}
+<h1 class="pagetitle">Review the answer:</h1>
+{% endblock %}
+{% block content %}
+<h2>{{ question.question }}?</h2>
+<p>In {{ question.category.subject.name }} // {{ question.category.name }}</p>
+<table>
+  <tr>
+    <td>Suggested answer:</td><td>{{ question.answer }}</td>
+  </tr>
+  <tr>
+    <td>Your answer:</td><td>{{ answer }}</td>
+  </tr>
+</table>
+<br />
+{% endblock %}
   
