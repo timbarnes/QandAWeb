@@ -7,7 +7,7 @@ import sys
 
 import django
 from xlrd import open_workbook
-from model import Subject, Category, Question
+from models import Subject, Category, Question
 
 
 def read_topics(filename):
@@ -29,16 +29,12 @@ def save_topics(subject, topic_set):
     sub = Subject.objects.filter(name=subject)
     if sub:
         sub = sub[0]
-        print 'Subject:', sub
         categories = Category.objects.all()
-        category_names = [object.category_text for object in categories]
+        category_names = [cat.name for cat in categories]
         for entry in topic_set:
             if entry not in category_names:
-                print "Adding", entry
-                """
-                cat = model.Category(category=entry, subject=sub)
+                cat = Category(name=entry, subject=sub)
                 cat.save()
-                """
     else:
         print 'Subject not found:', sub
     return
@@ -47,33 +43,29 @@ def save_topics(subject, topic_set):
 
 def read_questions(filename):
     """Read the questions using the xlrd processor.
-    Lines are organized into lists of topic, question and answer.
+        Lines are organized into lists of topic, question and answer.
     """
     with open_workbook(filename) as book:
         sheet = book.sheet_by_index(0)
         qlist = []
         for row_index in range(sheet.nrows):
             row_data = sheet.row(row_index)
-            if topic == 'all' or row_data[0].value == topic:
-                list.append(qlist, [x.value for x in row_data])
+            list.append(qlist, [x.value for x in row_data])
         return qlist
 
 
 def save_questions(questions):
     """Iteratively write questions to the database.
     """
-
-    for question in questions:
-        print question
-"""
-        cat = Category.objects.filter(category__name=question[0])
+    for q in questions:
+        cat = Category.objects.filter(name=q[0])
         if cat:
-            q = Question(category=cat,
-                         question_text = question[1],
-                         answer_text = question[2])
+            qu = Question(category=cat[0],
+                         question=q[1],
+                         answer=q[2])
+            qu.save()
         else:
             print "Please load categories first."
-"""
 
 
 def main():
