@@ -12,7 +12,7 @@ body {font-family:Verdana,"Myriad Web",Syntax,Helvetica,sans-serif;text-align:ce
 #nav {font-size:12px;font-weight:100;}
 #sidebar {float:right;width:220px;}
 #menu {background-color:#fff;border:1px #aaa solid;margin-left:1em;padding-left:1em;padding-top:0.5em;padding-right:1em;padding-bottom:.5em;line-height:1.25em;color:red;}
-#main {background-color:#fafafa;margin:0 auto;text-align:left;  padding:1em;}
+#main {background-color:#fafafa;text-align:left;margin:auto;padding:2%;float:center;width:96%;max-width:920px;}
 #content {margin:0px;}
 .article {clear:left;}
 .firstpara,.toppara {margin-left:195px;line-height:1.75em;border-top:solid 1px #aaa;border-left:solid 1px #aaa;padding:1em;height:100%;}
