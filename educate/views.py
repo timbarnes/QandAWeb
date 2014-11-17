@@ -19,7 +19,7 @@ def home(request):
     """Home page for the Educate project.
     """
     return render(request, 'educate/home.html',
-                  {'
+                  {
                   'subject_list': Subject.objects.order_by('name'),
                   'category_list': Category.objects.order_by('name')
                })
