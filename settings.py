@@ -10,20 +10,16 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+from django.core.urlresolvers import reverse_lazy
 
-PROJECT_DIR = BASE_DIR
+LOGIN_URL = reverse_lazy('login')
+LOGIN_REDIRECT_URL = reverse_lazy('home')
 
-TEMPLATE_DIRS = (
-    os.path.join(PROJECT_DIR, 'templates'),
-    '/home/tbarnes/qa.tangramart.com/env/lib/python2.7/site-packages/django/contrib/admin/templates',
-    '/home/tbarnes/qa.tangramart.com/env/lib/python2.7/site-packages/django/contrib/comments/templates',
-)
-#    os.path.join(BASE_DIR, 'templates')
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
+TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
-#    os.path.join(PROJECT_DIR, 'templates'),
-#    '/home/tbarnes/pyth/python2.5.1/lib/python2.5/site-packages/django/contrib/comments/templates',
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'nil9#8=c)_2*_yqo**7#-qf9sg1*h-4xfk_32cqi931^luts90'
@@ -33,7 +29,7 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = [qa.tangramart.com]
+ALLOWED_HOSTS = ['.tangramart.com']
 
 
 # Application definition
@@ -45,6 +41,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'registration',
     'educate',
 )
 
@@ -62,6 +59,9 @@ ROOT_URLCONF = 'dj.urls'
 
 WSGI_APPLICATION = 'dj.wsgi.application'
 
+# For django-registration-redux
+ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_AUTO_LOGIN = True
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
@@ -91,4 +91,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.dirname(BASE_DIR) + '/public/static'
