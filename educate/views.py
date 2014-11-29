@@ -18,17 +18,11 @@ def home(request):
     registered = request.user.is_authenticated()
     return render(request, 'educate/home.html',
                   {
-<<<<<<< HEAD
-                  'subject_list': Subject.objects.order_by('name'),
-                  'category_list': Category.objects.order_by('name')
-               })
-=======
                       'registered': registered,
                       'username': request.user.username,
                       'subject_list': Subject.objects.order_by('name'),
                       'category_list': Category.objects.order_by('name')
                   })
->>>>>>> dev
 
     
 class AllSubjectsView(generic.ListView):
