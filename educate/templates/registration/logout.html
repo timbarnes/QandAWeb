@@ -4,5 +4,7 @@
 {% block content %}
 <br />
 <h2>You have been logged out.</h2>
-<br /><br />
+<br />
+<p>Return to <a href="{% url 'home' %}">home</a>, or <a href="{% url 'auth_login' %}" %}">login</a> again.</p>
+<br />
 {% endblock %}

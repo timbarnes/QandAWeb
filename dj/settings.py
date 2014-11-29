@@ -63,6 +63,8 @@ WSGI_APPLICATION = 'dj.wsgi.application'
 ACCOUNT_ACTIVATION_DAYS = 7
 REGISTRATION_AUTO_LOGIN = True
 
+# For e-mail
+
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 

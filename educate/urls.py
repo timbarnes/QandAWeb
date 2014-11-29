@@ -1,5 +1,4 @@
 from django.conf.urls import patterns, url, include
-
 from educate import views
 
 urlpatterns = patterns('',
