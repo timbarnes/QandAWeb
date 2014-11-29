@@ -20,11 +20,11 @@ TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 SECRET_KEY = 'nil9#8=c)_2*_yqo**7#-qf9sg1*h-4xfk_32cqi931^luts90'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.tangramart.com']
 
 
 # Application definition
