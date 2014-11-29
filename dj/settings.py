@@ -10,6 +10,12 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from YamJam import yamjam
+from django.core.urlresolvers import reverse_lazy
+
+LOGIN_URL = reverse_lazy('login')
+LOGIN_REDIRECT_URL = reverse_lazy('home')
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
@@ -17,14 +23,14 @@ TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'nil9#8=c)_2*_yqo**7#-qf9sg1*h-4xfk_32cqi931^luts90'
+SECRET_KEY = yamjam()['dj']['django-secret-key']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['.tangramart.com']
+ALLOWED_HOSTS = [yamjam()['dj']['allowed-hosts']]
 
 
 # Application definition
@@ -36,6 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'registration',
     'educate',
 )
 
@@ -53,14 +60,20 @@ ROOT_URLCONF = 'dj.urls'
 
 WSGI_APPLICATION = 'dj.wsgi.application'
 
+# For django-registration-redux
+ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_AUTO_LOGIN = True
+
+EMAIL_HOST = yamjam()['dj']['email-host']
+EMAIL_PORT = yamjam()['dj']['email-port']
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': yamjam()['dj']['database-engine'],
+        'NAME': os.path.join(BASE_DIR, yamjam()['dj']['database-name'],),
     }
 }
 
