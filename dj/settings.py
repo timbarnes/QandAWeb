@@ -26,7 +26,8 @@ TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 SECRET_KEY = yamjam()['dj']['django-secret-key']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+#DEBUG = yamjam()['dj']['debug']
+DEBUG = True
 
 TEMPLATE_DEBUG = True
 
