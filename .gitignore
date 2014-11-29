@@ -54,3 +54,9 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# Emacs old files
+*~
+
+# YAML
+config.yaml

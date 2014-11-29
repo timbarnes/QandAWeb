@@ -27,7 +27,13 @@
     {% endfor %}
   </ul>
   {% else %}
-  <p>No categories found</p>
+  <ul>
+    {% for cat in category_list %}
+    <li><a href="{% url 'questions' cat.name %}">{{ cat.name }}</a>
+      <p>{{ cat.description }}</p>
+    </li>
+    {% endfor %}
+  </ul>
   {% endif %}
 {% endblock %}
 
