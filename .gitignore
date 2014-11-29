@@ -46,9 +46,17 @@ coverage.xml
 
 # Django stuff:
 *.log
+*.pyc
+*.*~
 
 # Sphinx documentation
 docs/_build/
 
 # PyBuilder
 target/
+
+# Emacs old files
+*~
+
+# YAML
+config.yaml
