@@ -13,6 +13,8 @@ import os
 from YamJam import yamjam
 from django.core.urlresolvers import reverse_lazy
 
+parms = yamjam()['dj']
+
 LOGIN_URL = reverse_lazy('login')
 LOGIN_REDIRECT_URL = reverse_lazy('home')
 
@@ -23,15 +25,14 @@ TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = yamjam()['dj']['django-secret-key']
+SECRET_KEY = parms['django-secret-key']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = yamjam()['dj']['debug']
-DEBUG = True
+DEBUG = parms['debug']
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = [yamjam()['dj']['allowed-hosts']]
+ALLOWED_HOSTS = [parms['allowed-hosts']]
 
 
 # Application definition
@@ -43,6 +44,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'registration',
     'educate',
 )
@@ -65,16 +67,20 @@ WSGI_APPLICATION = 'dj.wsgi.application'
 ACCOUNT_ACTIVATION_DAYS = 7
 REGISTRATION_AUTO_LOGIN = True
 
-EMAIL_HOST = yamjam()['dj']['email-host']
-EMAIL_PORT = yamjam()['dj']['email-port']
+EMAIL_HOST = parms['email-host']
+EMAIL_PORT = parms['email-port']
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': yamjam()['dj']['database-engine'],
-        'NAME': os.path.join(BASE_DIR, yamjam()['dj']['database-name'],),
+        'ENGINE': parms['database-engine'],
+        'NAME': parms['database-name'],
+        'USER': parms['database-user'],
+        'PASSWORD': parms['database-password'],
+        'HOST': parms['database-host'],
+        'PORT': parms['database-port'],
     }
 }
 
