@@ -2,13 +2,13 @@ div {font-family:Lato,Verdana,Helvetica,Arial,sans-serif;}
 a,address,blockquote,cite,code,dd,del,dfn,div,dl,dt,em,form,h1,h2,h3,h4,h5,h6,iframe,img,kbd,li,object,ol,p,q
 ,samp,small,span,strong,sub,sup,ul,var,applet,b,big,center,dir,font,hr,i,menu,pre,s,strike,tt,u,abbr,acronym,
 bdo,button,fieldset,ins,label {text-align:left;border-bottom:0pt none;}
-p,li {font-size:13px;padding:0em;margin-top:0em;margin-bottom:.9em;line-height:1.5em;}
+p,li {font-size:15px;padding:0em;margin-top:0em;margin-bottom:.9em;line-height:1.5em;}
 ins {text-decoration:none;font-weight:bold;}
 hr {background-color:#ff0000;size:1px;}
 body {font-family:Lato,Verdana,"Myriad Web",Syntax,Helvetica,sans-serif;text-align:center;height:100%;}
 .bannerad {padding-bottom:.5em;}
 #banner {border-right:20px solid red;padding:1em;background-color:#888;margin-bottom:1em;}
-#banner h1 {text-align:right;margin-left:172px;font-size:x-large;}
+#banner h1 {text-align:right;margin-left:172px;font-size:x-large;font-weight:600;}
 #nav {font-size:13px;font-weight:100;}
 #sidebar {float:right;width:220px;}
 #menu {background-color:#fff;border:1px #aaa solid;margin-left:1em;padding-left:1em;padding-top:0.5em;padding-right:1em;padding-bottom:.5em;line-height:1.25em;color:red;}
@@ -29,7 +29,8 @@ body {font-family:Lato,Verdana,"Myriad Web",Syntax,Helvetica,sans-serif;text-ali
 .rss img {float:none;}
 .rssfixed {position:fixed;bottom:2em;left:1em;margin-right:1em;}
 #byline {font-size:11px;background-color:#444;color:#aaa;font-style:italic;text-align:justify;padding:1em;border-left:solid 1px #aaa;border-bottom:solid 1px #aaa;}
-#byline h2 {color:#f00;}
+#byline h2 {color:#f00; font-weight: 400;}
+#byline p {font-weight:100;}
 #menu p {margin:0px;margin-bottom:.3em;border-top-color:#f00;border-top-width:1px;line-height:125%;}
 .indent {padding-left:1.2em;}
 #menu h2,h3,h4 {font-size:large;}
