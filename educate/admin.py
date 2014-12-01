@@ -1,5 +1,5 @@
 from django.contrib import admin
-from educate.models import Subject, Category, Question
+from educate.models import Subject, Category, Question, Article
 
 # Register your models here.
 
@@ -10,5 +10,4 @@ class QuestionAdmin(admin.ModelAdmin):
 admin.site.register(Subject)
 admin.site.register(Category)
 admin.site.register(Question)
-
-
+admin.site.register(Article)

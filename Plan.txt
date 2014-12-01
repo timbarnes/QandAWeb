@@ -59,4 +59,18 @@ Mobile page:
      Text box for an answer
      Grading and correct answer display
      
+     ...best if the whole site is responsive.
 
+Added features under way:
+
+1. Add support for long articles associated with a subject or category or question
+   ...Title
+   ...Body (can contain inline images, uses TinyMCE)
+   ...Author
+
+2. TinyMCE support:
+   ...Pillow (see dependencies)
+   ...exports an HTML text field type for the model
+   ...should be possible to present content on a page
+   ...and edit using TinyMCE in the admin interface.
+   ...uses django-upload for image loading
