@@ -45,6 +45,7 @@ class Question(models.Model):
 class Article(models.Model):
     author = models.ForeignKey(User)
     category = models.ForeignKey(Category)
+    slug = models.SlugField()
     title = models.CharField(max_length=200)
     body = tinymce_models.HTMLField()
     published = models.BooleanField(default=False)
