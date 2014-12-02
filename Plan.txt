@@ -74,3 +74,9 @@ Added features under way:
    ...should be possible to present content on a page
    ...and edit using TinyMCE in the admin interface.
    ...uses django-upload for image loading
+
+3. Need to add views for articles (which are linked to categories)
+   ...an additional link next to the category on the categories page
+   ...a url pattern for articles under a category
+   ...view and template for an articles page (like a blog, show summaries / excerpts)
+   ...url pattern, view and template for an individual article
