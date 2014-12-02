@@ -18,23 +18,29 @@
 {% endblock %}
 {% block content %}
 <h3>Click on a category to access questions for that category.</h3>
+<br />
   {% if category_subset %}
-  <ul>
+  <table>
+    <tr><td><h3>Category</h3></td><td><h3>Description</h3></td><td><h3>Articles</h3></td></tr>
     {% for cat in category_subset %}
-    <li><a href="{% url 'questions' cat.name %}">{{ cat.name }}</a>
-      <p>{{ cat.description }}</p>
-    </li>
+    <tr><td><a href="{% url 'questions' cat.name %}">{{ cat.name }}</a></td>
+      <td>{{ cat.description }}</td>
+      <td>[Articles]</td>
+    </tr>
     {% endfor %}
-  </ul>
+  </table>
   {% else %}
-  <ul>
+  <table>
+    <tr><td><h3>Category</h3></td><td><h3>Description</h3></td><td><h3>Articles</h3></td></tr>
     {% for cat in category_list %}
-    <li><a href="{% url 'questions' cat.name %}">{{ cat.name }}</a>
-      <p>{{ cat.description }}</p>
-    </li>
+    <tr><td>><a href="{% url 'questions' cat.name %}">{{ cat.name }}</a></td>
+      <td>{{ cat.description }}</td>
+      <td>[Articles]</td>
+    </tr>
     {% endfor %}
-  </ul>
+  </table>
   {% endif %}
+<br />
 {% endblock %}
 
 

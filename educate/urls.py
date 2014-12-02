@@ -10,6 +10,6 @@ urlpatterns = patterns('',
     url(r'^q/(?P<category>[a-zA-Z%:,\- \d]+)/review/$', views.ReviewQuestionsView.as_view(), name='review_questions'),
     url(r'^(?P<question_id>\d+)/$', views.ask, name='ask'),
     url(r'^(?P<question_id>\d+)/answer/$', views.answer, name='answer'),
-#    url(r'^accounts/', include('registration.backends.default.urls')),
+# url for an article needs to be added
 )
 

@@ -6,7 +6,7 @@ from django import forms
 
 from django.contrib.auth.decorators import login_required
 
-from educate.models import Subject, Category, Question
+from educate.models import Subject, Category, Question, Article
 from educate.score import score
 
 # Create your views here.
@@ -78,6 +78,7 @@ class CategoriesView(generic.ListView):
             'subject': self.kwargs['subject'],
             'subject_list': Subject.objects.order_by('name'),
             'category_list': Category.objects.order_by('name'),
+            'article_list': Article.objects.order_by('title'),
         })
         return context
     
