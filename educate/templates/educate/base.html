@@ -38,7 +38,7 @@
 	  <h3>Subjects:</h3>
 	  <ul>
 	    {% for sub in subject_list %}
-	    <li><a href="{% url 'categories' sub.name %}">{{ sub.name }}</a></li>
+	    <li><a href="{% url 'categories' sub.slug %}">{{ sub.name }}</a></li>
 	    {% endfor %}
 	  </ul>
 	  {% endif %}
@@ -46,10 +46,14 @@
 	  <h3>Categories:</h3>
 	  <ul>
 	    {% for cat in category_list %}
-	    <li><a href="{% url 'questions' cat.name %}">{{ cat.name }}</a></li>
+	    <li><a href="{% url 'questions' cat.slug %}">{{ cat.name }}</a></li>
 	    {% endfor %}
 	  </ul>
 	  {% endif %}
+	  <h3>Tags:</h3>
+	    {% for t in tag_list %}
+	    // <a href="{% url 'tag' t.slug %}">{{ t.name }}</a> 
+	    {% endfor %}
 	  {% endblock %}
 	  {% block submenu %}{% endblock %}
 	</div>

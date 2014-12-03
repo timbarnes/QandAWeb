@@ -6,7 +6,7 @@ from django import forms
 
 from django.contrib.auth.decorators import login_required
 
-from educate.models import Subject, Category, Question, Article
+from educate.models import Tag, Subject, Category, Question, Article
 from educate.score import score
 
 # Create your views here.
@@ -21,7 +21,8 @@ def home(request):
                       'registered': registered,
                       'username': request.user.username,
                       'subject_list': Subject.objects.order_by('name'),
-                      'category_list': Category.objects.order_by('name')
+                      'category_list': Category.objects.order_by('name'),
+                      'tag_list':Tag.objects.order_by('name'),
                   })
 
     
@@ -37,6 +38,7 @@ class AllSubjectsView(generic.ListView):
             'registered': self.request.user.is_authenticated(),
             'username': self.request.user.username,
             'category_list': Category.objects.order_by('name'),
+            'tag_list':Tag.objects.order_by('name'),
         })
         return context
     
@@ -79,12 +81,56 @@ class CategoriesView(generic.ListView):
             'subject_list': Subject.objects.order_by('name'),
             'category_list': Category.objects.order_by('name'),
             'article_list': Article.objects.order_by('title'),
+            'tag_list':Tag.objects.order_by('name'),
         })
         return context
     
     def get_queryset(self):
         return Category.objects.filter(subject__name=self.kwargs['subject'])
 
+
+class AllTagsView(generic.ListView):
+    """List of all tags, linked to associated content.
+    """
+    template_name = 'educate/tags.html'
+    context_object_name = 'tag_list'
+
+    def get_context_data(self, **kwargs):
+        context = super(AllTagsView, self).get_context_data(**kwargs)
+        context.update({
+            'registered':self.request.user.is_authenticated(),
+            'username':self.request.user.username,
+            'subject_list': Subject.objects.order_by('name'),
+            'category_list': Category.objects.order_by('name'),
+            'tags':Tag.objects.order_by('name'),
+        })
+        return context
+    
+    def get_queryset(self):
+        return Tag.objects.all()
+
+    
+class TagView(generic.ListView):
+    """List of all the elements associated with a tag
+    """
+    template_name = 'educate/tags.html'
+    context_object_name = 'question_list'
+
+    def get_context_data(self, **kwargs):
+        context = super(TagView, self).get_context_data(**kwargs)
+        context.update({
+            'registered':self.request.user.is_authenticated(),
+            'username': self.request.user.username,
+            'tag': self.kwargs['tag'],
+            'subject_list': Subject.objects.order_by('name'),
+            'category_list': Category.objects.order_by('name'),
+            'tags':Tag.objects.order_by('name'),
+        })
+        return context
+    
+    def get_queryset(self):
+        qs = Category.objects.filter(tags__slug=self.kwargs['tag'])
+                
 
 class QuestionsView(generic.ListView):
     """List of all the questions in a category.
@@ -100,12 +146,14 @@ class QuestionsView(generic.ListView):
             'category': self.kwargs['category'],
             'subject_list': Subject.objects.order_by('name'),
             'category_list': Category.objects.order_by('name'),
+            'tags':Tag.objects.order_by('name'),
         })
         return context
     
     def get_queryset(self):
         return Question.objects.filter(category__name=self.kwargs['category'])
                 
+
 #@login_required
 class ReviewQuestionsView(generic.ListView):
     """List of all the questions in a category.
@@ -121,6 +169,7 @@ class ReviewQuestionsView(generic.ListView):
             'category': self.kwargs['category'],
             'subject_list': Subject.objects.order_by('name'),
             'category_list': Category.objects.order_by('name'),
+            'tags':Tag.objects.order_by('name'),
             'review':True,
         })
         return context
@@ -147,6 +196,7 @@ def ask(request, question_id):
         'form': form,
         'subject_list': Subject.objects.order_by('name'),
         'category_list': Category.objects.order_by('name'),
+        'tags':Tag.objects.order_by('name'),
     })
 
 
@@ -165,6 +215,7 @@ def answer(request, question_id):
             'score': sc,
             'subject_list': Subject.objects.order_by('name'),
             'category_list': Category.objects.order_by('name'),
+            'tags':Tag.objects.order_by('name'),
         })
     else:
         return render(request, 'educate/answer.html', {
@@ -175,6 +226,7 @@ def answer(request, question_id):
             'score': 0,
             'subject_list': Subject.objects.order_by('name'),
             'category_list': Category.objects.order_by('name'),
+            'tags':Tag.objects.order_by('name'),
         })
 
 
