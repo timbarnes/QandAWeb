@@ -2,14 +2,14 @@
 {% block banner %}
 {% endblock %}
 {% block title %}
-<h1 class="pagetitle">{{ subject }}: Categories</h1>
+<h1 class="pagetitle">Categories</h1>
 {% endblock %}
 {% block menu %}
 <h3>Subjects:</h3>
 {% if subject_list %}
 <ul>
   {% for sub in subject_list %}
-  <li><a href="{% url 'categories' sub.name %}">{{ sub.name }}</a></li>
+  <li><a href="{% url 'categories' sub.slug %}">{{ sub.name }}</a></li>
   {% endfor %}
 </ul>
 {% else %}
@@ -17,29 +17,13 @@
 {% endif %}
 {% endblock %}
 {% block content %}
-<h3>Click on a category to access questions for that category.</h3>
 <br />
-  {% if category_subset %}
-  <table>
-    <tr><td><h3>Category</h3></td><td><h3>Description</h3></td><td><h3>Articles</h3></td></tr>
-    {% for cat in category_subset %}
-    <tr><td><a href="{% url 'questions' cat.slug %}">{{ cat.name }}</a></td>
-      <td>{{ cat.description }}</td>
-      <td>[Articles]</td>
-    </tr>
-    {% endfor %}
-  </table>
-  {% else %}
-  <table>
-    <tr><td><h3>Category</h3></td><td><h3>Description</h3></td><td><h3>Articles</h3></td></tr>
+</ul>
     {% for cat in category_list %}
-    <tr><td>><a href="{% url 'questions' cat.slug %}">{{ cat.name }}</a></td>
-      <td>{{ cat.description }}</td>
-      <td>[Articles]</td>
-    </tr>
+      <li><strong>><a href="{% url 'questions' cat.slug %}">{{ cat.name }}</a></strong> -  
+	{{ cat.description }}
+      </li>
     {% endfor %}
-  </table>
-  {% endif %}
 <br />
 {% endblock %}
 

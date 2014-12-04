@@ -1,10 +1,7 @@
 from django.contrib import admin
-from educate.models import Tag, Subject, Category, Question, Article
+from educate.models import Subject, Category, Question, Article
 
 # Register your models here.
-
-class TagAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug':('name')}
 
 class CategoryAdmin(admin.ModelAdmin):
     list_filter = ('subject__name',)
@@ -17,7 +14,6 @@ class ArticleAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
 
 
-admin.site.register(Tag)
 admin.site.register(Subject)
 admin.site.register(Category)
 admin.site.register(Question)

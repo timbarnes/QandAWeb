@@ -2,21 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
 from tinymce import models as tinymce_models
-
-
-class Tag(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-    slug = models.SlugField()
-
-    def __unicode__(self):
-        return self.name
+from taggit.managers import TaggableManager
 
 
 class Subject(models.Model):
     name = models.CharField(max_length=40)
     description = models.CharField(max_length=200, default='-description-')
     slug = models.SlugField()
-    tags = models.ManyToManyField(Tag)
+    tags = TaggableManager()
 
     class Meta:
         ordering = ['name']
@@ -30,7 +23,8 @@ class Category(models.Model):
     name = models.CharField(max_length=40)
     description = models.CharField(max_length=200, default='-description-')
     slug = models.SlugField()
-    tags = models.ManyToManyField(Tag)
+    tags = TaggableManager()
+
     class Meta:
         ordering = ['name']
         verbose_name_plural = 'Categories'
@@ -43,7 +37,7 @@ class Question(models.Model):
     category = models.ForeignKey(Category)
     question = models.CharField(max_length=200)
     answer = models.CharField(max_length=200)
-    tags = models.ManyToManyField(Tag)
+    tags = TaggableManager()
 
     class Meta:
         ordering = ['question']
@@ -60,7 +54,7 @@ class Article(models.Model):
     published = models.BooleanField(default=False)
     edit_date = models.DateField(default=datetime.now)
     slug = models.SlugField()
-    tags = models.ManyToManyField(Tag)
+    tags = TaggableManager()
 
     class Meta:
         ordering = ['-edit_date']

@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'grappelli',
     'filebrowser',
     'tinymce',
+    'taggit',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
