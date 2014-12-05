@@ -52,12 +52,14 @@
 	  </ul>
 	  {% endif %}
 	  {% endblock %}
+	  <div id=submenu>
 	  {% block submenu %}
 	  <h3>Tags:</h3>
 	    {% for t in tag_list %}
 	    // <a href="{% url 'tagged' t.slug %}">{{ t.name }}</a> 
 	    {% endfor %}
 	  {% endblock %}
+	  </div>
 	</div>
       </div>
       <div id=content>

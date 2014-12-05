@@ -23,6 +23,7 @@ body {font-family:Lato,Verdana,"Myriad Web",Syntax,Helvetica,sans-serif;text-ali
 .outsetmenu {text-align:left;}
 .exhibit {font-size:16px;margin:1em;border:solid 1px #ff9900;padding:1em;clear:none;}
 .exhibit p {font-size:14px;}
+#submenu {font-size:12px;}
 #footer {padding-bottom:.5em;font-size:10px;text-align:right;font-style:oblique;font-weight:00;}
 .advertising {margin-top:1em;float:right;}
 .rss {bottom:1em;left:1em;padding:.25em;background:#ffc;border-top:solid 1px #ff9900;}
@@ -30,7 +31,7 @@ body {font-family:Lato,Verdana,"Myriad Web",Syntax,Helvetica,sans-serif;text-ali
 .rssfixed {position:fixed;bottom:2em;left:1em;margin-right:1em;}
 #byline {font-size:11px;background-color:#444;color:#aaa;font-style:italic;text-align:justify;padding:1em;border-left:solid 1px #aaa;border-bottom:solid 1px #aaa;}
 #byline h2 {color:#f00;}
-#menu p {margin:0px;margin-bottom:.3em;border-top-color:#f00;border-top-width:1px;line-height:125%;}
+#menu p, li {margin:0px;border-top-color:#f00;line-height:110%;font-weight:100;}
 .indent {padding-left:1.2em;}
 #menu h2,h3,h4 {font-size:large;}
 #menu a {color:#666666;font-weight:normal;background-color:transparent;}
