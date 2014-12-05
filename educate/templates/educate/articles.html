@@ -1,0 +1,26 @@
+{% extends "educate/base.html" %}
+{% block banner %}
+{% endblock %}
+{% block title %}
+<h1 class="pagetitle">Articles</h1>
+{% endblock %}
+{% block content %}
+  {% if article %}
+    <h2>{{ article.title }} // {{article.slug }} //</h2>
+    {{ article.body }}
+  {% endif %}
+  {% if article_list %}
+  <ul>
+    {% for art in article_list %}
+    <li><a href="{% url 'article' art.slug %}">{{ art.title }}</a>
+      <br />
+      {% comment %}
+      <p>{{ art.summary }}</p>
+      {% endcomment %}
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>No articles found</p>
+  {% endif %}
+{% endblock %}

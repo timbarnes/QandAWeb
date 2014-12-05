@@ -1,0 +1,39 @@
+{% extends "educate/base.html" %}
+{% block title %}
+<h1 class="pagetitle">Tag: {{ tag.name }}</h1>
+{% endblock %}
+{% block content %}
+<br />
+{% if subject_list %}
+<h2>Subjects</h2>
+</ul>
+    {% for s in subject_list %}
+      <li><strong>><a href="{% url 'categories' s.slug %}">{{ s.name }}</a></strong> -  
+	{{ s.description }}
+      </li>
+    {% endfor %}
+<br />
+{% endif %}
+{% if categories_list %}
+<h2>Categories</h2>
+</ul>
+    {% for cat in categories_list %}
+      <li><strong>><a href="{% url 'questions' cat.slug %}">{{ cat.name }}</a></strong> -  
+	{{ cat.description }}
+      </li>
+    {% endfor %}
+<br />
+{% endif %}
+{% if article_list %}
+<h2>Articles</h2>
+</ul>
+    {% for a in article_list %}
+      <li><strong>><a href="{% url 'article' a.slug %}">{{ a.title }}</a></strong> -  
+	{{ a.summary }}
+      </li>
+    {% endfor %}
+<br />
+{% endif %}
+{% endblock %}
+
+
