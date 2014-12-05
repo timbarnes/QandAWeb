@@ -18,10 +18,24 @@ class TagMixin(object):
         return context
     
 
-class TagIndexView(TagMixin, generic.ListView):
+def tagindexview(request, slug):
+    """Present everything associated with a tag.
+    """
+    return render(request, 'educate/tags.html',
+                  {
+                      'registered': request.user.is_authenticated(),
+                      'username': request.user.username,
+                      'subject_list': Subject.objects.filter(tags__name=slug),
+                      'category_list': Category.objects.filter(tags__name=slug),
+                      'article_list': Article.objects.filter(tags__name=slug),
+                      'tag_list': Tag.objects.all(),
+                      'tag':Tag.objects.filter(name=slug)[0],
+    })
+                  
+
     template_name = 'educate/tags.html'
-    model = Category
     context_object_name = 'category_list'
+    
 
     def get_queryset(self):
         return Category.objects.filter(tags__slug=self.kwargs.get('slug'))
@@ -111,7 +125,7 @@ class CategoriesView(TagMixin, generic.ListView):
         context.update({
             'registered': self.request.user.is_authenticated(),
             'username': self.request.user.username,
-            'subject': self.kwargs['subject'],
+            'subject': Subject.objects.filter(slug=self.kwargs['subject']),
             'subject_list': Subject.objects.order_by('name'),
             'category_list': Category.objects.order_by('name'),
             'article_list': Article.objects.order_by('title'),
@@ -119,7 +133,7 @@ class CategoriesView(TagMixin, generic.ListView):
         return context
     
     def get_queryset(self):
-        return Category.objects.filter(subject__name=self.kwargs['subject'])
+        return Category.objects.filter(subject__slug=self.kwargs['subject'])
 
 
 class ArticleView(TagMixin, generic.DetailView):

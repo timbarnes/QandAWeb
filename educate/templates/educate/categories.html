@@ -2,7 +2,7 @@
 {% block banner %}
 {% endblock %}
 {% block title %}
-<h1 class="pagetitle">Categories</h1>
+<h1 class="pagetitle">Subject: {{ subject.name }}</h1>
 {% endblock %}
 {% block menu %}
 <h3>Subjects:</h3>
@@ -19,7 +19,7 @@
 {% block content %}
 <br />
 </ul>
-    {% for cat in category_list %}
+    {% for cat in category_subset %}
       <li><strong>><a href="{% url 'questions' cat.slug %}">{{ cat.name }}</a></strong> -  
 	{{ cat.description }}
       </li>
