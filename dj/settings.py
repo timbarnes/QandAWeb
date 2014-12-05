@@ -38,6 +38,10 @@ ALLOWED_HOSTS = [parms['allowed-hosts']]
 # Application definition
 
 INSTALLED_APPS = (
+    'grappelli',
+    'filebrowser',
+    'tinymce',
+    'taggit',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -103,3 +107,21 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, parms['static-root'])
 STATIC_URL = '/static/'
+
+# Base folder locations
+
+STATIC_ROOT = os.path.join(BASE_DIR, parms['static-root'])
+MEDIA_ROOT = os.path.join(BASE_DIR, parms['media-root'])
+
+# Inline editor for articles
+
+TINYMCE_JS_URL = parms['tinymce-js-url']
+TINYMCE_JS_ROOT = parms['tinymce-js-root']
+TINYMCE_DEFAULT_CONFIG = {
+    'plugins': "table,spellchecker,paste,searchreplace",
+    'theme': "advanced",
+    'cleanup_on_startup': True,
+    'custom_undo_levels': 10,
+    }
+TINYMCE_COMPRESSOR = True
+TINYMCE_SPELLCHECKER = True

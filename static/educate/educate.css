@@ -8,7 +8,7 @@ hr {background-color:#ff0000;size:1px;}
 body {font-family:Lato,Verdana,"Myriad Web",Syntax,Helvetica,sans-serif;text-align:center;height:100%;}
 .bannerad {padding-bottom:.5em;}
 #banner {border-right:20px solid red;padding:1em;background-color:#888;margin-bottom:1em;}
-#banner h1 {text-align:right;margin-left:172px;font-size:x-large;font-weight:600;}
+#banner h1 {text-align:right;margin-left:172px;font-size:x-large;}
 #nav {font-size:13px;font-weight:100;}
 #sidebar {float:right;width:220px;}
 #menu {background-color:#fff;border:1px #aaa solid;margin-left:1em;padding-left:1em;padding-top:0.5em;padding-right:1em;padding-bottom:.5em;line-height:1.25em;color:red;}

@@ -9,7 +9,7 @@
 {% if subject_list %}
 <ul>
   {% for sub in subject_list %}
-  <li><a href="{% url 'categories' sub.name %}">{{ sub.name }}</a></li>
+  <li><a href="{% url 'categories' sub.slug %}">{{ sub.name }}</a></li>
   {% endfor %}
 </ul>
 {% else %}
@@ -20,7 +20,7 @@
   {% if subject_list %}
   <ul>
     {% for sub in subject_list %}
-    <li><a href="{% url 'categories' sub.name %}">{{ sub.name }}</a>
+    <li><a href="{% url 'categories' sub.slug %}">{{ sub.name }}</a>
       <br />
       <p>{{ sub.description }}</p>
     </li>
@@ -38,7 +38,7 @@
 {% if subject_list %}
 <ul>
   {% for subject in subject_list %}
-  <li><a href="{% url 'categories' subject.name %}">{{ subject.name }}</a></li>
+  <li><a href="{% url 'categories' subject.slug %}">{{ subject.name }}</a></li>
   {% endfor %}
 </ul>
 {% else %}

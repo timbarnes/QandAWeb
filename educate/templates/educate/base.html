@@ -21,6 +21,7 @@
 	<a href="{% url 'home' %}">Home</a> // 
         <a href="{% url 'all_subjects' %}">Subjects</a> //
 	<a href="{% url 'all_categories' %}">Categories</a> //
+	<a href="{% url 'all_articles' %}">Articles</a> //
 	{% if registered %}
 	Logged in as {{ username }} //
 	<a href="{% url 'admin:index' %}">Admin</a> //
@@ -38,7 +39,7 @@
 	  <h3>Subjects:</h3>
 	  <ul>
 	    {% for sub in subject_list %}
-	    <li><a href="{% url 'categories' sub.name %}">{{ sub.name }}</a></li>
+	    <li><a href="{% url 'categories' sub.slug %}">{{ sub.name }}</a></li>
 	    {% endfor %}
 	  </ul>
 	  {% endif %}
@@ -46,12 +47,19 @@
 	  <h3>Categories:</h3>
 	  <ul>
 	    {% for cat in category_list %}
-	    <li><a href="{% url 'questions' cat.name %}">{{ cat.name }}</a></li>
+	    <li><a href="{% url 'questions' cat.slug %}">{{ cat.name }}</a></li>
 	    {% endfor %}
 	  </ul>
 	  {% endif %}
 	  {% endblock %}
-	  {% block submenu %}{% endblock %}
+	  <div id=submenu>
+	  {% block submenu %}
+	  <h3>Tags:</h3>
+	    {% for t in tag_list %}
+	    // <a href="{% url 'tagged' t.slug %}">{{ t.name }}</a> 
+	    {% endfor %}
+	  {% endblock %}
+	  </div>
 	</div>
       </div>
       <div id=content>
