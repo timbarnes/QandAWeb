@@ -29,7 +29,7 @@ def tagindexview(request, slug):
                       'category_list': Category.objects.filter(tags__name=slug),
                       'article_list': Article.objects.filter(tags__name=slug),
                       'tag_list': Tag.objects.all(),
-                      'tag':Tag.objects.filter(name=slug)[0],
+                      'tag':get_object_or_404(Tag, name=slug),
     })
                   
 
@@ -125,7 +125,7 @@ class CategoriesView(TagMixin, generic.ListView):
         context.update({
             'registered': self.request.user.is_authenticated(),
             'username': self.request.user.username,
-            'subject': Subject.objects.filter(slug=self.kwargs['subject'])[0],
+            'subject': get_object_or_404(Subject, slug=self.kwargs['subject']),
             'subject_list': Subject.objects.order_by('name'),
             'category_list': Category.objects.order_by('name'),
             'article_list': Article.objects.order_by('title'),
@@ -166,7 +166,7 @@ class QuestionsView(TagMixin, generic.ListView):
         context.update({
             'registered':self.request.user.is_authenticated(),
             'username': self.request.user.username,
-            'category': self.kwargs['category'],
+            'category': get_object_or_404(Category, slug=self.kwargs['category']),
             'subject_list': Subject.objects.order_by('name'),
             'category_list': Category.objects.order_by('name'),
         })
