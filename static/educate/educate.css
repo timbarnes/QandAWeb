@@ -11,11 +11,11 @@ body {font-family:Lato,Verdana,"Myriad Web",Syntax,Helvetica,sans-serif;text-ali
 #banner h1 {text-align:right;margin-left:172px;font-size:x-large;}
 #nav {font-size:13px;font-weight:100;}
 #sidebar {float:right;width:220px;}
-#menu {font-size:12px;line-height:120%;background-color:#fff;border:1px #aaa solid;margin-left:1em;padding-left:1em;padding-top:0.5em;padding-right:1em;padding-bottom:.5em;color:red;}
+#menu {font-size:13px;background-color:#fff;border:1px red solid;margin-left:1em;padding-left:1em;padding-top:0.5em;padding-right:1em;padding-bottom:.5em;color:red;}
 #main {border 1px solid red;background-color:#fafafa;text-align:left;margin:auto;padding:2%;float:center;width:96%;max-width:920px;}
 #content {margin:0px;}
 .article {clear:left;}
-.firstpara,.toppara {margin-left:195px;line-height:1.75em;border-top:solid 1px #aaa;border-left:solid 1px #aaa;padding:1em;height:100%;}
+.firstpara,.toppara {margin-left:195px;line-height:140%;border-top:solid 1px #aaa;border-left:solid 1px #aaa;padding:1em;height:100%;}
 .toppara {font-height:90%;}
 .inset,.outset,.outsetmenu {font-size:11px;line-height:150%;font-style:italic;margin-bottom:.5em;}
 .inset {width:170px;border:solid 1px #ff9900;margin-left:.5em;padding:.5em;float:right;}
@@ -25,8 +25,8 @@ body {font-family:Lato,Verdana,"Myriad Web",Syntax,Helvetica,sans-serif;text-ali
 .exhibit p {font-size:14px;}
 #submenu {font-size:12px;}
 #footer {color:#666;padding-bottom:.5em;font-size:10px;text-align:right;font-style:oblique;font-weight:100;font-color:#fff;}
-#menu {margin:0px;border-top-color:#f00;line-height:100%;font-weight:100;}
-#menu p {margin:0px;margin-bottom:.3em;border-top-color:#f00;border-top-width:1px;line-height:100%;}
+#menu {margin:0px;border-top-color:#f00;line-height:110%;font-weight:100;}
+#menu p {margin:0px;margin-bottom:.3em;border-top-color:#f00;border-top-width:1px;line-height:110%;}
 .indent {padding-left:1.2em;}
 #menu h2,h3,h4 {font-size:large;}
 #menu a {color:#666666;font-weight:normal;background-color:transparent;}
@@ -37,7 +37,7 @@ a:hover {color:#f00;text-decoration:underline;}
 a:visited {color:#800000;}
 .outsetmenu a {color:#666666;}
 .outsetmenu a:hover {color:#ff0000;background-color:#f4f4da;}
-h1,h2,h3,h4,h5,h6 {line-height:1.33em;margin-bottom:0.33em;font-family:Lato,"Myriad Web",Arial,Helvetica,sans-serif;}
+h1,h2,h3,h4,h5,h6 {line-height:130%;margin-bottom:0.33em;font-family:Lato,"Myriad Web",Arial,Helvetica,sans-serif;}
 h1,h2,h3,h4,h5,h6,dt,th,thead,tfoot {background:none repeat scroll 0% 50%;color:black;}
 h1 {margin-top:.5em;font-size:large;padding:2px;}
 h1.pagetitle {font-size:xx-large;font-weight:400;}
