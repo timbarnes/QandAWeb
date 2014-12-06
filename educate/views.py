@@ -125,7 +125,7 @@ class CategoriesView(TagMixin, generic.ListView):
         context.update({
             'registered': self.request.user.is_authenticated(),
             'username': self.request.user.username,
-            'subject': Subject.objects.filter(slug=self.kwargs['subject']),
+            'subject': Subject.objects.filter(slug=self.kwargs['subject'])[0],
             'subject_list': Subject.objects.order_by('name'),
             'category_list': Category.objects.order_by('name'),
             'article_list': Article.objects.order_by('title'),
