@@ -6,17 +6,15 @@
 {% endblock %}
 {% block content %}
 <br />
-</ul>
   {% if subject %}
     {% for c in category_subset %}
-      <li><strong>><a href="{% url 'questions' c.slug %}">{{ c.name }}</a></strong> -  
-	{{ c.description }}
-      </li>
+      <span class=list><p><strong>><a href="{% url 'questions' c.slug %}">{{ c.name }}</a></strong> -  
+	{{ c.description }}</p></span>
     {% endfor %}
   {% else %}
     {% for c in category_list %}
-      <li><strong>><a href="{% url 'questions' c.slug %}">{{ c.name }}</a></strong> -  
-	{{ c.description }}
+      <span class=list><p><strong>><a href="{% url 'questions' c.slug %}">{{ c.name }}</a></strong> -  
+	{{ c.description }}</p></span>
       </li>
     {% endfor %}
   {% endif %}

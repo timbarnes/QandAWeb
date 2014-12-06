@@ -30,41 +30,48 @@
 	<a href="{% url 'auth_login' %}">Login</a> //
 	{% endif %}
 	{% endblock %}
+        <hr>
       </div>
-      <hr>
-      <div id="sidebar">
-	<div id="menu">
-	  {% block menu %}
-	  {% if subject_list %}
-	  <h3>Subjects:</h3>
-	  <ul>
-	    {% for sub in subject_list %}
-	    <li><a href="{% url 'categories' sub.slug %}">{{ sub.name }}</a></li>
-	    {% endfor %}
-	  </ul>
-	  {% endif %}
-	  {% if category_list %}
-	  <h3>Categories:</h3>
-	  <ul>
-	    {% for cat in category_list %}
-	    <li><a href="{% url 'questions' cat.slug %}">{{ cat.name }}</a></li>
-	    {% endfor %}
-	  </ul>
-	  {% endif %}
+      <div id=body>
+	<div class=content>
+	<div id=title>
+          {% block title %}<h1 class="pagetitle">Home</h1><br />{% endblock %}
+	</div>
+	  {% block content %}
 	  {% endblock %}
-	  <div id=submenu>
-	  {% block submenu %}
-	  <h3>Tags:</h3>
+	</div>
+	<div class=sidebar>
+	  <div class=menu>
+	    {% block subjectmenu %}
+	    {% if subject_list %}
+	    <h3>Subjects:</h3>
+	      {% for sub in subject_list %}
+	        <p><a href="{% url 'categories' sub.slug %}">{{ sub.name }}</a></p>
+	      {% endfor %}
+	    {% endif %}
+	    {% endblock %}
+	  </div>
+	  <div class=menu>
+	    {% block categorymenu %}
+	    {% if category_list %}
+	    <h3>Categories:</h3>
+	      {% for cat in category_list %}
+	      <span class=sc><p><a href="{% url 'questions' cat.slug %}">{{ cat.name }}</a></p></span>
+	      {% endfor %}
+	    {% endif %}
+	    {% endblock %}
+	  </div>
+	  <div class=menu>
+	    {% block menu %}
+	    <h3>Tags:</h3>
 	    {% for t in tag_list %}
-	    // <a href="{% url 'tagged' t.slug %}">{{ t.name }}</a> 
+	    <span class=tg><p><a href="{% url 'tagged' t.slug %}">{{ t.name }}</a></p></span> 
 	    {% endfor %}
-	  {% endblock %}
+	    {% endblock %}
 	  </div>
 	</div>
       </div>
-      <div id=content>
-      {% block title %}<h1 class="pagetitle">Home</h1><br />{% endblock %}
-	{% block content %}{% endblock %}
+      <div id=footer>
 	{% block footer %}
 	<div id=byline>
 	  <h2>About this site</h2>

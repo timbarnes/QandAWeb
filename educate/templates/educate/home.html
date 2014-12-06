@@ -1,10 +1,9 @@
 {% extends "educate/base.html" %}
-{% block banner %}
+{% block title %}
+<h1 class="pagetitle">Home</h1>
 {% endblock %}
 {% block content %}
-<div id="content">
 <p>Explore learning in a range of subjects. Questions and answers are user-provided.</p>
 <p>Available subjects can be accessed below or from the menu on the right. Within each subject there are categories that provide for a simple hierarchy of questions. The menu on the right shows all categories; by selecting a specific subject you can access the categories associated with that specific subject.</p>
 <p><a href="{% url 'all_subjects' %}">Let's get started!</a></p>
-</div>
 {% endblock %}
