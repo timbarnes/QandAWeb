@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'filebrowser',
     'tinymce',
     'taggit',
+    'dbbackup',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
