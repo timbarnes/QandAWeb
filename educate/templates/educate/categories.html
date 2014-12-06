@@ -2,26 +2,14 @@
 {% block banner %}
 {% endblock %}
 {% block title %}
-<h1 class="pagetitle">Subject: {{ subject.name }}</h1>
-{% endblock %}
-{% block menu %}
-<h3>Subjects:</h3>
-{% if subject_list %}
-<ul>
-  {% for sub in subject_list %}
-  <li><a href="{% url 'categories' sub.slug %}">{{ sub.name }}</a></li>
-  {% endfor %}
-</ul>
-{% else %}
-<p>No subjects are available</p>
-{% endif %}
+<h1 class="pagetitle">All Categories</h1>
 {% endblock %}
 {% block content %}
 <br />
 </ul>
-    {% for cat in category_subset %}
-      <li><strong>><a href="{% url 'questions' cat.slug %}">{{ cat.name }}</a></strong> -  
-	{{ cat.description }}
+    {% for c in category_list %}
+      <li><strong>><a href="{% url 'questions' c.slug %}">{{ c.name }}</a></strong> -  
+	{{ c.description }}
       </li>
     {% endfor %}
 <br />
