@@ -107,6 +107,7 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, parms['static-root'])
 STATIC_URL = '/static/'
+ADMIN_MEDIA_PREFIX = '/static/grappelli'
 
 # Base folder locations
 
