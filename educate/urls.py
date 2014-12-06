@@ -8,6 +8,7 @@ urlpatterns = patterns(
     url(r'^ac/$', views.AllCategoriesView.as_view(), name='all_categories'),
     url(r'^aa/$', views.AllArticlesView.as_view(), name='all_articles'),
     url(r'^c/(?P<subject>[-_\w]+)/$', views.CategoriesView.as_view(), name='categories'),
+    url(r'^ca/(?P<category>[-_\w]+)/$', views.contentview, name='content'),
     url(r'^q/(?P<category>[-_\w]+)/$', views.QuestionsView.as_view(), name='questions'),
     url(r'^q/(?P<category>[-_\w]+)/review/$', views.ReviewQuestionsView.as_view(), name='review_questions'),
     url(r'^tag/(?P<slug>[-\w]+)/$', views.tagindexview, name='tagged'),

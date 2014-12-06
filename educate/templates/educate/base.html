@@ -56,7 +56,7 @@
 	    {% if category_list %}
 	    <h3>Categories:</h3>
 	      {% for cat in category_list %}
-	      <span class=sc><p><a href="{% url 'questions' cat.slug %}">{{ cat.name }}</a></p></span>
+	      <span class=sc><p><a href="{% url 'content' cat.slug %}">{{ cat.name }}</a></p></span>
 	      {% endfor %}
 	    {% endif %}
 	    {% endblock %}

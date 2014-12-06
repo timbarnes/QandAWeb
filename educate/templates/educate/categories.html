@@ -8,12 +8,12 @@
 <br />
   {% if subject %}
     {% for c in category_subset %}
-      <span class=list><p><strong>><a href="{% url 'questions' c.slug %}">{{ c.name }}</a></strong> -  
+      <span class=list><p><strong><a href="{% url 'questions' c.slug %}">{{ c.name }}</a></strong> -  
 	{{ c.description }}</p></span>
     {% endfor %}
   {% else %}
     {% for c in category_list %}
-      <span class=list><p><strong>><a href="{% url 'questions' c.slug %}">{{ c.name }}</a></strong> -  
+      <span class=list><p><strong><a href="{% url 'questions' c.slug %}">{{ c.name }}</a></strong> -  
 	{{ c.description }}</p></span>
       </li>
     {% endfor %}

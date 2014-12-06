@@ -25,21 +25,32 @@ def tagindexview(request, slug):
                   {
                       'registered': request.user.is_authenticated(),
                       'username': request.user.username,
-                      'subject_list': Subject.objects.filter(tags__name=slug),
-                      'category_list': Category.objects.filter(tags__name=slug),
-                      'article_list': Article.objects.filter(tags__name=slug),
+                      'subject_subset': Subject.objects.filter(tags__name__in=[slug]),
+                      'category_subset': Category.objects.filter(tags__name__in=[slug]),
+                      'article_subset': Article.objects.filter(tags__name__in=[slug]),
+                      'subject_list': Subject.objects.order_by('name'),
+                      'category_list': Category.objects.order_by('name'),
+                      'article_list': Article.objects.order_by('name'),
                       'tag_list': Tag.objects.all(),
-                      'tag':get_object_or_404(Tag, name=slug),
+                      'tag':get_object_or_404(Tag, slug=slug),
     })
                   
 
-    template_name = 'educate/tags.html'
-    context_object_name = 'category_list'
-    
-
-    def get_queryset(self):
-        return Category.objects.filter(tags__slug=self.kwargs.get('slug'))
-    
+def contentview(request, category):
+    """Present everything associated with a category.
+    """
+    return render(request, 'educate/category.html',
+                  {
+                      'registered': request.user.is_authenticated(),
+                      'username': request.user.username,
+                      'subject_list': Subject.objects.order_by('name'),
+                      'category_list': Category.objects.order_by('name'),
+                      'article_list': Article.objects.filter(category__slug=category),
+                      'question_list': Question.objects.filter(category__slug=category),
+                      'tag_list': Tag.objects.order_by('name'),
+                      'category':get_object_or_404(Category, slug=category),
+    })
+                  
 
 def home(request):
     """Home page for the Educate project.

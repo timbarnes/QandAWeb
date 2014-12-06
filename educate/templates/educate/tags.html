@@ -4,33 +4,30 @@
 {% endblock %}
 {% block content %}
 <br />
-{% if subject_list %}
-<h2>Subjects</h2>
-</ul>
-    {% for s in subject_list %}
-      <li><strong>><a href="{% url 'categories' s.slug %}">{{ s.name }}</a></strong> -  
+{% if subject_subset %}
+<h1>Subjects</h1>
+    {% for s in subject_subset %}
+      <p><strong><a href="{% url 'categories' s.slug %}">{{ s.name }}</a></strong> -  
 	{{ s.description }}
-      </li>
+      </p>
     {% endfor %}
 <br />
 {% endif %}
-{% if categories_list %}
-<h2>Categories</h2>
-</ul>
-    {% for cat in categories_list %}
-      <li><strong>><a href="{% url 'questions' cat.slug %}">{{ cat.name }}</a></strong> -  
+{% if categories_subset %}
+<h1>Categories</h1>
+    {% for cat in categories_subset %}
+      <p><strong>><a href="{% url 'questions' cat.slug %}">{{ cat.name }}</a></strong> -  
 	{{ cat.description }}
-      </li>
+      </p>
     {% endfor %}
 <br />
 {% endif %}
-{% if article_list %}
-<h2>Articles</h2>
-</ul>
-    {% for a in article_list %}
-      <li><strong>><a href="{% url 'article' a.slug %}">{{ a.title }}</a></strong> -  
+{% if article_subset %}
+<h1>Articles</h1>
+    {% for a in article_subset %}
+      <p><strong><a href="{% url 'article' a.slug %}">{{ a.title }}</a></strong> -  
 	{{ a.summary }}
-      </li>
+      </p>
     {% endfor %}
 <br />
 {% endif %}
