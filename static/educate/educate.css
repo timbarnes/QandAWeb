@@ -19,14 +19,14 @@ body {font-family:Lato,Verdana,"Myriad Web",Syntax,Helvetica,sans-serif;text-ali
 #nav {font-size:13px;font-weight:100;}
 #title {}
 .sidebar {float:left;border:solid #ff3800 1px;background-color:#fffff0;margin-bottom:1em;}
-.menu {float:left;max-width:36%;border:none;border-left:solid #ff3800 5px;line-height:110%;font-weight:100;font-size:13px;margin-top:1em;margin-left:1em;padding:1em;color:#ff3800;margin-bottom:1em;}
+.menu {float:left;max-width:36%;border:none;border-left:solid #ff3800 5px;background-color:#fff;line-height:110%;font-weight:100;font-size:13px;margin-top:1em;margin-left:1em;padding:1em;color:#ff3800;margin-bottom:1em;}
 .menu p {margin:0px;margin-bottom:.3em;font-size:13px;border-top-color:#f00;border-top-width:1px;line-height:110%;}
 .menu h2,h3,h4 {margin-top:0px;}
 .menu a {color:#666666;font-weight:normal;background-color:transparent;}
 .menu a:hover {color:#ff0000;}
 .submenu {font-size:12px;}
-.sc {display:inline-block;width:130px;}
-.tg {display:inline-block;width:130px;}
+.sc {display:inline-block;padding:5 10 5 10;background-color:#eee;margin:5px;border-radius:7px;}
+.tg {display:inline-block;padding:5 10 5 10;background-color:#eee;margin:5px;border-radius:7px;}
 #main {background-color:#ffffff;text-align:left;margin:auto;float:center;width:96%;}
 .content {margin:0px;}
 .list {display:inline-block;width:300px;}

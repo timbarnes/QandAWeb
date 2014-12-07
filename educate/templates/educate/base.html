@@ -46,7 +46,7 @@
 	    {% if subject_list %}
 	    <h3>Subjects:</h3>
 	      {% for sub in subject_list %}
-	        <p><a href="{% url 'categories' sub.slug %}">{{ sub.name }}</a></p>
+	        <p><span class=sc><a href="{% url 'categories' sub.slug %}">{{ sub.name }}</a></span></p>
 	      {% endfor %}
 	    {% endif %}
 	    {% endblock %}
