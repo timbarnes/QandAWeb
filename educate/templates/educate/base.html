@@ -46,7 +46,7 @@
 	    {% if subject_list %}
 	    <h3>Subjects:</h3>
 	      {% for sub in subject_list %}
-	        <p><span class=sc><a href="{% url 'categories' sub.slug %}">{{ sub.name }}</a></span></p>
+	        <span class=sc><a href="{% url 'categories' sub.slug %}">{{ sub.name }}</a></span>
 	      {% endfor %}
 	    {% endif %}
 	    {% endblock %}
@@ -56,16 +56,16 @@
 	    {% if category_list %}
 	    <h3>Categories:</h3>
 	      {% for cat in category_list %}
-	      <span class=sc><p><a href="{% url 'content' cat.slug %}">{{ cat.name }}</a></p></span>
+	      <span class=sc><a href="{% url 'content' cat.slug %}">{{ cat.name }}</a></span>
 	      {% endfor %}
 	    {% endif %}
 	    {% endblock %}
 	  </div>
 	  <div class=menu>
-	    {% block menu %}
+	    {% block tagmenu %}
 	    <h3>Tags:</h3>
 	    {% for t in tag_list %}
-	    <span class=tg><p><a href="{% url 'tagged' t.slug %}">{{ t.name }}</a></p></span> 
+	    <span class=tg><a href="{% url 'tagged' t.slug %}">{{ t.name }}</a></span> 
 	    {% endfor %}
 	    {% endblock %}
 	  </div>

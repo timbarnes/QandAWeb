@@ -18,18 +18,18 @@ body {font-family:Lato,Verdana,"Myriad Web",Syntax,Helvetica,sans-serif;text-ali
 #banner h1 {text-align:right;margin-left:172px;font-size:x-large;}
 #nav {font-size:13px;font-weight:100;}
 #title {}
-.sidebar {float:left;border:solid #ff3800 1px;background-color:#fffff0;margin-bottom:1em;}
-.menu {float:left;max-width:36%;border:none;border-left:solid #ff3800 5px;background-color:#fff;line-height:110%;font-weight:100;font-size:13px;margin-top:1em;margin-left:1em;padding:1em;color:#ff3800;margin-bottom:1em;}
+.sidebar {border:solid #006db8;border-width:1 1 1 10;background-color:#fffff0;margin-top:1em;}
+.menu {text-align:center;border:none;line-height:110%;font-weight:100;font-size:13px;color:#ff3800;margin:5px;}
 .menu p {margin:0px;margin-bottom:.3em;font-size:13px;border-top-color:#f00;border-top-width:1px;line-height:110%;}
 .menu h2,h3,h4 {margin-top:0px;}
 .menu a {color:#666666;font-weight:normal;background-color:transparent;}
 .menu a:hover {color:#ff0000;}
-.submenu {font-size:12px;}
-.sc {display:inline-block;padding:5 10 5 10;background-color:#eee;margin:5px;border-radius:7px;}
-.tg {display:inline-block;padding:5 10 5 10;background-color:#eee;margin:5px;border-radius:7px;}
+.submenu {font-size:12px;text-align:center;}
+.sc {display:inline-block;padding:5 10 5 10;margin:5px;border-radius:7px;border: solid 1px #ddd;}
+.tg {display:inline-block;padding:5 10 5 10;margin:5px;border-radius:7px;border: solid 1px #ddd;font-size:11px;}
 #main {background-color:#ffffff;text-align:left;margin:auto;float:center;width:96%;}
 .content {margin:0px;}
-.list {display:inline-block;width:300px;}
+.list {display:inline-block;width:33%;min-width:320px;}
 .article {clear:left;}
 .firstpara,.toppara {margin-left:195px;line-height:140%;border-top:solid 1px #aaa;border-left:solid 1px #aaa;padding:1em;height:100%;}
 .toppara {font-height:90%;}
@@ -40,7 +40,7 @@ body {font-family:Lato,Verdana,"Myriad Web",Syntax,Helvetica,sans-serif;text-ali
 .exhibit {font-size:16px;margin:1em;border:solid 1px #ff9900;padding:1em;clear:none;}
 .exhibit p {font-size:14px;}
 .indent {padding-left:1.2em;}
-#footer {clear:both;margin-top:1em;background-color:#004170;color:#000;padding:1em;font-size:10px;text-align:right;font-style:oblique;font-weight:100;color:#fff;}
+#footer {clear:both;background-color:#004170;color:#000;padding:1em;font-size:10px;text-align:right;font-style:oblique;font-weight:100;color:#fff;}
 #byline h2 {color:#ff3800;font-weight:400;}
 #byline p {font-size:14px;font-weight:100;}
 a {text-decoration:none;background-color:transparent;}

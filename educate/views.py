@@ -228,6 +228,7 @@ def ask(request, question_id):
         'form': form,
         'subject_list': Subject.objects.order_by('name'),
         'category_list': Category.objects.order_by('name'),
+        'tag_list': Tag.objects.order_by('name'),
     })
 
 
