@@ -14,9 +14,7 @@
     {% for art in article_list %}
     <li><a href="{% url 'article' art.slug %}">{{ art.title }}</a>
       <br />
-      {% comment %}
       <p>{{ art.summary }}</p>
-      {% endcomment %}
     </li>
     {% endfor %}
   </ul>

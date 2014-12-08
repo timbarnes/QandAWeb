@@ -51,6 +51,7 @@ class Article(models.Model):
     category = models.ForeignKey(Category)
     title = models.CharField(max_length=200)
     body = tinymce_models.HTMLField()
+    summary = models.CharField(max_length=200, default="")
     published = models.BooleanField(default=False)
     edit_date = models.DateField(default=datetime.now)
     slug = models.SlugField()
