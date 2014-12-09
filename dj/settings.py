@@ -116,8 +116,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, parms['media-root'])
 
 # Inline editor for articles
 
-TINYMCE_JS_URL = parms['tinymce-js-url']
-TINYMCE_JS_ROOT = parms['tinymce-js-root']
+#TINYMCE_JS_URL = parms['tinymce-js-url']
+#TINYMCE_JS_ROOT = parms['tinymce-js-root']
 TINYMCE_DEFAULT_CONFIG = {
     'plugins': "table,spellchecker,paste,searchreplace",
     'theme': "advanced",
