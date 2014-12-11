@@ -9,7 +9,7 @@
     {% if review %}
       <a href="{% url 'questions' category %}">Hide answers</a>
     {% else %}
-      <a href="{% url 'review_questions' category %}">Review the answers</a>
+      <a href="{% url 'review_questions' category %}">Review the answers</a> (logged in users only)
       <br /><br />
       <p>Click on a question to test your knowledge.</p>
     {% endif %}

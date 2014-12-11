@@ -4,69 +4,83 @@ from django.core.urlresolvers import reverse
 from django.views import generic
 from django import forms
 from taggit.models import Tag
-from django.contrib.auth.decorators import login_required
 
 from educate.models import Subject, Category, Question, Article
 from educate.score import score
 
 # Create your views here.
 
-class TagMixin(object):
+class UserMixin(object):
     def get_context_data(self, **kwargs):
-        context = super(TagMixin, self).get_context_data(**kwargs)
-        context['tag_list'] = Tag.objects.all()
+        context = super(UserMixin, self).get_context_data(**kwargs)
+        context['authenticated'] = self.request.user.is_authenticated()
+        context['username'] = self.request.user.username
         return context
     
 
-def tagindexview(request, slug):
+class MenuMixin(object):
+    def get_context_data(self, **kwargs):
+        context = super(MenuMixin, self).get_context_data(**kwargs)
+        context['article_list'] = Article.objects.order_by('title')
+        context['subject_list'] = Subject.objects.order_by('name')
+        context['category_list'] = Category.objects.order_by('name')
+        context['tag_list'] = Tag.objects.all()
+        return context
+
+
+class TagIndexView(MenuMixin, UserMixin, generic.ListView):
     """Present everything associated with a tag.
     """
-    return render(request, 'educate/tags.html',
-                  {
-                      'registered': request.user.is_authenticated(),
-                      'username': request.user.username,
-                      'subject_subset': Subject.objects.filter(tags__name__in=[slug]),
-                      'category_subset': Category.objects.filter(tags__name__in=[slug]),
-                      'article_subset': Article.objects.filter(tags__name__in=[slug]),
-                      'subject_list': Subject.objects.order_by('name'),
-                      'category_list': Category.objects.order_by('name'),
-                      'article_list': Article.objects.order_by('name'),
-                      'tag_list': Tag.objects.all(),
-                      'tag':get_object_or_404(Tag, slug=slug),
-    })
-                  
+    template_name = 'educate/tags.html'
+    context_name = 'tag'
+    
+    def get_context_data(self, **kwargs):
+        context = super(TagIndexView, self).get_context_data(**kwargs)
+        slug = self.kwargs['slug']
+        context.update({
+            'subject_subset': Subject.objects.filter(tags__name__in=[slug]),
+            'category_subset': Category.objects.filter(tags__name__in=[slug]),
+            'article_subset': Article.objects.filter(tags__name__in=[slug]),
+        })
+        return context
 
-def contentview(request, category):
+    def get_queryset(self):
+        return get_object_or_404(Tag, slug=self.kwargs['slug'])
+
+
+class ContentView(MenuMixin, UserMixin, generic.ListView):
     """Present everything associated with a category.
     """
-    return render(request, 'educate/category.html',
-                  {
-                      'registered': request.user.is_authenticated(),
-                      'username': request.user.username,
-                      'subject_list': Subject.objects.order_by('name'),
-                      'category_list': Category.objects.order_by('name'),
-                      'article_list': Article.objects.filter(category__slug=category),
-                      'question_list': Question.objects.filter(category__slug=category),
-                      'tag_list': Tag.objects.order_by('name'),
-                      'category':get_object_or_404(Category, slug=category),
-    })
-                  
+    template_name = 'educate/category.html'
+    context_name = 'category'
 
-def home(request):
+    def get_context_data(self, **kwargs):
+        context = super(ContentView, self).get_context_data(**kwargs)
+        context.update({
+            'subject_subset': Subject.objects.filter(category__name=self.kwargs['category']),
+            'article_subset': Article.objects.filter(category__name=self.kwargs['category']),
+            })
+        return context
+
+    def get_queryset(self):
+        return get_object_or_404(Category, slug=self.kwargs['category'])
+    
+
+class HomeView(MenuMixin, UserMixin, generic.ListView):
     """Home page for the Educate project.
     """
-    registered = request.user.is_authenticated()
-    return render(request, 'educate/home.html',
-                  {
-                      'registered': registered,
-                      'username': request.user.username,
-                      'subject_list': Subject.objects.order_by('name'),
-                      'category_list': Category.objects.order_by('name'),
-                      'tag_list': Tag.objects.order_by('name'),
-                  })
+    template_name = 'educate/home.html'
+    context_name = 'context'
+
+    def get_context_data(self, **kwargs):
+        context = super(HomeView, self).get_context_data(**kwargs)
+        return context
+
+    def get_queryset(self):
+        return
 
     
-class AllArticlesView(TagMixin, generic.ListView):
+class AllArticlesView(MenuMixin, UserMixin, generic.ListView):
     """List of all the articles.
     """
     template_name = 'educate/articles.html'
@@ -75,8 +89,6 @@ class AllArticlesView(TagMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(AllArticlesView, self).get_context_data(**kwargs)
         context.update({
-            'registered': self.request.user.is_authenticated(),
-            'username': self.request.user.username,
             'category_list': Category.objects.order_by('name'),
             'subject_list': Subject.objects.order_by('name'),
         })
@@ -86,7 +98,7 @@ class AllArticlesView(TagMixin, generic.ListView):
         return Article.objects.order_by('category__name', 'title')
 
 
-class AllSubjectsView(TagMixin, generic.ListView):
+class AllSubjectsView(MenuMixin, UserMixin, generic.ListView):
     """List of all the subjects.
     """
     template_name = 'educate/subjects.html'
@@ -95,8 +107,6 @@ class AllSubjectsView(TagMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(AllSubjectsView, self).get_context_data(**kwargs)
         context.update({
-            'registered': self.request.user.is_authenticated(),
-            'username': self.request.user.username,
             'category_list': Category.objects.order_by('name'),
         })
         return context
@@ -105,7 +115,7 @@ class AllSubjectsView(TagMixin, generic.ListView):
         return Subject.objects.order_by('name')
 
 
-class AllCategoriesView(TagMixin, generic.ListView):
+class AllCategoriesView(MenuMixin, UserMixin, generic.ListView):
     """List of all the categories.
     """
     template_name = 'educate/categories.html'
@@ -114,8 +124,6 @@ class AllCategoriesView(TagMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(AllCategoriesView, self).get_context_data(**kwargs)
         context.update({
-            'registered': self.request.user.is_authenticated(),
-            'username': self.request.user.username,
             'subject_list': Subject.objects.order_by('name'),
             'category_list': Category.objects.order_by('name'),
         })
@@ -125,7 +133,7 @@ class AllCategoriesView(TagMixin, generic.ListView):
         return Category.objects.order_by('name')
 
 
-class CategoriesView(TagMixin, generic.ListView):
+class CategoriesView(MenuMixin, UserMixin, generic.ListView):
     """List of the categories for a specific subject.
     """
     template_name = 'educate/categories.html'
@@ -134,12 +142,7 @@ class CategoriesView(TagMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(CategoriesView, self).get_context_data(**kwargs)
         context.update({
-            'registered': self.request.user.is_authenticated(),
-            'username': self.request.user.username,
             'subject': get_object_or_404(Subject, slug=self.kwargs['subject']),
-            'subject_list': Subject.objects.order_by('name'),
-            'category_list': Category.objects.order_by('name'),
-            'article_list': Article.objects.order_by('title'),
         })
         return context
     
@@ -147,7 +150,7 @@ class CategoriesView(TagMixin, generic.ListView):
         return Category.objects.filter(subject__slug=self.kwargs['subject'])
 
 
-class ArticleView(TagMixin, generic.DetailView):
+class ArticleView(MenuMixin, UserMixin, generic.DetailView):
     """Show a single article.
     """
     template_name = 'educate/article.html'
@@ -157,16 +160,12 @@ class ArticleView(TagMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(ArticleView, self).get_context_data(**kwargs)
         context.update({
-            'registered':self.request.user.is_authenticated(),
-            'username': self.request.user.username,
             'article': get_object_or_404(Article, slug=self.kwargs['slug']),
-            'category_list': Category.objects.order_by('name'),
-            'article_list': Article.objects.order_by('title'),
         })
         return context
     
 
-class QuestionsView(TagMixin, generic.ListView):
+class QuestionsView(MenuMixin, UserMixin, generic.ListView):
     """List of all the questions in a category.
     """
     template_name = 'educate/questions.html'
@@ -175,11 +174,7 @@ class QuestionsView(TagMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(QuestionsView, self).get_context_data(**kwargs)
         context.update({
-            'registered':self.request.user.is_authenticated(),
-            'username': self.request.user.username,
             'category': get_object_or_404(Category, slug=self.kwargs['category']),
-            'subject_list': Subject.objects.order_by('name'),
-            'category_list': Category.objects.order_by('name'),
         })
         return context
     
@@ -187,8 +182,7 @@ class QuestionsView(TagMixin, generic.ListView):
         return Question.objects.filter(category__name=self.kwargs['category'])
                 
 
-#@login_required
-class ReviewQuestionsView(TagMixin, generic.ListView):
+class ReviewQuestionsView(MenuMixin, UserMixin, generic.ListView):
     """List of all the questions in a category.
     """
     template_name = 'educate/questions.html'
@@ -197,11 +191,7 @@ class ReviewQuestionsView(TagMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(ReviewQuestionsView, self).get_context_data(**kwargs)
         context.update({
-            'registered':self.request.user.is_authenticated(),
-            'username': self.request.user.username,
             'category': self.kwargs['category'],
-            'subject_list': Subject.objects.order_by('name'),
-            'category_list': Category.objects.order_by('name'),
             'review':True,
         })
         return context

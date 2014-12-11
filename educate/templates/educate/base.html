@@ -22,7 +22,7 @@
         <a href="{% url 'all_subjects' %}">Subjects</a> //
 	<a href="{% url 'all_categories' %}">Categories</a> //
 	<a href="{% url 'all_articles' %}">Articles</a> //
-	{% if registered %}
+	{% if authenticated %}
 	Logged in as {{ username }} //
 	<a href="{% url 'admin:index' %}">Admin</a> //
 	<a href="{% url 'auth_logout' %}">Logout</a> //
