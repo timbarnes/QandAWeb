@@ -4,18 +4,21 @@
 {% endblock %}
 {% block content %}
 <br />
-{% if question_list  %}
-<h2>Questions</h2>
-    {% for q in question_list %}
-      <p><strong><a href="{% url 'ask' q.id %}">{{ q.question }}</a></strong></p>
+<h2>Subject</h2>
+      <p><strong><a href="{% url 'categories' subject.slug %}">{{ subject.name }}</a></strong></p>
+<br />
+{% if article_subset %}
+<h2>Articles</h2>
+    {% for a in article_subset %}
+      <p><strong>><a href="{% url 'article' a.slug %}">{{ a.title }}</a></strong> -  
+	{{ a.summary }}</p>
     {% endfor %}
 <br />
 {% endif %}
-{% if article_list %}
-<h2>Articles</h2>
-    {% for a in article_list %}
-      <p><strong>><a href="{% url 'article' a.slug %}">{{ a.title }}</a></strong> -  
-	{{ a.summary }}</p>
+{% if question_subset  %}
+<h2>Questions</h2>
+    {% for q in question_subset %}
+      <span class=list><a href="{% url 'ask' q.id %}">{{ q.question }}?</a></span>
     {% endfor %}
 <br />
 {% endif %}

@@ -52,18 +52,21 @@ class ContentView(MenuMixin, UserMixin, generic.ListView):
     """Present everything associated with a category.
     """
     template_name = 'educate/category.html'
-    context_name = 'category'
+    context_name = ''
 
     def get_context_data(self, **kwargs):
         context = super(ContentView, self).get_context_data(**kwargs)
+        cat = self.kwargs['category']
         context.update({
-            'subject_subset': Subject.objects.filter(category__name=self.kwargs['category']),
-            'article_subset': Article.objects.filter(category__name=self.kwargs['category']),
+            'subject': get_object_or_404(Subject, category__slug=cat),
+            'category': get_object_or_404(Category, slug=cat),
+            'article_subset': Article.objects.filter(category__slug=cat),
+            'question_subset': Question.objects.filter(category__slug=cat),
             })
         return context
 
     def get_queryset(self):
-        return get_object_or_404(Category, slug=self.kwargs['category'])
+        return 
     
 
 class HomeView(MenuMixin, UserMixin, generic.ListView):
