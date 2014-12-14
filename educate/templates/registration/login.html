@@ -1,5 +1,6 @@
 {% extends "educate/base.html" %}
 {% block menu %}{% endblock %}
+{% block tagmenu %}{% endblock %}
 {% block title %}
 <title>Login</title>
 {% endblock %}
@@ -25,5 +26,6 @@
 <input type="submit" value="login" />
 <input type="hidden" name="next" value="{{ next }}" />
 </form>
+Don't have an account? <a href="{% url 'registration_register' %}">Sign up now!</a>
 {% endblock %}
   

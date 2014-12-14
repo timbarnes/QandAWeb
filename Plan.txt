@@ -3,18 +3,37 @@ dj / educate
 
 Goal
 ====
-A web application that will manage and manipulate educational content, in the form of questions and answers.
+A web application that will manage and manipulate educational content
+in the form of articles and Q&A learning tools.
 
 The purpose is to facilitate the gathering and organizing of this information so it can be presented
 back to users in the form of quizzes and other educational tools.
 
-Ideally we would eventually be able to support multiple users, each with their own content,
-private and shared.
+Support for registered users, with tracking of history, and ultimately
+personal content.
 
-Features
-========
+Support for mobile devices through responsive design.
 
-The data model supports categories of information, questions, and answers.
+Data Model
+==========
+
+The data model supports the following:
+
+Admin and session infrastructure:
+- Users (through django auth)
+- Sessions (through django sessions)
+- User data (favorites, scores, personal content)
+
+Organizational models
+- Subjects (the highest level of organization of information)
+- Categories (sub-grouping of information, taxonomic under subject)
+- Tags (able to be freely added to any content to help with organization and search
+
+Content models
+- Articles (text and HTML content to explain or hold knowledge)
+- Questions (a question and associated answer, used for quizzes)
+
+
 The application keeps track of which questions have been accessed in a session.
 Questions can be presented individually (better for mobile).
 Questions can be presented in tabular form (better for large screens).
@@ -26,57 +45,66 @@ Statistics will be made available to show a variety of things:
 
 GUI
 ===
-Main page:
-     Login
+Home page:
+     Login / Register
      Navigation
      System dashboard / statistics
-     List of topics
+     Subjects, categories and tags
      News
+     Search
 
 User home page:
      Navigation
      Personal information / dashboard
      Personal content
 
+Register page:
+     Navigation
+     Registration form
+     Privacy information
+
+Login page:
+     Navigation
+     Login form
+     Privacy information
+
+Subjects page:
+     Navigation
+     List of subjects and descriptions
+
+Categories page:
+     Navigation
+     List of all categories and descriptions, linked, paged
+
+Subject page:
+     Navigation
+     Subject name and description
+     List of Categories for that subject, paged if necessary
+
 Category page:
      Navigation
+     Parent subject and description
      Category name and description
-     List of questions for that category, paged if necessary
+     List of articles for that category, paged if necessary 
+     List of questions for that category, paged if necessary 
 
 Quiz page:
      Navigation
-     List of questions
+     List of questions (initially all questions in a category; potentially other ways of constructing quizzes later)
      Text box for answers
      Grading
 
-Study page:
+Study / review page:
      Navigation
      List of questions and answers
 
-Mobile page:
+Question page:
      Navigation
      Show a single question
      Text box for an answer
-     Grading and correct answer display
      
-     ...best if the whole site is responsive.
+Answer page:
+     Navigation
+     Show the question, the preferred answer, and the given answer
+     Score the answer if possible
 
-Added features under way:
-
-1. Add support for long articles associated with a subject or category or question
-   ...Title
-   ...Body (can contain inline images, uses TinyMCE)
-   ...Author
-
-2. TinyMCE support:
-   ...Pillow (see dependencies)
-   ...exports an HTML text field type for the model
-   ...should be possible to present content on a page
-   ...and edit using TinyMCE in the admin interface.
-   ...uses django-upload for image loading
-
-3. Need to add views for articles (which are linked to categories)
-   ...an additional link next to the category on the categories page
-   ...a url pattern for articles under a category
-   ...view and template for an articles page (like a blog, show summaries / excerpts)
-   ...url pattern, view and template for an individual article

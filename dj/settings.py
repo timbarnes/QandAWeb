@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'filebrowser',
     'tinymce',
     'taggit',
+    'crispy_forms',
     'dbbackup',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -50,6 +51,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'debug_toolbar',
     'registration',
     'educate',
 )
@@ -105,6 +107,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 STATIC_ROOT = os.path.join(BASE_DIR, parms['static-root'])
 STATIC_URL = '/static/'

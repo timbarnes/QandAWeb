@@ -1,12 +1,11 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from filebrowser.sites import site
+from educate import views
 
-urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'quanda.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
-
+urlpatterns = patterns(
+    '',
+    url(r'^$', views.HomeView.as_view(), name='home'),
     url(r'^educate/', include('educate.urls')),
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^tinymce/', include('tinymce.urls')),

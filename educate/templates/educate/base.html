@@ -15,6 +15,15 @@
     <div id="main">
       <div id="banner">
 	<h1><a href="{% url 'home' %}">// Questions and Quizzes //</a></h1>
+	{% block messages %}
+	{% if messages %}
+	<ul class=messages>
+	  {% for message in messages %}
+	  <li{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</li>
+	  {% endfor %}
+	</ul>
+	{% endif %}
+	{% endblock messages %}
       </div>
       <div id="nav">
 	{% block nav %}

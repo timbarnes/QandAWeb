@@ -1,10 +1,11 @@
 from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponseRedirect, HttpResponse
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.views import generic
 from django import forms
 from taggit.models import Tag
+from braces import views
 
+from educate.forms import AnswerForm
 from educate.models import Subject, Category, Question, Article
 from educate.score import score
 
@@ -69,7 +70,7 @@ class ContentView(MenuMixin, UserMixin, generic.ListView):
         return 
     
 
-class HomeView(MenuMixin, UserMixin, generic.ListView):
+class HomeView(MenuMixin, UserMixin, generic.TemplateView):
     """Home page for the Educate project.
     """
     template_name = 'educate/home.html'
@@ -78,9 +79,6 @@ class HomeView(MenuMixin, UserMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
         return context
-
-    def get_queryset(self):
-        return
 
     
 class AllArticlesView(MenuMixin, UserMixin, generic.ListView):
@@ -201,55 +199,44 @@ class ReviewQuestionsView(MenuMixin, UserMixin, generic.ListView):
     
     def get_queryset(self):
         return Question.objects.filter(category__name=self.kwargs['category'])
-                
-
-class AnswerForm(forms.Form):
-    """Answer to a specific question
-    """
-    user_answer = forms.CharField(label='Your answer', max_length=100)
 
 
-def ask(request, question_id):
+class AskView(MenuMixin, UserMixin, generic.FormView):
     """Ask a single question.
     """
-    question = get_object_or_404(Question, pk=question_id)
-    form = AnswerForm()
-    return render(request, 'educate/ask.html', {
-        'registered': request.user.is_authenticated(),
-        'username': request.user.username,
-        'question': question,
-        'form': form,
-        'subject_list': Subject.objects.order_by('name'),
-        'category_list': Category.objects.order_by('name'),
-        'tag_list': Tag.objects.order_by('name'),
-    })
+    form_class = AnswerForm
+    success_url = reverse_lazy('answer')
+    template_name = 'educate/ask.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(AskView, self).get_context_data(**kwargs)
+        context.update({
+            'question': get_object_or_404(Question, pk=self.kwargs['question_id'])
+            })
+        return context
 
-def answer(request, question_id):
+    def form_valid(self, form):
+        print form
+        self.kwargs['user_answer'] = form.cleaned_data['user_answer']
+        return super(AskView, self).form_valid(form)
+        
+
+class AnswerView(MenuMixin, UserMixin, generic.TemplateView):
+#def answer(request, question_id):
     """Display the answer to a single question.
     """
-    question = get_object_or_404(Question, pk=question_id)
-    form = AnswerForm(request.POST)
-    if form.is_valid():
-        sc = score(str(question.answer), form.cleaned_data['user_answer'])
-        return render(request, 'educate/answer.html', {
-            'registered': request.user.is_authenticated(),
-            'username': request.user.username,
-            'question': question,
-            'answer': form.cleaned_data['user_answer'],
-            'score': sc,
-            'subject_list': Subject.objects.order_by('name'),
-            'category_list': Category.objects.order_by('name'),
-        })
-    else:
-        return render(request, 'educate/answer.html', {
-            'registered': request.user.is_authenticated(),
-            'username': request.user.username,
-            'question': question,
-            'answer': '(No answer provided)',
-            'score': 0,
-            'subject_list': Subject.objects.order_by('name'),
-            'category_list': Category.objects.order_by('name'),
-        })
+    template_name = 'educate/answer.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(AnswerView, self).get_context_data(**kwargs)
+        context.update({
+            'question': get_object_or_404(Question, pk=self.kwargs['question_id']),
+            'answer': self.request.GET['user_answer'],
+            'score': score(str(q.answer), u_a),
+            })
+        return context
+        
+
+
+    
 
