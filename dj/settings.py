@@ -55,8 +55,8 @@ INSTALLED_APPS = (
     'educate',
 )
 
-if parms['debug']:
-    INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar',)
+if DEBUG:
+    INSTALLED_APPS =('debug_toolbar',) + INSTALLED_APPS
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -112,12 +112,11 @@ USE_TZ = True
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
-STATIC_ROOT = os.path.join(BASE_DIR, parms['static-root'])
-STATIC_URL = '/static/'
-
 # Base folder locations
 #STATIC_FILES_DIRS = os.path.join(BASE_DIR, parms['static-dir'])
 STATIC_ROOT = os.path.join(BASE_DIR, parms['static-root'])
+STATIC_URL = '/static/'
+
 MEDIA_ROOT = os.path.join(BASE_DIR, parms['media-root'])
 
 # Inline editor for articles
@@ -132,3 +131,4 @@ TINYMCE_DEFAULT_CONFIG = {
     }
 TINYMCE_COMPRESSOR = True
 TINYMCE_SPELLCHECKER = True
+
