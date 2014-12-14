@@ -5,11 +5,19 @@ from tinymce import models as tinymce_models
 from taggit.managers import TaggableManager
 
 
-class Subject(models.Model):
+class EContent(models.Model):
+    author = models.ForeignKey(User)
+    public = models.BooleanField(default=True)
+    tags = TaggableManager()
+
+    class Meta:
+        abstract = True
+    
+
+class Subject(EContent):
     name = models.CharField(max_length=40)
     description = models.CharField(max_length=200, default='-description-')
     slug = models.SlugField()
-    tags = TaggableManager()
 
     class Meta:
         ordering = ['name']
@@ -18,47 +26,45 @@ class Subject(models.Model):
         return self.name
 
 
-class Category(models.Model):
+class Category(EContent):
     subject = models.ForeignKey(Subject)
     name = models.CharField(max_length=40)
     description = models.CharField(max_length=200, default='-description-')
     slug = models.SlugField()
-    tags = TaggableManager()
 
     class Meta:
         ordering = ['name']
         verbose_name_plural = 'Categories'
+        unique_together = ('subject', 'slug')
         
     def __unicode__(self):
         return self.name
 
 
-class Question(models.Model):
+class Question(EContent):
     category = models.ForeignKey(Category)
     question = models.CharField(max_length=200)
     answer = models.CharField(max_length=200)
-    tags = TaggableManager()
 
     class Meta:
         ordering = ['question']
+        unique_together = ('category', 'question')
 
     def __unicode__(self):
         return self.question
 
 
-class Article(models.Model):
-    author = models.ForeignKey(User)
+class Article(EContent):
     category = models.ForeignKey(Category)
     title = models.CharField(max_length=200)
     body = tinymce_models.HTMLField()
     summary = models.CharField(max_length=200, default="")
-    published = models.BooleanField(default=False)
     edit_date = models.DateField(default=datetime.now)
     slug = models.SlugField()
-    tags = TaggableManager()
 
     class Meta:
         ordering = ['-edit_date']
+        unique_together = ('category', 'slug')
 
     def __unicode__(self):
         return self.title
