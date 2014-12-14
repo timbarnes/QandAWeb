@@ -1,0 +1,21 @@
+Views for logged-in users
+=================
+
+Profile page
+----------
+
+Present a form allowing the editing of profile information
+Present learning history w/ edit / clear buttons
+Present personal data elements (to do lists and notes) w/ edit / clear buttons
+
+New content page
+--------------
+
+Create a new subject, mark private or public
+Create a new category, mark private or public
+Create an article, mark private or public
+Create a question and answer, mark private or public
+
+All content is marked as created by the specific user
+
+

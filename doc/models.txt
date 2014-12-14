@@ -1,0 +1,30 @@
+User Profile
+========
+
+Purpose:
+
+Store personal information about a user, some for sharing, some private
+
+Augments the django.auth user information
+
+Profile elements (all are optional except for the auth-related information)
+
+1. Profile picture
+2. City / location
+3. Interests
+4. Learning objectives
+5. Hobbies / interests
+
+Learning history elements
+
+1. Subjects worked on
+2. Categories worked on
+3. Quizzes worked on
+4. Self-scoring results of quizzes
+
+Personal data elements
+
+1. To do lists
+2. Notes
+3. Links to owned subjects, categories, questions
+

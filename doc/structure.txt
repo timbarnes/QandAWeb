@@ -1,0 +1,24 @@
+Overall system structure
+
+Called dj
+Combines user, admin, register, and educate
+
+User app
+- Information specific to a user
+- Status
+- Profile
+- History
+- Personal content tracking
+
+Admin app
+- standard django admin
+
+Register app
+- django-authentication-redux
+- some custom forms / pages / behaviors
+- create user profile page when a user is registered
+
+Educate app
+- Articles
+- Q&A
+- Taxonomic information and tagging
