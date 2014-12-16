@@ -232,7 +232,6 @@ class AnswerView(MenuMixin, UserMixin, generic.TemplateView):
         context.update({
             'question': get_object_or_404(Question, pk=self.kwargs['question_id']),
             'answer': self.request.GET['user_answer'],
-            'score': score(str(q.answer), u_a),
             })
         return context
         

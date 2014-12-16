@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>
-    <title>{% block pagetitle %}Questions and Quizzes // A Place for Learning{{ page.title }} // Tim Barnes{% endblock %}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">    <title>{% block pagetitle %}Questions and Quizzes // A Place for Learning{{ page.title }} // Tim Barnes{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'educate/educate.css' %}" />
     {% block js %} {% endblock %}
     <meta name="keywords" content="education, training, learning, online, architecture, are" {% block keywords %}{% endblock %}" />
@@ -72,10 +72,12 @@
 	  </div>
 	  <div class=menu>
 	    {% block tagmenu %}
-	    <h3>Tags:</h3>
-	    {% for t in tag_list %}
-	    <span class=tg><a href="{% url 'tagged' t.slug %}">{{ t.name }}</a></span> 
-	    {% endfor %}
+	    {% if tag_list %}
+	      <h3>Tags:</h3>
+	      {% for t in tag_list %}
+	      <span class=tg><a href="{% url 'tagged' t.slug %}">{{ t.name }}</a></span> 
+	      {% endfor %}
+	    {% endif %}
 	    {% endblock %}
 	  </div>
 	</div>

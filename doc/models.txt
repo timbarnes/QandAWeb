@@ -11,9 +11,8 @@ Profile elements (all are optional except for the auth-related information)
 
 1. Profile picture
 2. City / location
-3. Interests
-4. Learning objectives
-5. Hobbies / interests
+3. Learning objectives
+4. Hobbies / interests
 
 Learning history elements
 
