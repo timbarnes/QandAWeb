@@ -55,8 +55,8 @@ INSTALLED_APPS = (
     'educate',
 )
 
-if DEBUG:
-    INSTALLED_APPS =('debug_toolbar',) + INSTALLED_APPS
+#if DEBUG:
+#    INSTALLED_APPS =('debug_toolbar',) + INSTALLED_APPS
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
