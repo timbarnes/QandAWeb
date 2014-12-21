@@ -27,7 +27,7 @@ class LoginForm(AuthenticationForm):
         self.helper.layout = Layout(
             'username',
             'password',
-            ButtonHolder(Submit('register', 'Register', css_class='btn-primary.btn-block'))
+            ButtonHolder(Submit('login', 'Login', css_class='btn-primary.btn-block'))
             )
         super(LoginForm, self).__init__(*args, **kwargs)
         
