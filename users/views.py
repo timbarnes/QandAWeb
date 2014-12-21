@@ -25,10 +25,12 @@ class ProfileView(UserMixin, generic.FormView):
 
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
+        user_form = UserDataForm(instance=context['user'])
+        profile_form = ProfileForm(instance=get_object_or_404(Profile, user=context['user']))
         context.update({
             'profile': get_object_or_404(Profile, user__username=self.request.user.username),
-            'user_form': UserDataForm,
-            'profile_form': ProfileForm,
+            'user_form': user_form,
+            'profile_form': profile_form,
             })
         return context
 

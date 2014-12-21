@@ -36,6 +36,8 @@ class LoginForm(AuthenticationForm):
             FormActions(Submit('login', 'Login', css_class='btn-primary.btn-block'))
             )
         super(LoginForm, self).__init__(*args, **kwargs)
+
+
 class ProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)
