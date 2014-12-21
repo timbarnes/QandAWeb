@@ -3,8 +3,8 @@ from django.contrib import admin
 from filebrowser.sites import site
 from registration.views import RegistrationView
 from django.contrib.auth.views import login
-from educate import forms
 from educate import views
+from users import forms
 
 urlpatterns = patterns(
     '',

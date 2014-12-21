@@ -6,7 +6,7 @@ from django import forms
 from taggit.models import Tag
 
 from users.models import Profile, Favorites, Note, Task, TaskList
-from users.forms import TemplateForm, NoteForm, TaskForm
+from users.forms import ProfileForm, UserDataForm, NoteForm, TaskForm
 
 class UserMixin(object):
     def get_context_data(self, **kwargs):
@@ -20,13 +20,15 @@ class ProfileView(UserMixin, generic.FormView):
     """View/edit profile data
     """
     template_name = 'users/profile.html'
-    form_class = TemplateForm
+    form_class = ProfileForm
     success_url = reverse_lazy('profile')
 
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
         context.update({
             'profile': get_object_or_404(Profile, user__username=self.request.user.username),
+            'user_form': UserDataForm,
+            'profile_form': ProfileForm,
             })
         return context
 
