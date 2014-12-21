@@ -1,13 +1,9 @@
 {% extends "educate/base.html" %}
 {% load crispy_forms_tags %}
-{% block menu %}{% endblock %}
-{% block tagmenu %}{% endblock %}
 {% block title %}
-<title>Login</title>
+<h1>Login / Register</h1>
 {% endblock %}
 {% block content %}
-<br />
-<h2>Login / Register</h2>
 <p>Please login with your username or e-mail and password.</p>
 {% if form.errors %}
 <p>Your username and password didn't match. Please try again.</p>
@@ -15,5 +11,6 @@
 {% crispy form %}
 <br />
 <p>Don't have an account? <a href="{% url 'registration_register' %}">Sign up now!</a></p>
+<p>Registration allows you to create and save personal content to help with your learning program.</p>
 {% endblock %}
   
