@@ -1,6 +1,7 @@
 {% extends "educate/base.html" %}
 {% block title %}
 <h1 class="pagetitle">Category: {{ category.name }}</h1>
+<p>{{ category.description }}</p>
 {% endblock %}
 {% block content %}
 <br />
@@ -9,17 +10,26 @@
 <br />
 {% if article_subset %}
 <h2>Articles</h2>
+<table class="table table-striped">
+  <tr>
+    <th>Title</th>
+    <th>Description</th>
+    </tr>
     {% for a in article_subset %}
-      <p><strong>><a href="{% url 'article' a.slug %}">{{ a.title }}</a></strong> -  
-	{{ a.summary }}</p>
+    <tr>
+      <td><strong>><a href="{% url 'article' a.slug %}">{{ a.title }}</a></td>
+      <td>{{ a.summary }}</td>
+    </tr>
     {% endfor %}
-<br />
+</table>
 {% endif %}
 {% if question_subset  %}
 <h2>Questions</h2>
+ <div class="list">
     {% for q in question_subset %}
-      <span class=list><a href="{% url 'ask' q.id %}">{{ q.question }}?</a></span>
+      <p><a href="{% url 'ask' q.id %}">{{ q.question }}?</a></p>
     {% endfor %}
+</div>
 <br />
 {% endif %}
 {% endblock %}

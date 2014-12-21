@@ -3,12 +3,13 @@
 {% endblock %}
 {% block title %}
 <h1 class="pagetitle">{{ subject.name }}: Categories</h1>
+<p>{{ subject.description }}</p>
 {% endblock %}
 {% block content %}
   {% if subject_list %}
   <ul>
     {% for sub in subject_list %}
-    <li><a href="{% url 'categories' sub.slug %}">{{ sub.name }}</a>
+    <li><h2><a href="{% url 'categories' sub.slug %}">{{ sub.name }}</h2></a>
       <br />
       <p>{{ sub.description }}</p>
     </li>
@@ -18,17 +19,3 @@
   <p>No subjects found</p>
   {% endif %}
 {% endblock %}
-
-
-
-
-
-{% if subject_list %}
-<ul>
-  {% for subject in subject_list %}
-  <li><a href="{% url 'categories' subject.slug %}">{{ subject.name }}</a></li>
-  {% endfor %}
-</ul>
-{% else %}
-<p>No subjectss are available</p>
-{% endif %}

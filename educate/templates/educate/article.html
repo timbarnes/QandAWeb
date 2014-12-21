@@ -3,22 +3,8 @@
 {% endblock %}
 {% block title %}
 <h1 class="pagetitle">{{ article.title }}</h1>
+<p>{{ article.summary }}</p>
 {% endblock %}
 {% block content %}
     {{ article.body|safe }}
-  {% if article_list %}
-  <hr><h2>Article list</h2>
-  <ul>
-    {% for art in article_list %}
-    <li><a href="{% url 'article' art.slug %}">{{ art.title }}</a>
-      <br />
-{% comment %}
-      <p>{{ art.summary }}</p>
-{% endcomment %}
-    </li>
-    {% endfor %}
-  </ul>
-  {% else %}
-  <p>No articles found</p>
-  {% endif %}
 {% endblock %}

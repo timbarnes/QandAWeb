@@ -192,7 +192,7 @@ class ReviewQuestionsView(MenuMixin, UserMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(ReviewQuestionsView, self).get_context_data(**kwargs)
         context.update({
-            'category': self.kwargs['category'],
+            'category': get_object_or_404(Category, slug=self.kwargs['category']),
             'review':True,
         })
         return context

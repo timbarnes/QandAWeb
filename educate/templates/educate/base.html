@@ -1,9 +1,15 @@
+<!doctype html>
 {% load staticfiles %}
 {% load admin_urls %}
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">    <title>{% block pagetitle %}Questions and Quizzes // A Place for Learning{{ page.title }} // Tim Barnes{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link href="jumbotron.css" rel="stylesheet">
+    <title>{% block pagetitle %}Questions and Quizzes // A Place for Learning{{ page.title }} // Tim Barnes{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'educate/educate.css' %}" />
     {% block js %} {% endblock %}
     <meta name="keywords" content="education, training, learning, online, architecture, are" {% block keywords %}{% endblock %}" />
@@ -11,10 +17,47 @@
     <meta name="distribution" content="Global" />
   </head>
 
-  <body>
-    <div id="main">
-      <div id="banner">
+  <body role="document">
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+	  {% comment %}
+	  <a class="navbar-brand" href="{% url 'home' %}">// The Knowledge //</a>
+	  {% endcomment %}
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+	  {% block nav %}
+	  <ul class="nav navbar-nav">
+	    <li><a href="{% url 'home' %}">Home</a></li>
+	    <li><a href="{% url 'all_subjects' %}">Subjects</a></li>
+	    <li><a href="{% url 'all_categories' %}">Categories</a></li>
+	    <li><a href="{% url 'all_articles' %}">Articles</a></li>
+	    {% if authenticated %}
+	    <li><a href="{% url 'admin:index' %}">Admin</a></li>
+	    <li><a href="{% url 'auth_logout' %}">Logout</a></li>
+	    <li>Logged in as {{ username }}</li>
+	    {% else %}
+	    <li><a href="{% url 'auth_login' %}">Login</a></li>
+	    {% endif %}
+	  </ul>
+	  {% endblock %}
+        </div><!--/.navbar-collapse -->
+      </div>
+    </nav>
+
+    <div id="banner">
 	<h1><a href="{% url 'home' %}">// Questions and Quizzes //</a></h1>
+      </div>
+
+    <div class="jumbotron">
+      <div class="container">
+	{% block title %}<h1 class="pagetitle">Home</h1><br />{% endblock %}
 	{% block messages %}
 	{% if messages %}
 	<ul class=messages>
@@ -25,74 +68,61 @@
 	{% endif %}
 	{% endblock messages %}
       </div>
-      <div id="nav">
-	{% block nav %}
-	<a href="{% url 'home' %}">Home</a> // 
-        <a href="{% url 'all_subjects' %}">Subjects</a> //
-	<a href="{% url 'all_categories' %}">Categories</a> //
-	<a href="{% url 'all_articles' %}">Articles</a> //
-	{% if authenticated %}
-	Logged in as {{ username }} //
-	<a href="{% url 'admin:index' %}">Admin</a> //
-	<a href="{% url 'auth_logout' %}">Logout</a> //
-	{% else %}
-	<a href="{% url 'auth_login' %}">Login</a> //
-	{% endif %}
+    </div>
+
+    <div class=container>
+	{% block content %}
 	{% endblock %}
-        <hr>
-      </div>
-      <div id=body>
-	<div class=content>
-	<div id=title>
-          {% block title %}<h1 class="pagetitle">Home</h1><br />{% endblock %}
-	</div>
-	  {% block content %}
-	  {% endblock %}
-	</div>
-	<div class=sidebar>
-	  <div class=menu>
+    </div>
+    
+    <div class="sidebar">
+      <div class="container">
+	<div class="row">
+          <div class="col-md-4">
 	    {% block subjectmenu %}
 	    {% if subject_list %}
 	    <h3>Subjects:</h3>
-	      {% for sub in subject_list %}
-	        <span class=sc><a href="{% url 'categories' sub.slug %}">{{ sub.name }}</a></span>
-	      {% endfor %}
+	    {% for sub in subject_list %}
+	    <a href="{% url 'categories' sub.slug %}"><button type="button" class="btn-xs btn-link">{{ sub.name }}</button></a>
+	    {% endfor %}
 	    {% endif %}
 	    {% endblock %}
-	  </div>
-	  <div class=menu>
+          </div>
+          <div class="col-md-4">
 	    {% block categorymenu %}
 	    {% if category_list %}
 	    <h3>Categories:</h3>
-	      {% for cat in category_list %}
-	      <span class=sc><a href="{% url 'content' cat.slug %}">{{ cat.name }}</a></span>
-	      {% endfor %}
+	    {% for cat in category_list %}
+	    <a href="{% url 'content' cat.slug %}"><button type="button" class="btn-xs btn-link">{{ cat.name }}</button></a>
+	    {% endfor %}
 	    {% endif %}
 	    {% endblock %}
 	  </div>
-	  <div class=menu>
+          <div class="col-md-4">
 	    {% block tagmenu %}
 	    {% if tag_list %}
-	      <h3>Tags:</h3>
-	      {% for t in tag_list %}
-	      <span class=tg><a href="{% url 'tagged' t.slug %}">{{ t.name }}</a></span> 
-	      {% endfor %}
+	    <h3>Tags:</h3>
+	    {% for t in tag_list %}
+	    <a href="{% url 'tagged' t.slug %}"><button type="button" class="btn-xs btn-link">{{ t.name }}</button></a> 
+	    {% endfor %}
 	    {% endif %}
 	    {% endblock %}
-	  </div>
+          </div>
 	</div>
       </div>
-      <div id=footer>
-	{% block footer %}
-	<div id=byline>
-	  <h2>About this site</h2>
+    </div>
+    
+    <footer class="footer">
+	<div class="container">
+	  {% block footer %}
 	  <p>A simple resource for learning.</p>
 	  <p>Information is provided on an as-is basis. No warranty is expressed or implied. Use at your own risk.</p>
 	  <p>Copyright (c) Timothy J Barnes 2014.</p>
+	  {% endblock %}
 	</div>
-	{% endblock %}
-      </div>
-    </div>
-</div>
-</body>
+    </footer>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+  </body>
 </html>

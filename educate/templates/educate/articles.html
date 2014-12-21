@@ -10,14 +10,18 @@
     {{ article.body }}
   {% endif %}
   {% if article_list %}
-  <ul>
+    <table class="table table-striped">
+      <tr>
+      <th>Subject</th>
+      <th>Description</th>
+    </tr>
     {% for art in article_list %}
-    <li><a href="{% url 'article' art.slug %}">{{ art.title }}</a>
-      <br />
-      <p>{{ art.summary }}</p>
-    </li>
+      <tr>
+	<td><a href="{% url 'article' art.slug %}">{{ art.title }}</a></td>
+        <td>{{ art.summary }}</td>
+    </tr>
     {% endfor %}
-  </ul>
+  </table>
   {% else %}
   <p>No articles found</p>
   {% endif %}

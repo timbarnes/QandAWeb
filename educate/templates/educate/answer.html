@@ -1,12 +1,17 @@
 {% extends "educate/base.html" %}
 {% block title %}
+<h1>{{ question.question }}</h1>
 {% endblock %}
 {% block content %}
-<br />
-<h2>{{ question.question }}?</h2>
-<p>In {{ question.category.subject.name }} // {{ question.category.name }}</p>
-    <span class=list>Suggested answer:</span><span class=list>{{ question.answer }}</span>
-<p><span class=list>Your answer:</span><span class=list>{{ answer }}</span>
-<br />
+<h2>In {{ question.category.subject.name }} // {{ question.category.name }}</h2>
+<table class="table table-striped">
+  <tr>
+    <th>Suggested answer</th><th>Your answer</th>
+  </tr>
+  <tr>
+    <td>{{ question.answer }}</td>
+    <td>{{ answer }}</td>
+  </tr>
+</table>
 {% endblock %}
-  
+

@@ -13,6 +13,7 @@
 <p>Your username and password didn't match. Please try again.</p>
 {% endif %}
 {% crispy form %}
+<br />
 <p>Don't have an account? <a href="{% url 'registration_register' %}">Sign up now!</a></p>
 {% endblock %}
   

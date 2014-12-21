@@ -6,14 +6,18 @@
 {% endblock %}
 {% block content %}
   {% if subject_list %}
-  <ul>
+  <table class="table table-striped">
+    <tr>
+      <th>Subject</th>
+      <th>Description</th>
+    </tr>
     {% for sub in subject_list %}
-    <li><a href="{% url 'categories' sub.slug %}">{{ sub.name }}</a>
-      <br />
-      <p>{{ sub.description }}</p>
-    </li>
+    <tr>
+      <td><a href="{% url 'categories' sub.slug %}">{{ sub.name }}</a></td>
+      <td>{{ sub.description }}</td>
+    </tr>
     {% endfor %}
-  </ul>
+  </table>
   {% else %}
   <p>No subjects found</p>
   {% endif %}

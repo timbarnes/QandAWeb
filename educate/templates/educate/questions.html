@@ -1,27 +1,31 @@
 {% extends "educate/base.html" %}
-{% block banner %}
-{% endblock %}
 {% block title %}
 <h1 class="pagetitle">{{ category }}: Questions</h1>
+<p>{{ category.description }}</p>
 {% endblock %}
 {% block content %}
   {% if question_list %}
     {% if review %}
-      <a href="{% url 'questions' category %}">Hide answers</a>
+      <a href="{% url 'questions' category %}"><button type="button" class="btn-primary">Hide answers</button></a>
     {% else %}
-      <a href="{% url 'review_questions' category %}">Review the answers</a> (logged in users only)
+      <a href="{% url 'review_questions' category  %}"><button type="button" class="btn-primary">Review the answers</button></a> (logged in users only)
+      {% endif %}
       <br /><br />
       <p>Click on a question to test your knowledge.</p>
-    {% endif %}
-  <ul>
+  <table class="table table-striped">
+    <tr>
+      <th>Question:</th>
+      {% if review %}<th>Answer</th>{% endif %}
+      </tr>
     {% for q in question_list %}
-    <li><a href="{% url 'ask' q.id %}">{{ q.question }}?</a>
+    <tr>
+    <td><a href="{% url 'ask' q.id %}">{{ q.question }}?</a></td>
       {% if review %}
-      <p>{{ q.answer }}</p>
+      <td>{{ q.answer }}</td>
       {% endif %}
-    </li>
+    </tr>
     {% endfor %}
-  </ul>
+  </table>
   {% else %}
   <p>No questions found</p>
   {% endif %}

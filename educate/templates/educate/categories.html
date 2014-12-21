@@ -1,24 +1,30 @@
 {% extends "educate/base.html" %}
-{% block banner %}
-{% endblock %}
 {% block title %}
 <h1 class="pagetitle">{% if subject %}{{ subject.name }}{% else %}All Categories{% endif %}</h1>
+</p>{{ subject.description }}</p>
 {% endblock %}
 {% block content %}
-<br />
+  <table class="table table-striped">
+    <tr>
+      <th>Category</th>
+      <th>Description</th>
+    </tr>
   {% if subject %}
     {% for c in category_subset %}
-      <span class=list><p><strong><a href="{% url 'questions' c.slug %}">{{ c.name }}</a></strong> -  
-	{{ c.description }}</p></span>
+    <tr>
+      <td><a href="{% url 'questions' c.slug %}">{{ c.name }}</a></td>
+      <td>{{ c.description }}</td>
+    </tr>
     {% endfor %}
   {% else %}
     {% for c in category_list %}
-      <span class=list><p><strong><a href="{% url 'questions' c.slug %}">{{ c.name }}</a></strong> -  
-	{{ c.description }}</p></span>
-      </li>
+	<tr>
+	  <td><a href="{% url 'questions' c.slug %}">{{ c.name }}</a></td>
+	  <td>{{ c.description }}</td>
+	</tr>
     {% endfor %}
   {% endif %}
-<br />
+  </table>
 {% endblock %}
 
 
