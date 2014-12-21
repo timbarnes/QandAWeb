@@ -1,0 +1,8 @@
+{% extends "educate/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}
+<h1 class="pagetitle">Profile for user {{ username }}.</h1>
+{% endblock %}
+{% block content %}
+{% crispy form %}
+{% endblock %}

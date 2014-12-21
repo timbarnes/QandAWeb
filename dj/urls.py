@@ -10,6 +10,7 @@ urlpatterns = patterns(
     '',
     url(r'^$', views.HomeView.as_view(), name='home'),
     url(r'^educate/', include('educate.urls')),
+    url(r'^users/', include('users.urls')),
     url(r'^accounts/register/$', RegistrationView.as_view(form_class=forms.RegistrationForm)),
     url(r'^accounts/login/$', login, {'authentication_form': forms.LoginForm}, name='login'),
     url(r'^accounts/', include('registration.backends.default.urls')),
