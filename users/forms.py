@@ -1,6 +1,7 @@
 from django import forms
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, ButtonHolder, Submit
+from crispy_forms.layout import Layout, Submit
+from crispy_forms.bootstrap import FormActions
 
 from models import Profile
 
@@ -15,7 +16,7 @@ class TemplateForm(forms.ModelForm):
             'home',
             'interests',
             'objectives',
-            ButtonHolder(Submit('update', 'Update', css_class='btn-primary.btn-block')))
+            FormActions(Submit('update', 'Update', css_class='btn-primary.btn-block')))
 
     class Meta:
         model = Profile
