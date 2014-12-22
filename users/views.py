@@ -91,7 +91,7 @@ class UpdateUserDataView(UserMixin, generic.edit.UpdateView):
 
     def form_invalid(self, form):
         print "form invalid", form
-        messages.warning(self.request, 'User data not successfully updated.')
+        messages.error(self.request, 'User data not successfully updated.')
         return super(UpdateUserDataView, self).form_invalid(form)
 
     def form_valid(self, form):

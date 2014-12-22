@@ -64,16 +64,18 @@ class UserDataForm(forms.ModelForm):
         self.helper.form_id = 'id_userdataForm'
         self.helper.form_class = 'blueForms'
         self.helper.layout = Layout(
+            'username',
+            'password',
+            'date_joined',
+            'last_login',
             'first_name',
             'last_name',
             'email',
-            'password1',
-            'password2',
             FormActions(Submit('update', 'Update', css_class='btn-primary.btn-block')))
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email']
+        fields = ['username', 'password', 'first_name', 'last_name', 'email', 'date_joined', 'last_login']
 
 
 class TaskForm(forms.Form):
