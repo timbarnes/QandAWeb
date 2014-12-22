@@ -107,10 +107,16 @@ class MyHomeView(UserMixin, generic.TemplateView):
     template_name = 'users/myhome.html'
 
     def get_context_data(self, **kwargs):
+        print 'MYHOME'
         context = super(MyHomeView, self).get_context_data(**kwargs)
+        user = context['user']
         context.update({
-            'profile': get_object_or_404(Profile, slug=self.kwargs['slug']),
+            'profile': get_object_or_404(Profile, user=context['user']),
+            'favorites': Favorites.objects.filter(user=user),
+            'tasklists': TaskList.objects.filter(user=user),
+            'notes': Note.objects.filter(user=user),
         })
+        print context
         return context
 
     
