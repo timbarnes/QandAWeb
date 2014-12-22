@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.views import generic
 from django import forms
+from django.contrib import messages
+from django.contrib.auth.models import User
 
 from taggit.models import Tag
 
@@ -16,17 +18,18 @@ class UserMixin(object):
         context['user'] = self.request.user
         return context
 
-class ProfileView(UserMixin, generic.FormView):
+class ProfileView(UserMixin, generic.TemplateView):
     """View/edit profile data
     """
     template_name = 'users/profile.html'
-    form_class = ProfileForm
-    success_url = reverse_lazy('profile')
 
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
         user_form = UserDataForm(instance=context['user'])
-        profile_form = ProfileForm(instance=get_object_or_404(Profile, user=context['user']))
+        profile = get_object_or_404(Profile, user=context['user'])
+        profile_form = ProfileForm(instance=profile)
+        user_form.helper.form_action = reverse_lazy('userdataUpdate', args=[context['user'].pk])
+        profile_form.helper.form_action = reverse_lazy('profileUpdate', args=[profile.pk])
         context.update({
             'profile': get_object_or_404(Profile, user__username=self.request.user.username),
             'user_form': user_form,
@@ -34,10 +37,68 @@ class ProfileView(UserMixin, generic.FormView):
             })
         return context
 
+
+class UpdateProfileView(UserMixin, generic.edit.UpdateView):
+    """Save updated profile data. Called only with POST.
+    """
+    model = Profile
+    fields = ['picture', 'home', 'interests', 'objectives']
+    template_name = 'users/profile.html'
+    success_url = reverse_lazy('profile')
+
+    def get_context_data(self, **kwargs):
+        context = super(UpdateProfileView, self).get_context_data(**kwargs)
+        user_form = UserDataForm(instance=context['user'])
+        profile = get_object_or_404(Profile, user=context['user'])
+        profile_form = ProfileForm(instance=profile)
+        user_form.helper.form_action = reverse_lazy('userdataUpdate', args=[context['user'].pk])
+        profile_form.helper.form_action = reverse_lazy('profileUpdate', args=[profile.pk])
+        context.update({
+            'profile': get_object_or_404(Profile, user__username=self.request.user.username),
+            'user_form': user_form,
+            'profile_form': profile_form,
+            })
+        return context
+
+
     def form_valid(self, form):
-        print "Form: ", form
         self.kwargs['form_data']=form.cleaned_data
-        return super(ProfileView, self).form_valid(form)
+        messages.success(self.request, 'Profile successfully updated')
+        return super(UpdateProfileView, self).form_valid(form)
+
+
+class UpdateUserDataView(UserMixin, generic.edit.UpdateView):
+    """Save updated user data. Called only with POST.
+    """
+    model = User
+    template_name = 'users/profile.html'
+    success_url = reverse_lazy('home')
+
+    def get_context_data(self, **kwargs):
+        context = super(UpdateUserDataView, self).get_context_data(**kwargs)
+        user_form = UserDataForm(instance=context['user'])
+        profile = get_object_or_404(Profile, user=context['user'])
+        profile_form = ProfileForm(instance=profile)
+        user_form.helper.form_action = reverse_lazy('userdataUpdate', args=[context['user'].pk])
+        profile_form.helper.form_action = reverse_lazy('profileUpdate', args=[profile.pk])
+        context.update({
+            'profile': get_object_or_404(Profile, user__username=self.request.user.username),
+            'user_form': user_form,
+            'profile_form': profile_form,
+            })
+        print 'UpdateUserDataView: ', context
+        return context
+
+    def form_invalid(self, form):
+        print "form invalid", form
+        messages.warning(self.request, 'User data not successfully updated.')
+        return super(UpdateUserDataView, self).form_invalid(form)
+
+    def form_valid(self, form):
+        print "Form submitted: ", form
+        self.kwargs['form_data']=form.cleaned_data
+        messages.success(self.request, 'User data successfully updated')
+        return super(UpdateUserDataView, self).form_valid(form)
 
 
 class MyHomeView(UserMixin, generic.TemplateView):

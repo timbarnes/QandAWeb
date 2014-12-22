@@ -1,35 +1,7 @@
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, ButtonHolder, Submit
 
-class RegistrationForm(UserCreationForm):
-    def __init__(self, *args, **kwargs):
-        super(RegistrationForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_id = 'id_registrationForm'
-        self.helper.form_class = 'blueForms'
-        self.helper.layout = Layout(
-            'username',
-            'password1',
-            'password2',
-            ButtonHolder(Submit('register', 'Register', css_class='btn-primary.btn-block'))
-            )
-        super(RegistrationForm, self).__init__(*args, **kwargs)
-        
-
-class LoginForm(AuthenticationForm):
-    def __init__(self, *args, **kwargs):
-        super(LoginForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_id = 'id_loginForm'
-        self.helper.form_class = 'blueForms'
-        self.helper.layout = Layout(
-            'username',
-            'password',
-            ButtonHolder(Submit('login', 'Login', css_class='btn-primary.btn-block'))
-            )
-        super(LoginForm, self).__init__(*args, **kwargs)
         
 
 class AnswerForm(forms.Form):
