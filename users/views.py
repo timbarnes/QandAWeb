@@ -72,7 +72,7 @@ class UpdateUserDataView(UserMixin, generic.edit.UpdateView):
     """
     model = User
     template_name = 'users/profile.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('profile')
 
     def get_context_data(self, **kwargs):
         context = super(UpdateUserDataView, self).get_context_data(**kwargs)

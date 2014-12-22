@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit
+from crispy_forms.layout import Layout, Submit, Field
 from crispy_forms.bootstrap import FormActions
 
 from models import Profile
@@ -65,9 +65,9 @@ class UserDataForm(forms.ModelForm):
         self.helper.form_class = 'blueForms'
         self.helper.layout = Layout(
             'username',
-            'password',
-            'date_joined',
-            'last_login',
+             Field('password', type='hidden'),
+             Field('date_joined', type='hidden'),
+             Field('last_login', type='hidden'),
             'first_name',
             'last_name',
             'email',
@@ -75,9 +75,10 @@ class UserDataForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'password', 'first_name', 'last_name', 'email', 'date_joined', 'last_login']
+        fields = ['username', 'password', 'first_name', 'last_name',
+                  'email', 'date_joined', 'last_login']
 
-
+        
 class TaskForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(TaskForm, self).__init__(*args, **kwargs)
