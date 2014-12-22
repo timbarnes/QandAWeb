@@ -1,7 +1,7 @@
 from django import forms
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Field
@@ -37,6 +37,21 @@ class LoginForm(AuthenticationForm):
             FormActions(Submit('login', 'Login', css_class='btn-primary.btn-block'))
             )
         super(LoginForm, self).__init__(*args, **kwargs)
+
+
+class PasswordForm(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super(PasswordForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_id = 'id_passwordForm'
+        self.helper.form_class = 'blueForms'
+        self.helper.layout = Layout(
+            'old_password',
+            'new_password1',
+            'new_password2',
+            FormActions(Submit('update', 'Update', css_class='btn-primary.btn-block'))
+            )
+        super(PasswordForm, self).__init__(*args, **kwargs)
 
 
 class ProfileForm(forms.ModelForm):

@@ -2,6 +2,9 @@
 {% load crispy_forms_tags %}
 {% block title %}
 <h1 class="pagetitle">Profile for user {{ username }}.</h1>
+{% if message %}
+<p>{{ message %}</p>
+{% endif %}
 {% endblock %}
 {% block content %}
 <div class=row>
@@ -9,6 +12,7 @@
     <p>First and last names are optional.</p>
     {% crispy user_form %}
     <br />
+    <p><a href="{% url 'password_change' %}"><button type="button" class="btn-primary">Change your password</button></a></p>
   </div>
   <div class= "col-sm-12 col-md-6">
     <p>You can upload a profile picture, and tell us a bit about what

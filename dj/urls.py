@@ -1,8 +1,9 @@
 from django.conf.urls import patterns, include, url
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import admin
 from filebrowser.sites import site
 from registration.views import RegistrationView
-from django.contrib.auth.views import login
+from django.contrib.auth.views import login, password_change
 from educate import views
 from users import forms
 
@@ -13,6 +14,12 @@ urlpatterns = patterns(
     url(r'^users/', include('users.urls')),
     url(r'^accounts/register/$', RegistrationView.as_view(form_class=forms.RegistrationForm)),
     url(r'^accounts/login/$', login, {'authentication_form': forms.LoginForm}, name='login'),
+    url(r'^accounts/change_password/$', password_change,
+        {'password_change_form': forms.PasswordForm,
+         'template_name': 'registration/password_change.html',
+         'post_change_redirect': '/users/profile/',
+        'extra_context': {'message': 'Password successfully updated'}},
+         name='password_change'),
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^tinymce/', include('tinymce.urls')),
     url(r'^admin/filebrowser/', include(site.urls)),
