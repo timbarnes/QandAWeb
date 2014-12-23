@@ -125,6 +125,48 @@ class MyHomeView(UserMixin, generic.TemplateView):
         return context
 
     
+class NotesView(UserMixin, generic.TemplateView):
+    """Home page for each user.
+    """
+    template_name = 'users/notes.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(NotesView, self).get_context_data(**kwargs)
+        user = context['user']
+        context.update({
+            'notes': Note.objects.filter(user=user),
+        })
+        return context
+    
+
+class TaskListsView(UserMixin, generic.TemplateView):
+    """Display task lists.
+    """
+    template_name = 'users/tasklists.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(TaskListsView, self).get_context_data(**kwargs)
+        user = context['user']
+        context.update({
+            'task_lists': TaskList.objects.filter(user=user),
+        })
+        return context
+    
+    
+class TasksView(UserMixin, generic.TemplateView):
+    """Display tasks associated with a tasklist.
+    """
+    template_name = 'users/tasks.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(TasksView, self).get_context_data(**kwargs)
+        user = context['user']
+        context.update({
+            'tasks': Task.objects.filter(tasklist__slug=self.kwargs['tasklist']),
+        })
+        return context
+    
+    
 class NewNoteView(UserMixin, generic.FormView):
     """Add a note.
     """
