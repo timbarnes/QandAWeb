@@ -7,8 +7,10 @@ from django.contrib.auth.models import User
 
 from taggit.models import Tag
 
+from educate.models import Subject, Category, Article
 from users.models import Profile, Favorites, Note, Task, TaskList
 from users.forms import ProfileForm, UserDataForm, NoteForm, TaskForm
+
 
 class UserMixin(object):
     def get_context_data(self, **kwargs):
@@ -111,10 +113,13 @@ class MyHomeView(UserMixin, generic.TemplateView):
         context = super(MyHomeView, self).get_context_data(**kwargs)
         user = context['user']
         context.update({
-            'profile': get_object_or_404(Profile, user=context['user']),
+            'profile': get_object_or_404(Profile, user=user),
             'favorites': Favorites.objects.filter(user=user),
             'tasklists': TaskList.objects.filter(user=user),
             'notes': Note.objects.filter(user=user),
+            'subject_subset': Subject.objects.filter(author=user),
+            'category_subset': Category.objects.filter(author=user),
+            'article_subset': Article.objects.filter(author=user),
         })
         print context
         return context

@@ -41,6 +41,7 @@
 	    {% if authenticated %}
 	    <li><a href="{% url 'admin:index' %}">Admin</a></li>
 	    <li><a href="{% url 'profile' %}">Profile</a></li>
+	    <li><a href="{% url 'my_home' %}">My Home</a></li>
 	    <li><a href="{% url 'auth_logout' %}">Logout</a></li>
 	    <li>Logged in as {{ username }}</li>
 	    {% else %}

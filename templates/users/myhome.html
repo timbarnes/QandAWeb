@@ -10,12 +10,63 @@
 {% block content %}
 <div class=row>
   <div class="col-sm-12 col-md-6">
+   <h1>Subjects</h1>
+  {% if subject_subset %}
+  <table class="table table-striped">
+    <tr>
+      <th>Subject</th>
+      <th>Description</th>
+    </tr>
+    {% for sub in subject_subset %}
+    <tr>
+      <td><a href="{% url 'categories' sub.slug %}">{{ sub.name }}</a></td>
+      <td>{{ sub.description }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+  <p>No subjects found</p>
+  {% endif %}
+   <h1>Categories</h1>
+  {% if category_subset %}
+  <table class="table table-striped">
+    <tr>
+      <th>Category</th>
+      <th>Description</th>
+    </tr>
+    {% for cat in category_subset %}
+    <tr>
+      <td><a href="{% url 'questions'  cat.slug %}">{{ cat.name }}</a></td>
+      <td>{{ cat.description }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+  <p>No categories found</p>
+  {% endif %}
+  <h1>Articles</h1>
+  {% if article_subset %}
+  <table class="table table-striped">
+    <tr>
+      <th>Article</th>
+      <th>Description</th>
+    </tr>
+    {% for art in article_subset %}
+    <tr>
+      <td><a href="{% url 'article' art.slug %}">{{ art.title }}</a></td>
+      <td>{{ art.summary }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+  <p>No articles found</p>
+  {% endif %}
+  </div>
+  <div class= "col-sm-12 col-md-6">
     <h1>Favorites</h1>
     {% for f in favorites %}
     <p>{{ f }}</p>
     {% endfor %}
-  </div>
-  <div class= "col-sm-12 col-md-6">
     <h1>Notes</h1>
     {% for n in notes %}
     <p>{{ n }}</p>
