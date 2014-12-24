@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}
 <h1 class="pagetitle">{% if subject %}<span class="glyphicon
-glyphicon-book" aria-hidden="true"></span>{{ subject.name }}{% else %}<span class="glyphicon glyphicon-list" aria-hidden="true"></span> All Categories{% endif %}</h1>
+glyphicon-book" aria-hidden="true"></span> {{ subject.name }}{% else %}<span class="glyphicon glyphicon-list" aria-hidden="true"></span> All Categories{% endif %}</h1>
 </p>{{ subject.description }}</p>
 {% endblock %}
 {% block content %}
