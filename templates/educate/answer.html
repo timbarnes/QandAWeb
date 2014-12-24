@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}
-<h1 class=pagetitle>{{ question.question }}</h1>
+<h1 class=pagetitle><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> {{ question.question }}</h1>
 {% endblock %}
 {% block content %}
 <h2>In {{ question.category.subject.name }} // {{ question.category.name }}</h2>
