@@ -25,11 +25,17 @@
 {% endif %}
 {% if question_subset  %}
 <h2>Questions</h2>
- <div class="list">
+ <p><a href="{% url 'review_questions' category  %}"><button type="button" class="btn-primary">Review the answers</button></a> (logged in users only)</p>
+ <table class="table table-striped">
+  <tr>
+    <th>Question</th>
+  </tr>
     {% for q in question_subset %}
-      <p><a href="{% url 'ask' q.id %}">{{ q.question }}?</a></p>
+    <tr>
+    <td><a href="{% url 'ask' q.id %}">{{ q.question }}?</a></td>
+    </tr>
     {% endfor %}
-</div>
+ </table>
 <br />
 {% endif %}
 {% endblock %}

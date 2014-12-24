@@ -9,19 +9,22 @@ glyphicon-book" aria-hidden="true"></span> {{ subject.name }}{% else %}<span cla
     <tr>
       <th>Category</th>
       <th>Description</th>
+      <th>Questions</th>
     </tr>
   {% if subject %}
     {% for c in category_subset %}
     <tr>
-      <td><a href="{% url 'questions' c.slug %}">{{ c.name }}</a></td>
+      <td><a href="{% url 'content' c.slug %}">{{ c.name }}</a></td>
       <td>{{ c.description }}</td>
+      <td><a href="{% url 'questions' c.slug %}">Go</a></td>
     </tr>
     {% endfor %}
   {% else %}
     {% for c in category_list %}
 	<tr>
-	  <td><a href="{% url 'questions' c.slug %}">{{ c.name }}</a></td>
+	  <td><a href="{% url 'content' c.slug %}">{{ c.name }}</a></td>
 	  <td>{{ c.description }}</td>
+	  <td><a href="{% url 'questions' c.slug %}">Go</a></td>
 	</tr>
     {% endfor %}
   {% endif %}
