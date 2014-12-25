@@ -32,7 +32,7 @@ class TaskList(models.Model):
     user = models.ForeignKey(User)
     name = models.CharField(max_length=100)
     slug = models.SlugField()
-    tags = TaggableManager()
+    tags = TaggableManager(blank=True)
 
     def __unicode__(self):
         return self.slug
@@ -54,7 +54,7 @@ class Note(models.Model):
     body = tinymce_models.HTMLField()
     edit_date = models.DateField(auto_now=True)
     slug = models.SlugField()
-    tags = TaggableManager()
+    tags = TaggableManager(blank=True)
 
     def __unicode__(self):
         return self.slug

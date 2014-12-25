@@ -8,7 +8,7 @@ from taggit.managers import TaggableManager
 class EContent(models.Model):
     author = models.ForeignKey(User)
     public = models.BooleanField(default=True)
-    tags = TaggableManager()
+    tags = TaggableManager(blank=True)
 
     class Meta:
         abstract = True
