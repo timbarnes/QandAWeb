@@ -114,7 +114,6 @@ class AllSubjectsView(MenuMixin, UserMixin, generic.FormView):
         context.update({
             'category_list': Category.objects.order_by('name'),
             'form': SubjectForm(initial={'author': self.request.user, 'public': False})
-
         })
         return context
     
