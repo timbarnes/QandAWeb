@@ -1,10 +1,10 @@
-{% extends "base.html" %}
+{% extends "two-col.html" %}
 {% block banner %}
 {% endblock %}
 {% block title %}
-<h1 class="pagetitle"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> Subjects</h1>
+<h1 class="pagetitle"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> All Subjects</h1>
 {% endblock %}
-{% block content %}
+{% block left %}
   {% if subject_list %}
   <table class="table table-striped">
     <tr>
@@ -21,4 +21,8 @@
   {% else %}
   <p>No subjects found</p>
   {% endif %}
-{% endblock %}
+{% endblock left %}
+
+{% block right %}
+  <p>Select a subject to see its categories.</p>
+{% endblock right %}

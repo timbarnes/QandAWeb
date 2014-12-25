@@ -17,7 +17,7 @@
     </tr>
     {% for a in article_subset %}
     <tr>
-      <td><strong>><a href="{% url 'article' a.slug %}">{{ a.title }}</a></td>
+      <td><strong><a href="{% url 'article' a.slug %}">{{ a.title }}</a></td>
       <td>{{ a.summary }}</td>
     </tr>
     {% endfor %}
