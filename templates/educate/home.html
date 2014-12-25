@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% block title %}
 <h1 class="pagetitle"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</h1>
-<p>Explore learning in a range of subjects. Questions and answers are user-provided.</p>
+<p>Learning and information management for everyone.</p>
 {% endblock %}
 {% block content %}
-<p>Available subjects can be accessed below or from the menu on the right. Within each subject there are categories that provide for a simple hierarchy of questions. The menu on the right shows all categories; by selecting a specific subject you can access the categories associated with that specific subject.</p>
+<p>Gather information that's useful to you - questions and answers for testing your knowledge, articles about things that interest you, and personal to-do lists and notes to help you keep track of your life.</p>
+<p><a href="{% url 'login' %}">Registered</a> users can create and manage their own content; anyone can browse and make use of the publicly shared information.</p>
 <p><a href="{% url 'all_subjects' %}">Let's get started!</a></p>
 {% endblock %}
