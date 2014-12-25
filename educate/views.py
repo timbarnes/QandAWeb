@@ -1,11 +1,13 @@
 from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.views import generic
+from django.contrib import messages
+from django.utils.text import slugify
 from django import forms
 from taggit.models import Tag
 from braces import views
 
-from educate.forms import AnswerForm
+from educate.forms import AnswerForm, SubjectForm
 from educate.models import Subject, Category, Question, Article
 from educate.score import score
 
@@ -99,21 +101,35 @@ class AllArticlesView(MenuMixin, UserMixin, generic.ListView):
         return Article.objects.order_by('category__name', 'title')
 
 
-class AllSubjectsView(MenuMixin, UserMixin, generic.ListView):
+class AllSubjectsView(MenuMixin, UserMixin, generic.FormView):
     """List of all the subjects.
     """
     template_name = 'educate/subjects.html'
     context_name = 'subject_list'
+    form_class = SubjectForm
+    success_url = reverse_lazy('all_subjects')
 
     def get_context_data(self, **kwargs):
         context = super(AllSubjectsView, self).get_context_data(**kwargs)
         context.update({
             'category_list': Category.objects.order_by('name'),
+            'form': SubjectForm(initial={'author': self.request.user, 'public': False})
+
         })
         return context
     
     def get_queryset(self):
         return Subject.objects.order_by('name')
+
+    def form_valid(self, form):
+        self.kwargs['form_data']=form.cleaned_data
+        
+        n=form.save(commit=False)
+        n.slug = slugify(form.cleaned_data['name'])
+        n.save()
+        form.save_m2m()
+        messages.success(self.request, 'Subject created')
+        return super(AllSubjectsView, self).form_valid(form)
 
 
 class AllCategoriesView(MenuMixin, UserMixin, generic.ListView):

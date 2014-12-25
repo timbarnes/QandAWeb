@@ -1,7 +1,9 @@
 from django import forms
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, ButtonHolder, Submit
+from crispy_forms.layout import Layout, ButtonHolder, Submit, Field
+from crispy_forms.bootstrap import FormActions
 
+from models import Subject, Category, Article
         
 
 class AnswerForm(forms.Form):
@@ -23,3 +25,19 @@ class AnswerForm(forms.Form):
         self.helper.add_input(Submit('submit', 'Submit your answer'))
         
 
+class SubjectForm(forms.ModelForm):
+    """Add a new subject.
+    """
+
+    def __init__(self, *args, **kwargs):
+        super(SubjectForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = 'blueForms'
+        self.helper.layout = Layout(
+            'name', 'description', 'public',
+            Field('author', type='hidden'),
+            FormActions(Submit('create', 'Create', css_class='btn-primary.btn-block')))
+
+    class Meta:
+        model = Subject
+        fields = ['name', 'description', 'author', 'public']
