@@ -43,7 +43,7 @@
 	    <li><a href="{% url 'profile' %}">Profile</a></li>
 	    <li><a href="{% url 'myHome' %}">My Home</a></li>
 	    <li><a href="{% url 'auth_logout' %}">Logout</a></li>
-	    <li><P class="navbar-text">Logged in as {{ username }}</p></li>
+	    <li><p class="navbar-text">Logged in as {{ username }}</p></li>
 	    {% else %}
 	    <li><a href="{% url 'auth_login' %}">Login</a></li>
 	    {% endif %}
