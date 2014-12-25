@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "two-col.html" %}
 {% load crispy_forms_tags %}
 {% block title %}
 <h1 class="pagetitle"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Home page for user {{ username }}.</h1>
@@ -7,9 +7,8 @@
 {% endif %}
 <p>Keep track of your personal content.</p>
 {% endblock %}
-{% block content %}
-<div class=row>
-  <div class="col-sm-12 col-md-6">
+
+{% block left %}
    <h1>Subjects</h1>
   {% if subject_subset %}
   <table class="table table-striped">
@@ -61,22 +60,25 @@
   {% else %}
   <p>No articles found</p>
   {% endif %}
-  </div>
-  <div class= "col-sm-12 col-md-6">
+  {% endblock left %}
+
+  {% block right %}
     <h1>Favorites</h1>
     {% for f in favorites %}
     <p>{{ f }}</p>
     {% endfor %}
-    <h1>Notes</h1>
-    <p><a href="{% url 'notes' %}">Create a new note</a></p>
+    <h1>Notes // <a href="{% url 'notes' %}">Create new</a></h1>
+    <p>
+  <table class="table table-striped">
+    <tr>
+      <th>Title</th>
+    </tr>
     {% for n in notes %}
-    <p>{{ n }}</p>
+    <tr><td><a href="{% url 'note' n.slug %}">{{ n.title }}</a></td></tr>
     {% endfor %}
-    <h1>Tasklists</h1>
-    <p><a href="{% url 'taskLists' %}">Create a new task list</a></p>
+    </table>
+    <h1>Tasklists <a href="{% url 'taskLists' %}">// Create new</a></h1>
     {% for t in task_lists %}
     <p>{{ t }}</p>
     {% endfor %}
-  </div>
-</div>
-{% endblock %}
+    {% endblock right %}

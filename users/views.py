@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse, reverse_lazy
+from django.utils.text import slugify
 from django.views import generic
 from django import forms
 from django.contrib import messages
@@ -135,13 +136,17 @@ class NotesView(UserMixin, generic.FormView):
     def get_context_data(self, **kwargs):
         context = super(NotesView, self).get_context_data(**kwargs)
         context.update({
-            'notes': Note.objects.filter(user=user),
+            'notes': Note.objects.filter(user=context['user']),
         })
         return context
     
     def form_valid(self, form):
         print "Form submitted: ", form
         self.kwargs['form_data']=form.cleaned_data
+        n = form.save(commit=False)
+        n.user = self.request.user
+        n.save()
+        form.save_m2m()
         messages.success(self.request, 'Note saved')
         return super(NotesView, self).form_valid(form)
 
@@ -207,7 +212,7 @@ class NewTaskView(UserMixin, generic.FormView):
     def get_context_data(self, **kwargs):
         context = super(NewTaskView, self).get_context_data(**kwargs)
         context.update({
-            'profile': get_object_or_404(Profile, slug=self.kwargs['slug']),
+            'note': get_object_or_404(Note, slug=self.kwargs['slug']),
         })
         return context
 
@@ -221,7 +226,7 @@ class NoteView(UserMixin, generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super(NoteView, self).get_context_data(**kwargs)
         context.update({
-            'profile': get_object_or_404(Profile, slug=self.kwargs['slug']),
+            'note': get_object_or_404(Note, slug=self.kwargs['slug']),
         })
         return context
 

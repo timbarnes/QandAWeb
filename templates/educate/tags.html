@@ -1,11 +1,10 @@
-{% extends "base.html" %}
+{% extends "two-col.html" %}
 {% block title %}
-<h1 class="pagetitle">Tag: {{ tag.name }}</h1>
+<h1 class="pagetitle"><span class="glyphicon glyphicon-tag" aria-hidden="true"></span> Tag: {{ tag.name }}</h1>
 {% endblock %}
-{% block content %}
-<br />
-{% if subject_subset %}
+{% block left %}
 <h1>Subjects</h1>
+{% if subject_subset %}
     {% for s in subject_subset %}
       <p><strong><a href="{% url 'categories' s.slug %}">{{ s.name }}</a></strong> -  
 	{{ s.description }}
@@ -13,24 +12,25 @@
     {% endfor %}
 <br />
 {% endif %}
-{% if categories_subset %}
-<h1>Categories</h1>
-    {% for cat in categories_subset %}
-      <p><strong>><a href="{% url 'questions' cat.slug %}">{{ cat.name }}</a></strong> -  
-	{{ cat.description }}
-      </p>
-    {% endfor %}
-<br />
-{% endif %}
-{% if article_subset %}
 <h1>Articles</h1>
+{% if article_subset %}
     {% for a in article_subset %}
       <p><strong><a href="{% url 'article' a.slug %}">{{ a.title }}</a></strong> -  
 	{{ a.summary }}
       </p>
     {% endfor %}
-<br />
 {% endif %}
-{% endblock %}
+{% endblock left %}
+{% block right %}
+<h1>Categories</h1>
+{% if categories_subset %}
+    {% for cat in categories_subset %}
+      <p><strong>><a href="{% url 'questions' cat.slug %}">{{ cat.name }}</a></strong> -  
+	{{ cat.description }}
+      </p>
+    {% endfor %}
+  {% endif %}
+<br />
+{% endblock right %}
 
 

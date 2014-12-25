@@ -29,16 +29,16 @@ class MenuMixin(object):
         return context
 
 
-class TagIndexView(MenuMixin, UserMixin, generic.ListView):
+class TagIndexView(MenuMixin, UserMixin, generic.TemplateView):
     """Present everything associated with a tag.
     """
     template_name = 'educate/tags.html'
-    context_name = 'tag'
     
     def get_context_data(self, **kwargs):
         context = super(TagIndexView, self).get_context_data(**kwargs)
         slug = self.kwargs['slug']
         context.update({
+            'tag': get_object_or_404(Tag, slug=slug),
             'subject_subset': Subject.objects.filter(tags__name__in=[slug]),
             'category_subset': Category.objects.filter(tags__name__in=[slug]),
             'article_subset': Article.objects.filter(tags__name__in=[slug]),

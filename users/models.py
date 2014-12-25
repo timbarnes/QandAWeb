@@ -35,7 +35,7 @@ class TaskList(models.Model):
     tags = TaggableManager()
 
     def __unicode__(self):
-        return slug
+        return self.slug
 
 
 class Task(models.Model):
@@ -45,7 +45,7 @@ class Task(models.Model):
     slug = models.SlugField()
 
     def __unicode__(self):
-        return slug
+        return self.slug
 
     
 class Note(models.Model):
@@ -57,7 +57,7 @@ class Note(models.Model):
     tags = TaggableManager()
 
     def __unicode__(self):
-        return slug
+        return self.slug
 
 
 
