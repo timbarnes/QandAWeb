@@ -125,10 +125,12 @@ class MyHomeView(UserMixin, generic.TemplateView):
         return context
 
     
-class NotesView(UserMixin, generic.TemplateView):
+class NotesView(UserMixin, generic.FormView):
     """Home page for each user.
     """
     template_name = 'users/notes.html'
+    form_class = NoteForm
+    success_url = reverse_lazy('notes')
 
     def get_context_data(self, **kwargs):
         context = super(NotesView, self).get_context_data(**kwargs)
@@ -139,30 +141,34 @@ class NotesView(UserMixin, generic.TemplateView):
         return context
     
 
-class TaskListsView(UserMixin, generic.TemplateView):
+class TaskListsView(UserMixin, generic.FormView):
     """Display task lists.
     """
     template_name = 'users/tasklists.html'
+    model = TaskList
 
     def get_context_data(self, **kwargs):
         context = super(TaskListsView, self).get_context_data(**kwargs)
         user = context['user']
         context.update({
             'task_lists': TaskList.objects.filter(user=user),
+            'form': TaskListForm(instance=user),
         })
         return context
     
     
-class TasksView(UserMixin, generic.TemplateView):
+class TasksView(UserMixin, generic.FormView):
     """Display tasks associated with a tasklist.
     """
     template_name = 'users/tasks.html'
+    model = Task
 
     def get_context_data(self, **kwargs):
         context = super(TasksView, self).get_context_data(**kwargs)
         user = context['user']
         context.update({
             'tasks': Task.objects.filter(tasklist__slug=self.kwargs['tasklist']),
+            'form': TaskForm(instance=user),
         })
         return context
     
@@ -177,6 +183,7 @@ class NewNoteView(UserMixin, generic.FormView):
         context = super(NewNoteView, self).get_context_data(**kwargs)
         context.update({
             'profile': get_object_or_404(Profile, slug=self.kwargs['slug']),
+            'form': NoteForm(user=user),
         })
         return context
 

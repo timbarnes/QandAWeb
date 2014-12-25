@@ -1,0 +1,33 @@
+{% extends "two-col.html" %}
+{% load crispy_forms_tags %}
+{% block title %}
+<h1 class="pagetitle">Notes for user {{ username }}.</h1>
+{% if message %}
+<p>{{ message %}</p>
+{% endif %}
+<p>Keep track of your personal content.</p>
+{% endblock %}
+{% block left %}
+<h1>Notes</h1>
+  {% if notes %}
+  <table class="table table-striped">
+    <tr>
+      <th>Title</th>
+      <th>Body</th>
+    </tr>
+    {% for note in notes %}
+    <tr>
+      <td><a href="{% url 'note' note.slug %}">{{ note.title }}</a></td>
+      <td>{{ note.body }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+  <p>No notes found</p>
+  {% endif %}
+  {% endblock left %}
+  {% block right %}
+  <h2>Create a new note</h2>
+  {% crispy form %}
+  {% endblock right %}
+  

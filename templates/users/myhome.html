@@ -68,12 +68,12 @@
     <p>{{ f }}</p>
     {% endfor %}
     <h1>Notes</h1>
-    <p><a href="{% url 'newNote' %}">Create a new note</a></p>
+    <p><a href="{% url 'notes' %}">Create a new note</a></p>
     {% for n in notes %}
     <p>{{ n }}</p>
     {% endfor %}
     <h1>Tasklists</h1>
-    <p><a href="{% url 'newTask' %}">Create a new task</a></p>
+    <p><a href="{% url 'taskLists' %}">Create a new task list</a></p>
     {% for t in task_lists %}
     <p>{{ t }}</p>
     {% endfor %}

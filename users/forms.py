@@ -7,7 +7,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Field
 from crispy_forms.bootstrap import FormActions
 
-from models import Profile
+from models import Profile, TaskList, Task, Note
 
 
 class RegistrationForm(UserCreationForm):
@@ -94,7 +94,20 @@ class UserDataForm(forms.ModelForm):
                   'email', 'date_joined', 'last_login']
 
         
-class TaskForm(forms.Form):
+class TaskListForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(TaskListForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_id = 'id_noteForm'
+        self.helper.form_class = 'blueForms'
+        super(forms.Form, self).__init__(*args, **kwargs)
+
+    class Meta:
+        model = TaskList
+        fields = ['name', 'tags']
+
+
+class TaskForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(TaskForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
@@ -102,13 +115,18 @@ class TaskForm(forms.Form):
         self.helper.form_class = 'blueForms'
         super(forms.Form, self).__init__(*args, **kwargs)
 
+    class Meta:
+        model = Task
+        fields = ['tasklist', 'task', 'due']
 
-class NoteForm(forms.Form):
+
+class NoteForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(NoteForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_id = 'id_noteForm'
         self.helper.form_class = 'blueForms'
-        super(forms.Form, self).__init__(*args, **kwargs)
 
-        
+    class Meta:
+        model = Note
+        fields = ['title', 'body', 'tags']
