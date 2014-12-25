@@ -9,7 +9,7 @@ from taggit.models import Tag
 
 from educate.models import Subject, Category, Article
 from users.models import Profile, Favorites, Note, Task, TaskList
-from users.forms import ProfileForm, UserDataForm, NoteForm, TaskForm
+from users.forms import ProfileForm, UserDataForm, TaskListForm, NoteForm, TaskForm
 
 
 class UserMixin(object):
@@ -134,28 +134,38 @@ class NotesView(UserMixin, generic.FormView):
 
     def get_context_data(self, **kwargs):
         context = super(NotesView, self).get_context_data(**kwargs)
-        user = context['user']
         context.update({
             'notes': Note.objects.filter(user=user),
         })
         return context
     
+    def form_valid(self, form):
+        print "Form submitted: ", form
+        self.kwargs['form_data']=form.cleaned_data
+        messages.success(self.request, 'Note saved')
+        return super(NotesView, self).form_valid(form)
+
 
 class TaskListsView(UserMixin, generic.FormView):
     """Display task lists.
     """
     template_name = 'users/tasklists.html'
-    model = TaskList
+    form_class = TaskListForm
+    success_url = reverse_lazy('taskLists')
 
     def get_context_data(self, **kwargs):
         context = super(TaskListsView, self).get_context_data(**kwargs)
-        user = context['user']
         context.update({
-            'task_lists': TaskList.objects.filter(user=user),
-            'form': TaskListForm(instance=user),
+            'task_lists': TaskList.objects.filter(user=context['user']),
         })
         return context
     
+    def form_valid(self, form):
+        print "Form submitted: ", form
+        self.kwargs['form_data']=form.cleaned_data
+        messages.success(self.request, 'Task list created')
+        return super(TaskListsView, self).form_valid(form)
+
     
 class TasksView(UserMixin, generic.FormView):
     """Display tasks associated with a tasklist.

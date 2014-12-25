@@ -98,9 +98,11 @@ class TaskListForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(TaskListForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
-        self.helper.form_id = 'id_noteForm'
+        self.helper.form_id = 'id_tasklistForm'
         self.helper.form_class = 'blueForms'
-        super(forms.Form, self).__init__(*args, **kwargs)
+        self.helper.layout = Layout(
+            'name', 'tags',
+            FormActions(Submit('create', 'Create', css_class='btn-primary.btn-block')))
 
     class Meta:
         model = TaskList
@@ -114,6 +116,9 @@ class TaskForm(forms.ModelForm):
         self.helper.form_id = 'id_noteForm'
         self.helper.form_class = 'blueForms'
         super(forms.Form, self).__init__(*args, **kwargs)
+        self.helper.layout = Layout(
+            'tasklist', 'name', 'due',
+            FormActions(Submit('create', 'Create', css_class='btn-primary.btn-block')))
 
     class Meta:
         model = Task
@@ -126,6 +131,9 @@ class NoteForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_id = 'id_noteForm'
         self.helper.form_class = 'blueForms'
+        self.helper.layout = Layout(
+            'title', 'body', 'tags',
+            FormActions(Submit('create', 'Create', css_class='btn-primary.btn-block')))
 
     class Meta:
         model = Note

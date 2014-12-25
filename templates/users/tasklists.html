@@ -1,28 +1,31 @@
-{% extends "base.html" %}
+{% extends "two-col.html" %}
 {% load crispy_forms_tags %}
 {% block title %}
-<h1 class="pagetitle">Task Lists for user {{ username }}.</h1>
+<h1 class="pagetitle">Task lists for user {{ username }}.</h1>
 {% if message %}
 <p>{{ message %}</p>
 {% endif %}
+<p>Keep track of your personal action lists.</p>
 {% endblock %}
-{% block content %}
-{% comment %}<a href="{% url 'newnote' %}">Create a Task List</a>{% endcomment %}
-<br />
+{% block left %}
 <h1>Task Lists</h1>
+  <h2>Create a new task list</h2>
+  {% crispy form %}
   {% if task_lists %}
   <table class="table table-striped">
     <tr>
-      <th>Task</th>
+      <th>Name</th>
     </tr>
-    {% for tasklist in task_lists %}
+    {% for tl in task_lists %}
     <tr>
-      <td><a href="{% url 'tasks' task.slug %}">{{ tasklist.name }}</a></td>
+      <td><a href="{% url 'tasks' tl.slug %}">{{ tl.name }}</a></td>
     </tr>
     {% endfor %}
   </table>
   {% else %}
-  <p>No tasklists found</p>
+  <p>No task lists found</p>
   {% endif %}
-  {% crispy form %}
-  {% endblock %}
+  {% endblock left %}
+  {% block right %}
+  {% endblock right %}
+  
