@@ -4,13 +4,16 @@ from django.utils.text import slugify
 from django.views import generic
 from django import forms
 from django.contrib import messages
+from django.dispatch import receiver
 from django.contrib.auth.models import User
+from registration.views import RegistrationView
+from registration.signals import user_registered
 
 from taggit.models import Tag
 
 from educate.models import Subject, Category, Article
 from users.models import Profile, Favorites, Note, Task, TaskList
-from users.forms import ProfileForm, UserDataForm, TaskListForm, NoteForm, TaskForm
+from users.forms import ProfileForm, UserDataForm, TaskListForm, NoteForm, TaskForm, RegistrationForm
 
 
 class UserMixin(object):
@@ -20,6 +23,29 @@ class UserMixin(object):
         context['username'] = self.request.user.username
         context['user'] = self.request.user
         return context
+
+
+class UserRegistrationView(RegistrationView):
+    """Customized registration includes creation of the empty profile.
+    """
+    form_class = RegistrationForm
+    success_url = reverse_lazy('login')
+    disallowed_url = reverse_lazy('home')
+
+    def register(self, request, **cleaned_data):
+        """Custom registration view.
+        """
+        print 'Starting registration'
+        print cleaned_data
+        u = User.objects.create_user(
+            cleaned_data['username'],
+            '',
+            cleaned_data['password1'])
+        p = Profile()
+        p.user = u
+        p.save()
+        messages.success(self.request, 'Thank you for registering. Now you can login.')
+
 
 class ProfileView(UserMixin, generic.TemplateView):
     """View/edit profile data
