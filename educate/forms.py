@@ -34,10 +34,10 @@ class SubjectForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_class = 'blueForms'
         self.helper.layout = Layout(
-            'name', 'description', 'public',
+            'name', 'description', 'public', 'tags',
             Field('author', type='hidden'),
             FormActions(Submit('create', 'Create', css_class='btn-primary.btn-block')))
 
     class Meta:
         model = Subject
-        fields = ['name', 'description', 'author', 'public']
+        fields = ['name', 'description', 'author', 'public', 'tags']
