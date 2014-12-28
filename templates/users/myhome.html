@@ -74,9 +74,14 @@
     {% endfor %}
     </table>
     <h1>Tasklists <a href="{% url 'taskLists' %}">// Create new</a></h1>
-    {% for t in task_lists %}
-    <p>{{ t }}</p>
+    <table class="table table-striped">
+      <tr>
+	<th>Task List</th>
+      </tr>
+    {% for t in tasklists %}
+    <tr><td><a href="{% url 'tasks' t.slug %}">{{ t.name }}</td><tr>
     {% endfor %}
+    </table>
   <h1>Favorites</h1>
   <p>- Not implemented. -</p>
     {% for f in favorites %}

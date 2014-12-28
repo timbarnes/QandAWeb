@@ -195,22 +195,27 @@ class TaskListsView(UserMixin, generic.FormView):
     def form_valid(self, form):
         print "Form submitted: ", form
         self.kwargs['form_data']=form.cleaned_data
+        t = form.save(commit=False)
+        t.user = self.request.user
+        t.slug = slugify(form.cleaned_data['name'])
+        t.save()
+        form.save_m2m()
         messages.success(self.request, 'Task list created')
         return super(TaskListsView, self).form_valid(form)
 
     
-class TasksView(UserMixin, generic.FormView):
+class TasksView(UserMixin, generic.TemplateView):
     """Display tasks associated with a tasklist.
     """
     template_name = 'users/tasks.html'
-    model = Task
 
     def get_context_data(self, **kwargs):
         context = super(TasksView, self).get_context_data(**kwargs)
         user = context['user']
         context.update({
-            'tasks': Task.objects.filter(tasklist__slug=self.kwargs['tasklist']),
-            'form': TaskForm(instance=user),
+            'taskslists': TaskList.objects.filter(user=user),
+            'tasklist': get_object_or_404(TaskList, slug=self.kwargs['slug']),
+            'tasks': Task.objects.filter(tasklist__slug=self.kwargs['slug']),
         })
         return context
     

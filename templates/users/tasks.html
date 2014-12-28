@@ -1,14 +1,13 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% block title %}
-<h1 class="pagetitle">Tasks for user {{ username }}.</h1>
+<h1 class="pagetitle">Tasks for list: {{ tasklist.name }}.</h1>
 {% if message %}
 <p>{{ message %}</p>
 {% endif %}
-<p><a href="{% newtask %}">Create a new task</a></p>
+<p><a href="{% url 'newTask' %}">Create a new task</a></p>
 {% endblock %}
 {% block content %}
-<a href="{% url 'newnote' %}">Create a note</a>
 <br />
 <h1>Task Lists</h1>
   {% if task_lists %}
@@ -25,5 +24,4 @@
   {% else %}
   <p>No tasklists found</p>
   {% endif %}
-  {% endblock %}
-  
+{% endblock content %}
