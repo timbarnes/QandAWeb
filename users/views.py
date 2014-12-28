@@ -218,13 +218,13 @@ class TasksView(UserMixin, generic.TemplateView):
             'tasks': Task.objects.filter(tasklist__slug=self.kwargs['slug']),
         })
         return context
-    
+
     
 class NewNoteView(UserMixin, generic.FormView):
     """Add a note.
     """
     template_name = 'users/newnote.html'
-
+    form_class = NoteForm
 
     def get_context_data(self, **kwargs):
         context = super(NewNoteView, self).get_context_data(**kwargs)
@@ -236,18 +236,25 @@ class NewNoteView(UserMixin, generic.FormView):
 
 
 class NewTaskView(UserMixin, generic.FormView):
-    """Add a note.
+    """Add a task to an existing tasklist.
     """
     template_name = 'users/newtask.html'
-
+    form_class = TaskForm
+    success_url = reverse_lazy('taskLists')
 
     def get_context_data(self, **kwargs):
         context = super(NewTaskView, self).get_context_data(**kwargs)
         context.update({
-            'note': get_object_or_404(Note, slug=self.kwargs['slug']),
+            'tasklist': get_object_or_404(TaskList, slug=self.kwargs['slug']),
         })
         return context
 
+    def form_valid(self, form):
+        t = form.save()
+
+        messages.success(self.request, 'Task created.)
+        return super(TasksView, self).form_valid(form)
+    
 
 class NoteView(UserMixin, generic.TemplateView):
     """Display user notes.

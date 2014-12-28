@@ -115,9 +115,8 @@ class TaskForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_id = 'id_noteForm'
         self.helper.form_class = 'blueForms'
-        super(forms.Form, self).__init__(*args, **kwargs)
         self.helper.layout = Layout(
-            'tasklist', 'name', 'due',
+            Field('tasklist', type='hidden'), 'task', 'due',
             FormActions(Submit('create', 'Create', css_class='btn-primary.btn-block')))
 
     class Meta:
