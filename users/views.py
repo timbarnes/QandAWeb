@@ -171,6 +171,7 @@ class NotesView(UserMixin, generic.FormView):
         self.kwargs['form_data']=form.cleaned_data
         n = form.save(commit=False)
         n.user = self.request.user
+        n.slug = slugify(form.cleaned_data['title'])
         n.save()
         form.save_m2m()
         messages.success(self.request, 'Note saved')

@@ -63,11 +63,6 @@
   {% endblock left %}
 
   {% block right %}
-  <h1>Favorites</h1>
-  <p>- Not implemented. -</p>
-    {% for f in favorites %}
-    <p>{{ f }}</p>
-    {% endfor %}
     <h1>Notes // <a href="{% url 'notes' %}">Create new</a></h1>
     <p>
   <table class="table table-striped">
@@ -81,5 +76,10 @@
     <h1>Tasklists <a href="{% url 'taskLists' %}">// Create new</a></h1>
     {% for t in task_lists %}
     <p>{{ t }}</p>
+    {% endfor %}
+  <h1>Favorites</h1>
+  <p>- Not implemented. -</p>
+    {% for f in favorites %}
+    <p>{{ f }}</p>
     {% endfor %}
     {% endblock right %}
