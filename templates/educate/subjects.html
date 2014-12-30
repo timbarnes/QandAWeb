@@ -25,7 +25,9 @@
 {% endblock left %}
 
 {% block right %}
-  <p>Select a subject to see its categories, or enter below to create
-  a new subject.</p>
+  <p>Select a subject to see its categories.</p>
+  {% if user.is_authenticated %}
+  <p>Use the form to create a new subject.</p>
   {% crispy form %}
+  {% endif %}
 {% endblock right %}

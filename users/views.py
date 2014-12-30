@@ -252,7 +252,7 @@ class NewTaskView(UserMixin, generic.FormView):
     def form_valid(self, form):
         t = form.save()
 
-        messages.success(self.request, 'Task created.)
+        messages.success(self.request, 'Task created.')
         return super(TasksView, self).form_valid(form)
     
 
