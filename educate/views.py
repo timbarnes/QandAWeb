@@ -34,7 +34,7 @@ class MenuMixin(object):
 class TagIndexView(MenuMixin, UserMixin, generic.TemplateView):
     """Present everything associated with a tag.
     """
-    template_name = 'educate/tags.html'
+    template_name = reverse_lazy('tagged')
     
     def get_context_data(self, **kwargs):
         context = super(TagIndexView, self).get_context_data(**kwargs)
@@ -54,7 +54,7 @@ class TagIndexView(MenuMixin, UserMixin, generic.TemplateView):
 class ContentView(MenuMixin, UserMixin, generic.ListView):
     """Present everything associated with a category.
     """
-    template_name = 'educate/category.html'
+    template_name = 'educate/content.html'
     context_name = ''
 
     def get_context_data(self, **kwargs):
@@ -113,7 +113,7 @@ class AllSubjectsView(MenuMixin, UserMixin, generic.FormView):
         context = super(AllSubjectsView, self).get_context_data(**kwargs)
         context.update({
             'category_list': Category.objects.order_by('name'),
-            'form': SubjectForm(initial={'author': self.request.user, 'public': False})
+            'form': SubjectForm(initial={'author': self.request.user, 'public': False}),
         })
         return context
     
@@ -154,16 +154,22 @@ class CategoriesView(MenuMixin, UserMixin, generic.FormView):
     """
     template_name = 'educate/categories.html'
     form_class = CategoryForm
-    success_url = reverse_lazy('categories')
+    success_url = reverse_lazy('subjects')
 
     def get_context_data(self, **kwargs):
         context = super(CategoriesView, self).get_context_data(**kwargs)
         context.update({
             'subject': get_object_or_404(Subject, slug=self.kwargs['subject']),
             'category_subset': Category.objects.filter(subject__slug=self.kwargs['subject']),
+            'form': CategoryForm(initial={'author': self.request.user, 'public': False})
         })
         return context
-    
+
+    def form_invalid(self, form):
+        print 'Form: ', form
+        messages.error(self.request, 'Error: please try again')
+        return super(CategoriesView, self).form_invalid(form)
+
     def form_valid(self, form):
         self.kwargs['form_data']=form.cleaned_data
         n=form.save(commit=False)
@@ -171,8 +177,9 @@ class CategoriesView(MenuMixin, UserMixin, generic.FormView):
         n.slug = slugify(form.cleaned_data['name'])
         n.save()
         form.save_m2m()
+        print n
         messages.success(self.request, 'Category created')
-        return super(AllSubjectsView, self).form_valid(form)
+        return super(CategoriesView, self).form_valid(form)
 
 
 class ArticleView(MenuMixin, UserMixin, generic.DetailView):
