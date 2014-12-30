@@ -41,3 +41,24 @@ class SubjectForm(forms.ModelForm):
     class Meta:
         model = Subject
         fields = ['name', 'description', 'author', 'public', 'tags']
+
+
+class CategoryForm(forms.ModelForm):
+    """Add a new category.
+    """
+
+    def __init__(self, *args, **kwargs):
+        super(CategoryForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = 'blueForms'
+        self.helper.layout = Layout(
+            'name', 'description', 'public', 'tags',
+            Field('author', type='hidden'),
+            FormActions(Submit('create', 'Create', css_class='btn-primary.btn-block')))
+
+    class Meta:
+        model = Category
+        fields = ['name', 'description', 'author', 'public', 'tags']
+
+
+        

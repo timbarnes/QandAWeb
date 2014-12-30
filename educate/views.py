@@ -7,7 +7,7 @@ from django import forms
 from taggit.models import Tag
 from braces import views
 
-from educate.forms import AnswerForm, SubjectForm
+from educate.forms import AnswerForm, SubjectForm, CategoryForm
 from educate.models import Subject, Category, Question, Article
 from educate.score import score
 
@@ -122,7 +122,6 @@ class AllSubjectsView(MenuMixin, UserMixin, generic.FormView):
 
     def form_valid(self, form):
         self.kwargs['form_data']=form.cleaned_data
-        
         n=form.save(commit=False)
         n.slug = slugify(form.cleaned_data['name'])
         n.save()
@@ -149,21 +148,31 @@ class AllCategoriesView(MenuMixin, UserMixin, generic.ListView):
         return Category.objects.order_by('name')
 
 
-class CategoriesView(MenuMixin, UserMixin, generic.ListView):
+class CategoriesView(MenuMixin, UserMixin, generic.FormView):
     """List of the categories for a specific subject.
+       Enables creation of new category for that subject.
     """
     template_name = 'educate/categories.html'
-    context_object_name = 'category_subset'
+    form_class = CategoryForm
+    success_url = reverse_lazy('categories')
 
     def get_context_data(self, **kwargs):
         context = super(CategoriesView, self).get_context_data(**kwargs)
         context.update({
             'subject': get_object_or_404(Subject, slug=self.kwargs['subject']),
+            'category_subset': Category.objects.filter(subject__slug=self.kwargs['subject']),
         })
         return context
     
-    def get_queryset(self):
-        return Category.objects.filter(subject__slug=self.kwargs['subject'])
+    def form_valid(self, form):
+        self.kwargs['form_data']=form.cleaned_data
+        n=form.save(commit=False)
+        n.subject = get_object_or_404(Subject, slug=self.kwargs['subject'])
+        n.slug = slugify(form.cleaned_data['name'])
+        n.save()
+        form.save_m2m()
+        messages.success(self.request, 'Category created')
+        return super(AllSubjectsView, self).form_valid(form)
 
 
 class ArticleView(MenuMixin, UserMixin, generic.DetailView):
@@ -195,7 +204,7 @@ class QuestionsView(MenuMixin, UserMixin, generic.ListView):
         return context
     
     def get_queryset(self):
-        return Question.objects.filter(category__name=self.kwargs['category'])
+        return Question.objects.filter(category__slug=self.kwargs['category'])
                 
 
 class ReviewQuestionsView(MenuMixin, UserMixin, generic.ListView):
@@ -213,7 +222,7 @@ class ReviewQuestionsView(MenuMixin, UserMixin, generic.ListView):
         return context
     
     def get_queryset(self):
-        return Question.objects.filter(category__name=self.kwargs['category'])
+        return Question.objects.filter(category__slug=self.kwargs['category'])
 
 
 class AskView(MenuMixin, UserMixin, generic.FormView):
