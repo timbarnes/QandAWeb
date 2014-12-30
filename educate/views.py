@@ -54,7 +54,7 @@ class TagIndexView(MenuMixin, UserMixin, generic.TemplateView):
 class ContentView(MenuMixin, UserMixin, generic.ListView):
     """Present everything associated with a category.
     """
-    template_name = 'educate/content.html'
+    template_name = 'educate/category.html'
     context_name = ''
 
     def get_context_data(self, **kwargs):
