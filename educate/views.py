@@ -107,7 +107,7 @@ class AllSubjectsView(MenuMixin, UserMixin, generic.FormView):
     template_name = 'educate/subjects.html'
     context_name = 'subject_list'
     form_class = SubjectForm
-    success_url = reverse_lazy('all_subjects')
+    success_url = '.'
 
     def get_context_data(self, **kwargs):
         context = super(AllSubjectsView, self).get_context_data(**kwargs)
@@ -154,7 +154,7 @@ class CategoriesView(MenuMixin, UserMixin, generic.FormView):
     """
     template_name = 'educate/categories.html'
     form_class = CategoryForm
-    success_url = reverse_lazy('subjects')
+    success_url = '.'
 
     def get_context_data(self, **kwargs):
         context = super(CategoriesView, self).get_context_data(**kwargs)
