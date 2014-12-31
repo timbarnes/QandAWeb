@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.views import generic
+from django.db.models import Q
 from django.contrib import messages
 from django.utils.text import slugify
 from django import forms
@@ -14,6 +15,9 @@ from educate.score import score
 # Create your views here.
 
 class UserMixin(object):
+    """Provides user-specific information for queries
+    and presentation of user-specific information.
+    """
     def get_context_data(self, **kwargs):
         context = super(UserMixin, self).get_context_data(**kwargs)
         context['authenticated'] = self.request.user.is_authenticated()
@@ -22,11 +26,13 @@ class UserMixin(object):
     
 
 class MenuMixin(object):
+    """Gets public articles, subjects and categories. All tags are public.
+    """
     def get_context_data(self, **kwargs):
         context = super(MenuMixin, self).get_context_data(**kwargs)
-        context['article_list'] = Article.objects.order_by('title')
-        context['subject_list'] = Subject.objects.order_by('name')
-        context['category_list'] = Category.objects.order_by('name')
+        context['article_list'] = Article.objects.filter(public=True)
+        context['subject_list'] = Subject.objects.filter(public=True)
+        context['category_list'] = Category.objects.filter(public=True)
         context['tag_list'] = Tag.objects.all()
         return context
 

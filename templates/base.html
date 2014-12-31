@@ -40,7 +40,7 @@
 	    <li><a href="{% url 'all_subjects' %}">Subjects</a></li>
 	    <li><a href="{% url 'all_categories' %}">Categories</a></li>
 	    <li><a href="{% url 'all_articles' %}">Articles</a></li>
-	    {% if authenticated %}
+	    {% if user.is_authenticated %}
 	    <li><a href="{% url 'admin:index' %}">Admin</a></li>
 	    <li><a href="{% url 'profile' %}">Profile</a></li>
 	    <li><a href="{% url 'myHome' %}">My Home</a></li>

@@ -30,12 +30,13 @@
   {% if tasks %}
   <table class="table table-striped">
     <tr>
-      <th>Task</th><th>Due</th>
+      <th>Task</th><th>Due</th><th>Done</th>
     </tr>
     {% for t in tasks %}
     <tr>
       <td><a href="{% url 'task' t.slug %}">{{ t.task }}</a></td>
       <td>{{ t.due }}</td>
+      <td>{{ t.done }}</td>
     </tr>
     {% endfor %}
   </table>

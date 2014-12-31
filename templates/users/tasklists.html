@@ -9,8 +9,6 @@
 {% endblock %}
 {% block left %}
 <h1>Task Lists</h1>
-  <h2>Create a new task list</h2>
-  {% crispy form %}
   {% if task_lists %}
   <table class="table table-striped">
     <tr>
@@ -27,5 +25,7 @@
   {% endif %}
   {% endblock left %}
   {% block right %}
+  <h2>Create a new task list</h2>
+  {% crispy form %}
   {% endblock right %}
   

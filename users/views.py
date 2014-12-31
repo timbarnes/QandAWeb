@@ -16,15 +16,6 @@ from users.models import Profile, Favorites, Note, Task, TaskList
 from users.forms import ProfileForm, UserDataForm, TaskListForm, NoteForm, TaskForm, RegistrationForm
 
 
-class UserMixin(object):
-    def get_context_data(self, **kwargs):
-        context = super(UserMixin, self).get_context_data(**kwargs)
-        context['authenticated'] = self.request.user.is_authenticated()
-        context['username'] = self.request.user.username
-        context['user'] = self.request.user
-        return context
-
-
 class UserRegistrationView(RegistrationView):
     """Customized registration includes creation of the empty profile.
     """
@@ -47,17 +38,17 @@ class UserRegistrationView(RegistrationView):
         messages.success(self.request, 'Thank you for registering. Now you can login.')
 
 
-class ProfileView(UserMixin, generic.TemplateView):
+class ProfileView(generic.TemplateView):
     """View/edit profile data
     """
     template_name = 'users/profile.html'
 
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
-        user_form = UserDataForm(instance=context['user'])
-        profile = get_object_or_404(Profile, user=context['user'])
+        user_form = UserDataForm(instance=self.request.user)
+        profile = get_object_or_404(Profile, user=self.request.user)
         profile_form = ProfileForm(instance=profile)
-        user_form.helper.form_action = reverse_lazy('userdataUpdate', args=[context['user'].pk])
+        user_form.helper.form_action = reverse_lazy('userdataUpdate', args=[self.request.user.pk])
         profile_form.helper.form_action = reverse_lazy('profileUpdate', args=[profile.pk])
         context.update({
             'profile': get_object_or_404(Profile, user__username=self.request.user.username),
@@ -67,7 +58,7 @@ class ProfileView(UserMixin, generic.TemplateView):
         return context
 
 
-class UpdateProfileView(UserMixin, generic.edit.UpdateView):
+class UpdateProfileView(generic.edit.UpdateView):
     """Save updated profile data. Called only with POST.
     """
     model = Profile
@@ -77,10 +68,10 @@ class UpdateProfileView(UserMixin, generic.edit.UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(UpdateProfileView, self).get_context_data(**kwargs)
-        user_form = UserDataForm(instance=context['user'])
-        profile = get_object_or_404(Profile, user=context['user'])
+        user_form = UserDataForm(instance=self.request.user)
+        profile = get_object_or_404(Profile, user=self.request.user)
         profile_form = ProfileForm(instance=profile)
-        user_form.helper.form_action = reverse_lazy('userdataUpdate', args=[context['user'].pk])
+        user_form.helper.form_action = reverse_lazy('userdataUpdate', args=[self.request.user.pk])
         profile_form.helper.form_action = reverse_lazy('profileUpdate', args=[profile.pk])
         context.update({
             'profile': get_object_or_404(Profile, user__username=self.request.user.username),
@@ -96,7 +87,7 @@ class UpdateProfileView(UserMixin, generic.edit.UpdateView):
         return super(UpdateProfileView, self).form_valid(form)
 
 
-class UpdateUserDataView(UserMixin, generic.edit.UpdateView):
+class UpdateUserDataView(generic.edit.UpdateView):
     """Save updated user data. Called only with POST.
     """
     model = User
@@ -105,10 +96,10 @@ class UpdateUserDataView(UserMixin, generic.edit.UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(UpdateUserDataView, self).get_context_data(**kwargs)
-        user_form = UserDataForm(instance=context['user'])
-        profile = get_object_or_404(Profile, user=context['user'])
+        user_form = UserDataForm(instance=self.request.user)
+        profile = get_object_or_404(Profile, user=self.request.user)
         profile_form = ProfileForm(instance=profile)
-        user_form.helper.form_action = reverse_lazy('userdataUpdate', args=[context['user'].pk])
+        user_form.helper.form_action = reverse_lazy('userdataUpdate', args=[self.request.user.pk])
         profile_form.helper.form_action = reverse_lazy('profileUpdate', args=[profile.pk])
         context.update({
             'profile': get_object_or_404(Profile, user__username=self.request.user.username),
@@ -130,7 +121,7 @@ class UpdateUserDataView(UserMixin, generic.edit.UpdateView):
         return super(UpdateUserDataView, self).form_valid(form)
 
 
-class MyHomeView(UserMixin, generic.TemplateView):
+class MyHomeView(generic.TemplateView):
     """Home page for each user.
     """
     template_name = 'users/myhome.html'
@@ -138,21 +129,20 @@ class MyHomeView(UserMixin, generic.TemplateView):
     def get_context_data(self, **kwargs):
         print 'MYHOME'
         context = super(MyHomeView, self).get_context_data(**kwargs)
-        user = context['user']
         context.update({
-            'profile': get_object_or_404(Profile, user=user),
-            'favorites': Favorites.objects.filter(user=user),
-            'tasklists': TaskList.objects.filter(user=user),
-            'notes': Note.objects.filter(user=user),
-            'subject_subset': Subject.objects.filter(author=user),
-            'category_subset': Category.objects.filter(author=user),
-            'article_subset': Article.objects.filter(author=user),
+            'profile': get_object_or_404(Profile, user=self.request.user),
+            'favorites': Favorites.objects.filter(user=self.request.user),
+            'tasklists': TaskList.objects.filter(user=self.request.user),
+            'notes': Note.objects.filter(user=self.request.user),
+            'subject_subset': Subject.objects.filter(author=self.request.user),
+            'category_subset': Category.objects.filter(author=self.request.user),
+            'article_subset': Article.objects.filter(author=self.request.user),
         })
         print context
         return context
 
     
-class NotesView(UserMixin, generic.FormView):
+class NotesView(generic.FormView):
     """Home page for each user.
     """
     template_name = 'users/notes.html'
@@ -162,7 +152,7 @@ class NotesView(UserMixin, generic.FormView):
     def get_context_data(self, **kwargs):
         context = super(NotesView, self).get_context_data(**kwargs)
         context.update({
-            'notes': Note.objects.filter(user=context['user']),
+            'notes': Note.objects.filter(user=self.request.user),
         })
         return context
     
@@ -178,7 +168,7 @@ class NotesView(UserMixin, generic.FormView):
         return super(NotesView, self).form_valid(form)
 
 
-class TaskListsView(UserMixin, generic.FormView):
+class TaskListsView(generic.FormView):
     """Display task lists.
     """
     template_name = 'users/tasklists.html'
@@ -188,7 +178,7 @@ class TaskListsView(UserMixin, generic.FormView):
     def get_context_data(self, **kwargs):
         context = super(TaskListsView, self).get_context_data(**kwargs)
         context.update({
-            'task_lists': TaskList.objects.filter(user=context['user']),
+            'task_lists': TaskList.objects.filter(user=self.request.user),
         })
         return context
     
@@ -204,24 +194,23 @@ class TaskListsView(UserMixin, generic.FormView):
         return super(TaskListsView, self).form_valid(form)
 
     
-class TasksView(UserMixin, generic.TemplateView):
+class TasksView(generic.TemplateView):
     """Display tasks associated with a tasklist.
     """
     template_name = 'users/tasks.html'
 
     def get_context_data(self, **kwargs):
         context = super(TasksView, self).get_context_data(**kwargs)
-        user = context['user']
         context.update({
-            'taskslists': TaskList.objects.filter(user=user),
+            'taskslists': TaskList.objects.filter(user=self.request.user),
             'tasklist': get_object_or_404(TaskList, slug=self.kwargs['slug']),
-            'tasks': Task.objects.filter(tasklist__slug=self.kwargs['slug']),
-            'tasklists': TaskList.objects.filter(user=user),
+            'tasks': Task.objects.filter(tasklist__slug=self.kwargs['slug']).order_by('done'),
+            'tasklists': TaskList.objects.filter(user=self.request.user),
         })
         return context
 
     
-class NewNoteView(UserMixin, generic.FormView):
+class NewNoteView(generic.FormView):
     """Add a note.
     """
     template_name = 'users/newnote.html'
@@ -231,12 +220,12 @@ class NewNoteView(UserMixin, generic.FormView):
         context = super(NewNoteView, self).get_context_data(**kwargs)
         context.update({
             'profile': get_object_or_404(Profile, slug=self.kwargs['slug']),
-            'form': NoteForm(user=user),
+            'form': NoteForm(user=self.request.user),
         })
         return context
 
 
-class NewTaskView(UserMixin, generic.FormView):
+class NewTaskView(generic.FormView):
     """Add a task to an existing tasklist.
     """
     template_name = 'users/newtask.html'
@@ -250,7 +239,7 @@ class NewTaskView(UserMixin, generic.FormView):
             'tasklist': tlist,
             'tasks': Task.objects.filter(tasklist=tlist.id),
             'form': TaskForm({'tasklist': tlist.pk, }),
-            'tasklists': TaskList.objects.filter(user=context['user']),
+            'tasklists': TaskList.objects.filter(user=self.request.user),
         })
         return context
 
@@ -261,13 +250,13 @@ class NewTaskView(UserMixin, generic.FormView):
 
     def form_valid(self, form):
         t = form.save()
-        t.slug = slugify(form.cleaned_data['name'])
+        t.slug = slugify(form.cleaned_data['task'])
         t.save()
         messages.success(self.request, 'Task created.')
         return super(NewTaskView, self).form_valid(form)
     
 
-class NoteView(UserMixin, generic.UpdateView):
+class NoteView(generic.UpdateView):
     """Alter an existing user note.
     """
     template_name = 'users/note.html'
@@ -276,7 +265,7 @@ class NoteView(UserMixin, generic.UpdateView):
     success_url = reverse_lazy('notes')
 
 
-class TaskView(UserMixin, generic.UpdateView):
+class TaskView(generic.UpdateView):
     """Alter an existing user task.
     """
     template_name = 'users/task.html'
