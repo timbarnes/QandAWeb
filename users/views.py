@@ -216,6 +216,7 @@ class TasksView(UserMixin, generic.TemplateView):
             'taskslists': TaskList.objects.filter(user=user),
             'tasklist': get_object_or_404(TaskList, slug=self.kwargs['slug']),
             'tasks': Task.objects.filter(tasklist__slug=self.kwargs['slug']),
+            'tasklists': TaskList.objects.filter(user=user),
         })
         return context
 
@@ -244,16 +245,26 @@ class NewTaskView(UserMixin, generic.FormView):
 
     def get_context_data(self, **kwargs):
         context = super(NewTaskView, self).get_context_data(**kwargs)
+        tlist = get_object_or_404(TaskList, slug=self.kwargs['slug'])
         context.update({
-            'tasklist': get_object_or_404(TaskList, slug=self.kwargs['slug']),
+            'tasklist': tlist,
+            'tasks': Task.objects.filter(tasklist=tlist.id),
+            'form': TaskForm({'tasklist': tlist.pk, }),
+            'tasklists': TaskList.objects.filter(user=context['user']),
         })
         return context
 
+    def form_invalid(self, form):
+        print 'Form: ', form
+        messages.error(self.request, 'Error: try again')
+        return super(NewTaskView, self).form_invalid(form)
+
     def form_valid(self, form):
         t = form.save()
-
+        t.slug = slugify(form.cleaned_data['name'])
+        t.save()
         messages.success(self.request, 'Task created.')
-        return super(TasksView, self).form_valid(form)
+        return super(NewTaskView, self).form_valid(form)
     
 
 class NoteView(UserMixin, generic.TemplateView):
