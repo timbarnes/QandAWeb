@@ -34,7 +34,7 @@ class MenuMixin(object):
 class TagIndexView(MenuMixin, UserMixin, generic.TemplateView):
     """Present everything associated with a tag.
     """
-    template_name = reverse_lazy('tagged')
+    template_name = 'educate/tags.html'
     
     def get_context_data(self, **kwargs):
         context = super(TagIndexView, self).get_context_data(**kwargs)
