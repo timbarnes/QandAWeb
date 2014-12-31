@@ -7,7 +7,6 @@ from django.contrib import messages
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 from registration.views import RegistrationView
-from registration.signals import user_registered
 
 from taggit.models import Tag
 

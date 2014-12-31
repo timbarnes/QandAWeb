@@ -12,18 +12,7 @@ from educate.forms import AnswerForm, SubjectForm, CategoryForm
 from educate.models import Subject, Category, Question, Article
 from educate.score import score
 
-# Create your views here.
 
-class UserMixin(object):
-    """Provides user-specific information for queries
-    and presentation of user-specific information.
-    """
-    def get_context_data(self, **kwargs):
-        context = super(UserMixin, self).get_context_data(**kwargs)
-        context['authenticated'] = self.request.user.is_authenticated()
-        context['username'] = self.request.user.username
-        return context
-    
 
 class MenuMixin(object):
     """Gets public articles, subjects and categories. All tags are public.
@@ -37,7 +26,7 @@ class MenuMixin(object):
         return context
 
 
-class TagIndexView(MenuMixin, UserMixin, generic.TemplateView):
+class TagIndexView(MenuMixin, generic.TemplateView):
     """Present everything associated with a tag.
     """
     template_name = 'educate/tags.html'
@@ -57,7 +46,7 @@ class TagIndexView(MenuMixin, UserMixin, generic.TemplateView):
         return get_object_or_404(Tag, slug=self.kwargs['slug'])
 
 
-class ContentView(MenuMixin, UserMixin, generic.ListView):
+class ContentView(MenuMixin, generic.ListView):
     """Present everything associated with a category.
     """
     template_name = 'educate/category.html'
@@ -78,54 +67,37 @@ class ContentView(MenuMixin, UserMixin, generic.ListView):
         return 
     
 
-class HomeView(MenuMixin, UserMixin, generic.TemplateView):
+class HomeView(MenuMixin, generic.TemplateView):
     """Home page for the Educate project.
     """
     template_name = 'educate/home.html'
-    context_name = 'context'
-
-    def get_context_data(self, **kwargs):
-        context = super(HomeView, self).get_context_data(**kwargs)
-        return context
 
     
-class AllArticlesView(MenuMixin, UserMixin, generic.ListView):
-    """List of all the articles.
+class AllArticlesView(MenuMixin, generic.ListView):
+    """List of all the public articles.
     """
     template_name = 'educate/articles.html'
     context_name = 'article_list'
 
-    def get_context_data(self, **kwargs):
-        context = super(AllArticlesView, self).get_context_data(**kwargs)
-        context.update({
-            'category_list': Category.objects.order_by('name'),
-            'subject_list': Subject.objects.order_by('name'),
-        })
-        return context
-    
     def get_queryset(self):
         return Article.objects.order_by('category__name', 'title')
 
 
-class AllSubjectsView(MenuMixin, UserMixin, generic.FormView):
+class AllSubjectsView(MenuMixin, generic.FormView):
     """List of all the subjects.
     """
     template_name = 'educate/subjects.html'
-    context_name = 'subject_list'
     form_class = SubjectForm
     success_url = '.'
 
     def get_context_data(self, **kwargs):
         context = super(AllSubjectsView, self).get_context_data(**kwargs)
         context.update({
-            'category_list': Category.objects.order_by('name'),
             'form': SubjectForm(initial={'author': self.request.user, 'public': False}),
+            'subject_list': Subject.objects.order_by('name').filter(public=True),
         })
         return context
     
-    def get_queryset(self):
-        return Subject.objects.order_by('name')
-
     def form_valid(self, form):
         self.kwargs['form_data']=form.cleaned_data
         n=form.save(commit=False)
@@ -136,25 +108,21 @@ class AllSubjectsView(MenuMixin, UserMixin, generic.FormView):
         return super(AllSubjectsView, self).form_valid(form)
 
 
-class AllCategoriesView(MenuMixin, UserMixin, generic.ListView):
+class AllCategoriesView(MenuMixin, generic.TemplateView):
     """List of all the categories.
     """
     template_name = 'educate/categories.html'
-    context_name = 'category_list'
 
     def get_context_data(self, **kwargs):
         context = super(AllCategoriesView, self).get_context_data(**kwargs)
         context.update({
             'subject_list': Subject.objects.order_by('name'),
-            'category_list': Category.objects.order_by('name'),
+            'category_list': Category.objects.order_by('name').filter(public=True),
         })
         return context
     
-    def get_queryset(self):
-        return Category.objects.order_by('name')
 
-
-class CategoriesView(MenuMixin, UserMixin, generic.FormView):
+class CategoriesView(MenuMixin, generic.FormView):
     """List of the categories for a specific subject.
        Enables creation of new category for that subject.
     """
@@ -172,7 +140,6 @@ class CategoriesView(MenuMixin, UserMixin, generic.FormView):
         return context
 
     def form_invalid(self, form):
-        print 'Form: ', form
         messages.error(self.request, 'Error: please try again')
         return super(CategoriesView, self).form_invalid(form)
 
@@ -183,12 +150,11 @@ class CategoriesView(MenuMixin, UserMixin, generic.FormView):
         n.slug = slugify(form.cleaned_data['name'])
         n.save()
         form.save_m2m()
-        print n
         messages.success(self.request, 'Category created')
         return super(CategoriesView, self).form_valid(form)
 
 
-class ArticleView(MenuMixin, UserMixin, generic.DetailView):
+class ArticleView(MenuMixin, generic.DetailView):
     """Show a single article.
     """
     template_name = 'educate/article.html'
@@ -203,7 +169,7 @@ class ArticleView(MenuMixin, UserMixin, generic.DetailView):
         return context
     
 
-class QuestionsView(MenuMixin, UserMixin, generic.ListView):
+class QuestionsView(MenuMixin, generic.ListView):
     """List of all the questions in a category.
     """
     template_name = 'educate/questions.html'
@@ -220,7 +186,7 @@ class QuestionsView(MenuMixin, UserMixin, generic.ListView):
         return Question.objects.filter(category__slug=self.kwargs['category'])
                 
 
-class ReviewQuestionsView(MenuMixin, UserMixin, generic.ListView):
+class ReviewQuestionsView(MenuMixin, generic.ListView):
     """List of all the questions in a category.
     """
     template_name = 'educate/questions.html'
@@ -230,7 +196,7 @@ class ReviewQuestionsView(MenuMixin, UserMixin, generic.ListView):
         context = super(ReviewQuestionsView, self).get_context_data(**kwargs)
         context.update({
             'category': get_object_or_404(Category, slug=self.kwargs['category']),
-            'review':True,
+            'review': True,
         })
         return context
     
@@ -238,7 +204,7 @@ class ReviewQuestionsView(MenuMixin, UserMixin, generic.ListView):
         return Question.objects.filter(category__slug=self.kwargs['category'])
 
 
-class AskView(MenuMixin, UserMixin, generic.FormView):
+class AskView(MenuMixin, generic.FormView):
     """Ask a single question.
     """
     form_class = AnswerForm
@@ -253,13 +219,11 @@ class AskView(MenuMixin, UserMixin, generic.FormView):
         return context
 
     def form_valid(self, form):
-        print form
         self.kwargs['user_answer'] = form.cleaned_data['user_answer']
         return super(AskView, self).form_valid(form)
         
 
-class AnswerView(MenuMixin, UserMixin, generic.TemplateView):
-#def answer(request, question_id):
+class AnswerView(MenuMixin, generic.TemplateView):
     """Display the answer to a single question.
     """
     template_name = 'educate/answer.html'
