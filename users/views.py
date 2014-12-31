@@ -242,12 +242,12 @@ class NewTaskView(generic.FormView):
         })
         return context
 
-    def form_invalid(self, form):
-        print 'Form: ', form
-        messages.error(self.request, 'Error: try again')
-        return super(NewTaskView, self).form_invalid(form)
-
     def form_valid(self, form):
+        print 'Due =', form.cleaned_data['due'], '='
+        if not form.cleaned_data['due']:
+            form.cleaned_data['due'] = None
+            print form
+        print form
         t = form.save()
         t.slug = slugify(form.cleaned_data['task'])
         t.save()

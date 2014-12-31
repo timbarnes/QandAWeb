@@ -115,12 +115,12 @@ class TaskForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_class = 'blueForms'
         self.helper.layout = Layout(
-            'tasklist', 'task', 'due', 'done',
+            'tasklist', 'task', 'due', 'resolution', 'done',
             FormActions(Submit('submit', 'Submit', css_class='btn-primary.btn-block')))
 
     class Meta:
         model = Task
-        fields = ['tasklist', 'task', 'due', 'done']
+        fields = ['tasklist', 'task', 'due', 'done', 'resolution']
 
 
 class NoteForm(forms.ModelForm):

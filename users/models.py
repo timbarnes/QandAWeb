@@ -41,7 +41,8 @@ class TaskList(models.Model):
 class Task(models.Model):
     tasklist = models.ForeignKey(TaskList)
     task = models.CharField(max_length=200)
-    due = models.DateField(blank=True)
+    due = models.DateField(null=True, blank=True)
+    resolution = models.CharField(max_length=200, null=True, blank=True)
     slug = models.SlugField()
     done = models.BooleanField(default=False)
 

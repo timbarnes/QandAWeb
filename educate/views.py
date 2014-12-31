@@ -13,7 +13,6 @@ from educate.models import Subject, Category, Question, Article
 from educate.score import score
 
 
-
 class MenuMixin(object):
     """Gets public articles, subjects and categories. All tags are public.
     """
