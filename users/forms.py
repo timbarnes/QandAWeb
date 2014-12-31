@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Field
+from crispy_forms.layout import Layout, Submit, Field, Row
 from crispy_forms.bootstrap import FormActions
 
 from models import Profile, TaskList, Task, Note
@@ -115,23 +115,22 @@ class TaskForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_class = 'blueForms'
         self.helper.layout = Layout(
-            'tasklist', 'task', 'due',
-            FormActions(Submit('create', 'Create', css_class='btn-primary.btn-block')))
+            'tasklist', 'task', 'due', 'done',
+            FormActions(Submit('submit', 'Submit', css_class='btn-primary.btn-block')))
 
     class Meta:
         model = Task
-        fields = ['tasklist', 'task', 'due']
+        fields = ['tasklist', 'task', 'due', 'done']
 
 
 class NoteForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(NoteForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
-        self.helper.form_id = 'id_noteForm'
         self.helper.form_class = 'blueForms'
         self.helper.layout = Layout(
             'title', 'body', 'tags',
-            FormActions(Submit('create', 'Create', css_class='btn-primary.btn-block')))
+            FormActions(Submit('submit', 'Submit', css_class='btn-primary.btn-block')))
 
     class Meta:
         model = Note

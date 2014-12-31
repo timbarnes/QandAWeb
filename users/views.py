@@ -267,32 +267,21 @@ class NewTaskView(UserMixin, generic.FormView):
         return super(NewTaskView, self).form_valid(form)
     
 
-class NoteView(UserMixin, generic.TemplateView):
-    """Display user notes.
+class NoteView(UserMixin, generic.UpdateView):
+    """Alter an existing user note.
     """
     template_name = 'users/note.html'
+    model = Note
+    form_class = NoteForm
+    success_url = reverse_lazy('notes')
 
 
-    def get_context_data(self, **kwargs):
-        context = super(NoteView, self).get_context_data(**kwargs)
-        context.update({
-            'note': get_object_or_404(Note, slug=self.kwargs['slug']),
-        })
-        return context
-
-
-class TaskView(UserMixin, generic.TemplateView):
-    """Display a user task.
+class TaskView(UserMixin, generic.UpdateView):
+    """Alter an existing user task.
     """
     template_name = 'users/task.html'
+    model = Task
+    form_class = TaskForm
 
-
-    def get_context_data(self, **kwargs):
-        context = super(TaskView, self).get_context_data(**kwargs)
-        context.update({
-            'profile': get_object_or_404(Profile, slug=self.kwargs['slug']),
-        })
-        return context
-
-
-    
+    def get_success_url(self):
+        return reverse('tasks', args=[self.object.tasklist.slug])
