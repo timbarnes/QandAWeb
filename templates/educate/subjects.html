@@ -7,6 +7,7 @@
 {% endblock %}
 {% block left %}
   {% if subject_list %}
+  <p>Select a subject to see its categories.</p>
   <table class="table table-striped">
     <tr>
       <th>Subject</th>
@@ -25,9 +26,8 @@
 {% endblock left %}
 
 {% block right %}
-  <p>Select a subject to see its categories.</p>
   {% if user.is_authenticated %}
-  <p>Use the form to create a new subject.</p>
+  <p>Create a new subject:</p>
   {% crispy form %}
   {% endif %}
 {% endblock right %}
