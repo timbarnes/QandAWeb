@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}
+<h1 class="pagetitle"><span class="glyphicon glyphicon-file"
+aria-hidden="true"></span> Create a new article</h1>
+{% endblock %}
+{% block content %}
+    {% crispy form %}
+{% endblock %}
