@@ -1,16 +1,18 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% block title %}
-<h1 class=pagetitle>Login / Register</h1>
+  <h1 class=pagetitle>Login / Register</h1>
 {% endblock %}
 {% block content %}
-<p>Please login with your username or e-mail and password.</p>
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
+{% if user.is_authenticated %}
+<h1>You're already logged in as {{ user.username }}.</h1>
+<p><a href="{% url 'myHome' %}">Go to your homepage</a> // <a href="{% url 'profile' %}">Update your profile</a></p>
+{% else %}
+  <p>Please login with your username or e-mail and password.</p>
+  {% crispy form %}
+  <br />
+  <p>Don't have an account? <a href="{% url 'registration_register' %}">Sign up now!</a></p>
+  <p>Registration allows you to create and save personal content to help with your learning program.</p>
 {% endif %}
-{% crispy form %}
-<br />
-<p>Don't have an account? <a href="{% url 'registration_register' %}">Sign up now!</a></p>
-<p>Registration allows you to create and save personal content to help with your learning program.</p>
 {% endblock %}
   
