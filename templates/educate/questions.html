@@ -7,9 +7,9 @@
   {% if question_list %}
     <p>
     {% if review %}
-      <a href="{% url 'questions' category %}"><button type="button" class="btn btn-primary btn-sm">Hide answers</button></a>
+      <a href="{% url 'questions' category.slug %}"><button type="button" class="btn btn-primary btn-sm">Hide answers</button></a>
     {% else %}
-      <a href="{% url 'review_questions' category  %}"><button type="button" class="btn btn-primary btn-sm">Review the answers</button></a> (logged in users only)
+      <a href="{% url 'review_questions' category.slug  %}"><button type="button" class="btn btn-primary btn-sm">Review the answers</button></a> (logged in users only)
       {% endif %}
       </p>
       <br /><br />
