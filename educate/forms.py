@@ -61,4 +61,19 @@ class CategoryForm(forms.ModelForm):
         fields = ['name', 'description', 'author', 'public', 'tags']
 
 
+class ArticleForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ArticleForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = 'blueForms'
+        self.helper.layout = Layout(
+            Field('author', type='hidden'),
+            Field('slug', type='hidden'),
+            'title', 'body', 'summary', 'tags', 'category', 'public',
+            FormActions(Submit('submit', 'Submit', css_class='btn-primary.btn-block')))
+
+    class Meta:
+        model = Article
+        fields = ['author', 'title', 'body', 'summary', 'slug', 'category', 'public', 'tags']
+
         

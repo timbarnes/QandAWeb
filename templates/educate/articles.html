@@ -3,6 +3,7 @@
 {% endblock %}
 {% block title %}
 <h1 class="pagetitle"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> Articles</h1>
+<p><a href="{% url 'new_article' %}">Create a new article</a></p>
 {% endblock %}
 {% block content %}
   {% if article %}
@@ -12,13 +13,17 @@
   {% if article_list %}
     <table class="table table-striped">
       <tr>
-      <th>Subject</th>
+      <th>Title</th>
       <th>Description</th>
+      <th>Subject</th>
+      <th>Category</th>
     </tr>
     {% for art in article_list %}
       <tr>
 	<td><a href="{% url 'article' art.slug %}">{{ art.title }}</a></td>
         <td>{{ art.summary }}</td>
+	<td><a href="{% url 'categories' art.category.subject.slug %}">{{ art.category.subject.name }}</a></td>
+	<td><a href="{% url 'content' art.category.slug %}">{{ art.category.name }}</a></td>
     </tr>
     {% endfor %}
   </table>

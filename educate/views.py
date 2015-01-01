@@ -8,7 +8,7 @@ from django import forms
 from taggit.models import Tag
 from braces import views
 
-from educate.forms import AnswerForm, SubjectForm, CategoryForm
+from educate.forms import AnswerForm, SubjectForm, CategoryForm, ArticleForm
 from educate.models import Subject, Category, Question, Article
 from educate.score import score
 
@@ -93,12 +93,10 @@ class AllSubjectsView(MenuMixin, generic.FormView):
         context = super(AllSubjectsView, self).get_context_data(**kwargs)
         context.update({
             'form': SubjectForm(initial={'author': self.request.user, 'public': False}),
-            'subject_list': Subject.objects.order_by('name').filter(public=True),
         })
         return context
     
     def form_valid(self, form):
-        self.kwargs['form_data']=form.cleaned_data
         n=form.save(commit=False)
         n.slug = slugify(form.cleaned_data['name'])
         n.save()
@@ -112,14 +110,6 @@ class AllCategoriesView(MenuMixin, generic.TemplateView):
     """
     template_name = 'educate/categories.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(AllCategoriesView, self).get_context_data(**kwargs)
-        context.update({
-            'subject_list': Subject.objects.order_by('name'),
-            'category_list': Category.objects.order_by('name').filter(public=True),
-        })
-        return context
-    
 
 class CategoriesView(MenuMixin, generic.FormView):
     """List of the categories for a specific subject.
@@ -143,7 +133,6 @@ class CategoriesView(MenuMixin, generic.FormView):
         return super(CategoriesView, self).form_invalid(form)
 
     def form_valid(self, form):
-        self.kwargs['form_data']=form.cleaned_data
         n=form.save(commit=False)
         n.subject = get_object_or_404(Subject, slug=self.kwargs['subject'])
         n.slug = slugify(form.cleaned_data['name'])
@@ -167,6 +156,44 @@ class ArticleView(MenuMixin, generic.DetailView):
         })
         return context
     
+
+class NewArticleView(MenuMixin, generic.CreateView):
+    """Create a new article.
+    """
+    model = Article
+    form_class = ArticleForm
+    template_name = 'educate/modarticle.html'
+    success_url = reverse_lazy('all_articles')
+
+    def get_initial(self):
+        parms = {'author': self.request.user, 'slug':'temp_slug'}
+        # slug will be replaced by the form_valid function, but is needed for validation
+        try:
+            if self.kwargs['category']:
+                parms['category'] = self.kwargs['category']
+        except:
+            pass
+        return parms
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Error: please try again')
+        return super(NewArticleView, self).form_invalid(form)
+        
+    def form_valid(self, form):
+        a = form.save(commit=False)
+        a.slug = slugify(form.cleaned_data['title'])
+        a.save()
+        form.save_m2m()
+        messages.success(self.request, 'Article created.')
+        return super(NewArticleView, self).form_valid(form)
+
+
+class ModArticleView(MenuMixin, generic.UpdateView):
+    """Modify an existing article.
+    """
+    template_name = 'educate/modarticle.html'
+    form_class = ArticleForm
+
 
 class QuestionsView(MenuMixin, generic.ListView):
     """List of all the questions in a category.

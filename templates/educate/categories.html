@@ -8,6 +8,7 @@ aria-hidden="true"></span> {% if subject %}Categories for {{ subject.name }}{% e
 {% endblock %}
 {% block left %}
   {% if subject_list %}
+  <p>Click on a subject to see its categories.</p>
   <table class="table table-striped">
     <tr>
       <th>Subject</th>
@@ -25,7 +26,7 @@ aria-hidden="true"></span> {% if subject %}Categories for {{ subject.name }}{% e
   {% endif %}
   {% if user.is_authenticated %}
   {% if subject %}
-  <p>Use the form to create a new category within this subject.</p>
+  <p>Create a new category for this subject.</p>
   {% crispy form %}
   {% endif %}
   {% endif %}
@@ -49,7 +50,6 @@ aria-hidden="true"></span> {% if subject %}Categories for {{ subject.name }}{% e
   {% if subject %}
   <p>No categories found.</p>
   {% else %}
-  <p>Click on a subject to see its categories.</p>
     <table class="table table-striped">
     <tr>
       <th>Category</th>
