@@ -36,7 +36,11 @@
     <tr>
       <td><a href="{% url 'task' t.slug %}">{{ t.task }}</a></td>
       <td>{{ t.due }}</td>
-      <td>{{ t.done }}</td>
+      {% if t.done %}
+      <td><span class="glyphicon glyphicon-ok" aria-hidden="true"</span></td>
+      {% else %}
+      <td><span class="glyphicon glyphicon-minus" aria-hidden="true"</span></td>
+      {% endif %}
     </tr>
     {% endfor %}
   </table>
