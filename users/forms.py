@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Field, Row
-from crispy_forms.bootstrap import FormActions
+from crispy_forms.layout import Layout, Submit, Field, Row, Fieldset, Div
+from crispy_forms.bootstrap import FormActions, AppendedText
 
 from models import Profile, TaskList, Task, Note
 
@@ -115,7 +115,14 @@ class TaskForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_class = 'blueForms'
         self.helper.layout = Layout(
-            'tasklist', 'task', 'due', 'resolution', 'done',
+            Fieldset('',
+                     'task',
+                      AppendedText('resolution', 'Optional')),
+            Fieldset('',
+                Div('tasklist', css_class='col-xs-4'),
+                Div(AppendedText('due', 'Optional'), css_class='col-xs-4'),
+                Div('done', css_class='col-xs-2'),
+                css_class='row-fluid'),
             FormActions(Submit('submit', 'Submit', css_class='btn-primary.btn-block')))
 
     class Meta:
