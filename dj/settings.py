@@ -46,6 +46,8 @@ INSTALLED_APPS = (
     'dbbackup',
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.sites',
+    'django.contrib.flatpages',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -72,6 +74,8 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'dj.urls'
 
 WSGI_APPLICATION = 'dj.wsgi.application'
+
+SITE_ID = parms['site-id']
 
 # For django-registration-redux
 ACCOUNT_ACTIVATION_DAYS = 7
