@@ -1,13 +1,10 @@
 {% extends "base.html" %}
 {% block title %}
-<h1 class="pagetitle"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> Category: {{ category.name }}</h1>
+<h1 class="pagetitle"><span class="glyphicon glyphicon-list"
+aria-hidden="true"></span> <a href="{% url 'categories' subject.slug %}">{{ subject.name }}</a> // {{ category.name }}</h1>
 <p>{{ category.description }}</p>
 {% endblock %}
 {% block content %}
-<br />
-<h2>Subject</h2>
-      <p><strong><a href="{% url 'categories' subject.slug %}">{{ subject.name }}</a></strong></p>
-<br />
 {% if article_subset %}
 <h2>Articles</h2>
 <table class="table table-striped">

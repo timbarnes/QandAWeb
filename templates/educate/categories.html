@@ -1,38 +1,23 @@
-{% extends "two-col.html" %}
+{% extends "base.html" %}
 {% load crispy_forms_tags %}
-{% block banner %}
-{% endblock %}
 {% block title %}
 <h1 class="pagetitle"><span class="glyphicon glyphicon-book"
 aria-hidden="true"></span> {% if subject %}Categories for {{ subject.name }}{% else %}All Categories{% endif %}</h1>
 {% endblock %}
-{% block left %}
+{% block content %}
   {% if subject_list %}
-  <p>Click on a subject to see its categories.</p>
-  <table class="table table-striped">
-    <tr>
-      <th>Subject</th>
-      <th>Description</th>
-    </tr>
-    {% for sub in subject_list %}
-    <tr>
-      <td><a href="{% url 'categories' sub.slug %}">{{ sub.name }}</a></td>
-      <td>{{ sub.description }}</td>
-    </tr>
-    {% endfor %}
-  </table>
+        <div class="btn-group">
+            <button type="button" data-toggle="dropdown" class="btn  btn-primary dropdown-toggle">Select subject <span class="caret"></span></button>
+	  <ul class="dropdown-menu">
+	    {% for sub in subject_list %}
+                <li><a href="{% url 'categories' sub.slug %}">{{ sub.name }}</a></li>
+	    {% endfor %}
+            </ul>
+        </div>
   {% else %}
   <p>No subjects found</p>
   {% endif %}
-  {% if user.is_authenticated %}
-  {% if subject %}
-  <p>Create a new category for this subject.</p>
-  {% crispy form %}
-  {% endif %}
-  {% endif %}
-{% endblock left %}
-
-{% block right %}
+	<br /><br />
   {% if category_subset %}
     <table class="table table-striped">
     <tr>
@@ -64,5 +49,11 @@ aria-hidden="true"></span> {% if subject %}Categories for {{ subject.name }}{% e
   </table>
   {% endif %}
   {% endif %}
-  {% endblock right %}
+  {% if user.is_authenticated %}
+  {% if subject %}
+  <p>Create a new category for this subject.</p>
+  {% crispy form %}
+  {% endif %}
+  {% endif %}
+  {% endblock content %}
   
