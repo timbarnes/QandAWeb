@@ -209,50 +209,41 @@ class TasksView(generic.TemplateView):
         return context
 
     
-class NewNoteView(generic.FormView):
+class NewNoteView(generic.CreateView):
     """Add a note.
     """
     template_name = 'users/newnote.html'
-    form_class = NoteForm
+    model = Note
 
     def get_context_data(self, **kwargs):
         context = super(NewNoteView, self).get_context_data(**kwargs)
         context.update({
-            'profile': get_object_or_404(Profile, slug=self.kwargs['slug']),
             'form': NoteForm(user=self.request.user),
         })
         return context
 
 
-class NewTaskView(generic.FormView):
+class NewTaskView(generic.CreateView):
     """Add a task to an existing tasklist.
     """
     template_name = 'users/newtask.html'
-    form_class = TaskForm
-    success_url = reverse_lazy('taskLists')
+    model = Task
 
     def get_success_url(self, **kwargs):
-        return reverse('tasks', self.kwargs['slug'])
+        return reverse('tasks', args=[self.object.tasklist.slug])
 
     def get_context_data(self, **kwargs):
         context = super(NewTaskView, self).get_context_data(**kwargs)
         tlist = get_object_or_404(TaskList, slug=self.kwargs['slug'])
         context.update({
             'tasklist': tlist,
-            'tasks': Task.objects.filter(tasklist=tlist.id),
             'form': TaskForm({'tasklist': tlist.pk, }),
-            'tasklists': TaskList.objects.filter(user=self.request.user),
         })
         return context
 
     def form_valid(self, form):
-        print 'Due =', form.cleaned_data['due'], '='
         if not form.cleaned_data['due']:
             form.cleaned_data['due'] = None
-            print form
-        print form
-        t = form.save()
-        t.save()
         messages.success(self.request, 'Task created.')
         return super(NewTaskView, self).form_valid(form)
     
