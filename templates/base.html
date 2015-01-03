@@ -11,7 +11,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/jumbotron.css" rel="stylesheet">
     <script src="//tinymce.cachefly.net/4.1/tinymce.min.js"></script>
     <script>tinymce.init({selector:'textarea'});</script>
-    <title>{% block pagetitle %}Questions and Quizzes // A Place for Learning{{ page.title }} // Tim Barnes{% endblock %}</title>
+    <title>{% block pagetitle %}Learning and Doing // A Place for Learning{{ page.title }} // Tim Barnes{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'educate/educate.css' %}" />
     {% block js %} {% endblock %}
     <meta name="keywords" content="education, training, learning, online, architecture, are" {% block keywords %}{% endblock %}" />
@@ -57,7 +57,7 @@
     </nav>
 
     <div id="banner">
-	<h1><a href="{% url 'home' %}">// Questions and Quizzes //</a></h1>
+	<h1><a href="{% url 'home' %}">// Projects and Practices //</a></h1>
       </div>
 
     <div class="jumbotron">
@@ -120,8 +120,8 @@
     <footer class="footer">
 	<div class="container">
 	  {% block footer %}
-	  <p>A simple resource for learning.</p>
-	  <p>Information is provided on an as-is basis. No warranty is expressed or implied. Use at your own risk.</p>
+	  <p>A simple resource for projects and personal information.</p>
+	  <p>Services are provided on an as-is basis. No warranty is expressed or implied. Use at your own risk.</p>
 	  <p>Copyright (c) Timothy J Barnes 2014.</p>
 	  {% endblock %}
 	</div>
