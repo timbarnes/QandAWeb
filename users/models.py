@@ -43,7 +43,6 @@ class Task(models.Model):
     task = models.CharField(max_length=200)
     due = models.DateField(null=True, blank=True)
     resolution = models.CharField(max_length=200, null=True, blank=True)
-    slug = models.SlugField()
     done = models.BooleanField(default=False)
 
     def __unicode__(self):

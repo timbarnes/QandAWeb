@@ -231,6 +231,9 @@ class NewTaskView(generic.FormView):
     form_class = TaskForm
     success_url = reverse_lazy('taskLists')
 
+    def get_success_url(self, **kwargs):
+        return reverse('tasks', self.kwargs['slug'])
+
     def get_context_data(self, **kwargs):
         context = super(NewTaskView, self).get_context_data(**kwargs)
         tlist = get_object_or_404(TaskList, slug=self.kwargs['slug'])
@@ -249,7 +252,6 @@ class NewTaskView(generic.FormView):
             print form
         print form
         t = form.save()
-        t.slug = slugify(form.cleaned_data['task'])
         t.save()
         messages.success(self.request, 'Task created.')
         return super(NewTaskView, self).form_valid(form)

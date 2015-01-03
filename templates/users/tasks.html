@@ -8,7 +8,30 @@
 <p><a href="{% url 'newTask' tasklist.slug %}">Create a new task</a></p>
 {% endblock %}
 {% block left %}
-<h1>Task Lists</h1>
+<h1>Tasks</h1>
+  {% if tasks %}
+  <table class="table table-striped">
+    <tr>
+      <th>Task</th><th>Due</th><th>Done</th>
+    </tr>
+    {% for t in tasks %}
+    <tr>
+      <td><a href="{% url 'task' t.pk %}">{{ t.task }}</a></td>
+      <td>{{ t.due }}</td>
+      {% if t.done %}
+      <td><span class="glyphicon glyphicon-ok" aria-hidden="true"</span></td>
+      {% else %}
+      <td><span class="glyphicon glyphicon-minus" aria-hidden="true"</span></td>
+      {% endif %}
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+  <p>No tasks</p>
+  {% endif %}
+{% endblock left %}
+{% block right %}
+  <h1>Task Lists</h1>
   {% if tasklists %}
   <table class="table table-striped">
     <tr>
@@ -22,29 +45,5 @@
   </table>
   {% else %}
   <p>No tasklists found</p>
-  {% endif %}
-  {% endblock left %}
-
-  {% block right %}
-<h1>Tasks</h1>
-  {% if tasks %}
-  <table class="table table-striped">
-    <tr>
-      <th>Task</th><th>Due</th><th>Done</th>
-    </tr>
-    {% for t in tasks %}
-    <tr>
-      <td><a href="{% url 'task' t.slug %}">{{ t.task }}</a></td>
-      <td>{{ t.due }}</td>
-      {% if t.done %}
-      <td><span class="glyphicon glyphicon-ok" aria-hidden="true"</span></td>
-      {% else %}
-      <td><span class="glyphicon glyphicon-minus" aria-hidden="true"</span></td>
-      {% endif %}
-    </tr>
-    {% endfor %}
-  </table>
-  {% else %}
-  <p>No tasks</p>
   {% endif %}
 {% endblock right %}
