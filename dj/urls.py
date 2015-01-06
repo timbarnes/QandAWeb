@@ -12,6 +12,7 @@ urlpatterns = patterns(
     url(r'^$', views.HomeView.as_view(), name='home'),
     url(r'^educate/', include('educate.urls')),
     url(r'^users/', include('users.urls')),
+    url(r'^pm/', include('pm.urls')),
     url(r'^accounts/register/$', UserRegistrationView.as_view()),
     url(r'^accounts/login/$', login, {'authentication_form': forms.LoginForm}, name='login'),
     url(r'^accounts/change_password/$', password_change,

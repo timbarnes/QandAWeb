@@ -56,6 +56,7 @@ INSTALLED_APPS = (
     'registration',
     'educate',
     'users',
+    'pm',
 )
 
 if DEBUG:
