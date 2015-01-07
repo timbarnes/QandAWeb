@@ -41,9 +41,7 @@
 	    <li><a href="{% url 'all_categories' %}">Categories</a></li>
 	    <li><a href="{% url 'all_articles' %}">Articles</a></li>
 	    {% if user.is_authenticated %}
-	    {% comment %}<li><a href="{% url 'projects' %}">Projects</a></li>{% endcomment %}
-	    <li><a href="{% url 'notes' %}">Notes</a></li>
-	    <li><a href="{% url 'taskLists' %}">Task Lists</a></li>
+	    <li><a href="{% url 'projects' %}">Projects</a></li>
 	    <li><a href="{% url 'myHome' %}">My Home</a></li>
 	    <li><a href="{% url 'profile' %}">Profile</a></li>
 	    <li><a href="{% url 'auth_logout' %}">Logout</a></li>

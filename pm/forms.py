@@ -6,7 +6,22 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Field, Row, Fieldset, Div
 from crispy_forms.bootstrap import FormActions, AppendedText
 
-from models import TaskList, Task, Note
+from models import Project, TaskList, Task, Note
+
+
+class ProjectForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ProjectForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = 'blueForms'
+        self.helper.layout = Layout(
+            Field('user', type='hidden'),
+            'name', Field('slug', type='hidden'), 'description',
+            FormActions(Submit('create', 'Create', css_class='btn-primary.btn-block')))
+
+    class Meta:
+        model = Project
+        fields = ['user', 'name', 'slug', 'description']
 
 
 class TaskListForm(forms.ModelForm):

@@ -20,9 +20,10 @@ class Migration(migrations.Migration):
             name='Article',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('public', models.BooleanField(default=True)),
                 ('title', models.CharField(max_length=200)),
                 ('body', tinymce.models.HTMLField()),
-                ('published', models.BooleanField(default=False)),
+                ('summary', models.CharField(default=b'', max_length=200)),
                 ('edit_date', models.DateField(default=datetime.datetime.now)),
                 ('slug', models.SlugField()),
                 ('author', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
@@ -36,9 +37,11 @@ class Migration(migrations.Migration):
             name='Category',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('public', models.BooleanField(default=True)),
                 ('name', models.CharField(max_length=40)),
                 ('description', models.CharField(default=b'-description-', max_length=200)),
                 ('slug', models.SlugField()),
+                ('author', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'ordering': ['name'],
@@ -50,10 +53,12 @@ class Migration(migrations.Migration):
             name='Question',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('public', models.BooleanField(default=True)),
                 ('question', models.CharField(max_length=200)),
                 ('answer', models.CharField(max_length=200)),
+                ('author', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
                 ('category', models.ForeignKey(to='educate.Category')),
-                ('tags', taggit.managers.TaggableManager(to='taggit.Tag', through='taggit.TaggedItem', help_text='A comma-separated list of tags.', verbose_name='Tags')),
+                ('tags', taggit.managers.TaggableManager(to='taggit.Tag', through='taggit.TaggedItem', blank=True, help_text='A comma-separated list of tags.', verbose_name='Tags')),
             ],
             options={
                 'ordering': ['question'],
@@ -64,15 +69,21 @@ class Migration(migrations.Migration):
             name='Subject',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('public', models.BooleanField(default=True)),
                 ('name', models.CharField(max_length=40)),
                 ('description', models.CharField(default=b'-description-', max_length=200)),
                 ('slug', models.SlugField()),
-                ('tags', taggit.managers.TaggableManager(to='taggit.Tag', through='taggit.TaggedItem', help_text='A comma-separated list of tags.', verbose_name='Tags')),
+                ('author', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('tags', taggit.managers.TaggableManager(to='taggit.Tag', through='taggit.TaggedItem', blank=True, help_text='A comma-separated list of tags.', verbose_name='Tags')),
             ],
             options={
                 'ordering': ['name'],
             },
             bases=(models.Model,),
+        ),
+        migrations.AlterUniqueTogether(
+            name='question',
+            unique_together=set([('category', 'question')]),
         ),
         migrations.AddField(
             model_name='category',
@@ -83,8 +94,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='category',
             name='tags',
-            field=taggit.managers.TaggableManager(to='taggit.Tag', through='taggit.TaggedItem', help_text='A comma-separated list of tags.', verbose_name='Tags'),
+            field=taggit.managers.TaggableManager(to='taggit.Tag', through='taggit.TaggedItem', blank=True, help_text='A comma-separated list of tags.', verbose_name='Tags'),
             preserve_default=True,
+        ),
+        migrations.AlterUniqueTogether(
+            name='category',
+            unique_together=set([('subject', 'slug')]),
         ),
         migrations.AddField(
             model_name='article',
@@ -95,7 +110,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='article',
             name='tags',
-            field=taggit.managers.TaggableManager(to='taggit.Tag', through='taggit.TaggedItem', help_text='A comma-separated list of tags.', verbose_name='Tags'),
+            field=taggit.managers.TaggableManager(to='taggit.Tag', through='taggit.TaggedItem', blank=True, help_text='A comma-separated list of tags.', verbose_name='Tags'),
             preserve_default=True,
+        ),
+        migrations.AlterUniqueTogether(
+            name='article',
+            unique_together=set([('category', 'slug')]),
         ),
     ]

@@ -11,7 +11,7 @@ from registration.views import RegistrationView
 from taggit.models import Tag
 
 from educate.models import Subject, Category, Article
-from pm.models import Note, Task, TaskList
+from pm.models import Note, Task, TaskList, Project
 from users.models import Profile, Favorites
 from users.forms import ProfileForm, UserDataForm, RegistrationForm
 
@@ -132,10 +132,8 @@ class MyHomeView(generic.TemplateView):
         context.update({
             'profile': get_object_or_404(Profile, user=self.request.user),
             'favorites': Favorites.objects.filter(user=self.request.user),
-            'tasklists': TaskList.objects.filter(user=self.request.user),
-            'notes': Note.objects.filter(user=self.request.user),
+            'projects': Project.objects.filter(user=self.request.user),
             'subject_subset': Subject.objects.filter(author=self.request.user),
-            'category_subset': Category.objects.filter(author=self.request.user),
             'article_subset': Article.objects.filter(author=self.request.user),
         })
         print context

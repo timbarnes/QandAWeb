@@ -9,41 +9,74 @@ from django.contrib.auth.models import User
 
 from taggit.models import Tag
 
-from pm.models import Note, Task, TaskList
-from pm.forms import TaskListForm, NoteForm, TaskForm
+from pm.models import Note, Task, TaskList, Project
+from pm.forms import TaskListForm, NoteForm, TaskForm, ProjectForm
 
 
-class ProjectsView(generic.TemplateView):
+class ProjectsView(generic.FormView):
     """Projects home page.
     """
     template_name = 'pm/projects.html'
+    form_class = ProjectForm
+    success_url = reverse_lazy('projects')
 
     def get_context_data(self, **kwargs):
         context = super(ProjectsView, self).get_context_data(**kwargs)
         context.update({
-            'profile': get_object_or_404(Profile, user=self.request.user),
-            'favorites': Favorites.objects.filter(user=self.request.user),
-            'tasklists': TaskList.objects.filter(user=self.request.user),
-            'notes': Note.objects.filter(user=self.request.user),
-            'subject_subset': Subject.objects.filter(author=self.request.user),
-            'category_subset': Category.objects.filter(author=self.request.user),
-            'article_subset': Article.objects.filter(author=self.request.user),
+            'projects': Project.objects.filter(user=self.request.user),
+            'form': ProjectForm({'user': self.request.user, 'slug':'-',}),
         })
-        print context
         return context
+
+    def form_invalid(self, form):
+        print form
+        return super(ProjectsView, self).form_invalid(form)
+
+    def form_valid(self, form):
+        p = form.save(commit=False)
+        p.user = self.request.user
+        p.slug = slugify(form.cleaned_data['name'])
+        p.save()
+        form.save_m2m()
+        messages.success(self.request, 'Project created')
+        return super(ProjectsView, self).form_valid(form)
+
+
+class ProjectView(generic.DetailView):
+    """Content of a single project.
+    """
+    template_name = 'pm/project.html'
+    model = Project
+
+    def get_context_data(self, **kwargs):
+        context = super(ProjectView, self).get_context_data(**kwargs)
+        context.update({
+            'tasklists': TaskList.objects.filter(project__name=self.kwargs['slug']),
+            'notes': Note.objects.filter(project__name=self.kwargs['slug']),
+            })
+        return context
+
+
+class EditProjectView(generic.UpdateView):
+    """Update an existing project
+    """
+    template_name = 'pm/editproject.html'
+    model = Project
 
     
 class NotesView(generic.FormView):
-    """Home page for each user.
+    """List of all notes.
     """
     template_name = 'pm/notes.html'
     form_class = NoteForm
-    success_url = reverse_lazy('notes')
+    
+    def get_success_url(self, request):
+        return reverse_lazy('notes', args=['project', self.kwargs['project']])
 
     def get_context_data(self, **kwargs):
         context = super(NotesView, self).get_context_data(**kwargs)
         context.update({
-            'notes': Note.objects.filter(user=self.request.user),
+            'notes': Note.objects.filter(project__slug=self.kwargs['project']),
         })
         return context
     
@@ -51,7 +84,6 @@ class NotesView(generic.FormView):
         print "Form submitted: ", form
         self.kwargs['form_data']=form.cleaned_data
         n = form.save(commit=False)
-        n.user = self.request.user
         n.slug = slugify(form.cleaned_data['title'])
         n.save()
         form.save_m2m()
@@ -64,12 +96,16 @@ class TaskListsView(generic.FormView):
     """
     template_name = 'pm/tasklists.html'
     form_class = TaskListForm
-    success_url = reverse_lazy('taskLists')
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('taskLists',
+                            args=['project',
+                                  get_object_or_404(Project, pk=self.kwargs['project']).pk])
 
     def get_context_data(self, **kwargs):
         context = super(TaskListsView, self).get_context_data(**kwargs)
         context.update({
-            'task_lists': TaskList.objects.filter(user=self.request.user),
+            'task_lists': TaskList.objects.filter(project__slug=self.kwargs['project']),
         })
         return context
     
@@ -77,7 +113,7 @@ class TaskListsView(generic.FormView):
         print "Form submitted: ", form
         self.kwargs['form_data']=form.cleaned_data
         t = form.save(commit=False)
-        t.user = self.request.user
+        t.project = get_object_or_404(Project, pk=self.kwargs['project'])
         t.slug = slugify(form.cleaned_data['name'])
         t.save()
         form.save_m2m()
@@ -93,10 +129,9 @@ class TasksView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super(TasksView, self).get_context_data(**kwargs)
         context.update({
-            'taskslists': TaskList.objects.filter(user=self.request.user),
+            'taskslists': TaskList.objects.filter(project__slug=self.kwargs['slug']),
             'tasklist': get_object_or_404(TaskList, slug=self.kwargs['slug']),
             'tasks': Task.objects.filter(tasklist__slug=self.kwargs['slug']).order_by('done'),
-            'tasklists': TaskList.objects.filter(user=self.request.user),
         })
         return context
 
@@ -110,7 +145,7 @@ class NewNoteView(generic.CreateView):
     def get_context_data(self, **kwargs):
         context = super(NewNoteView, self).get_context_data(**kwargs)
         context.update({
-            'form': NoteForm(user=self.request.user),
+            'form': NoteForm(project=self.kwargs['slug']),
         })
         return context
 
