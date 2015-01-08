@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block banner %}
+{% endblock %}
+{% block title %}
+<h1 class="pagetitle"><span class="glyphicon glyphicon-tower" aria-hidden="true"></span> Project: {{ project.name }}</h1>
+{% endblock %}
+{% block content %}
+    <h1>Task Lists // <a href="{% url 'taskLists' project.pk %}">Create new</a></h1>
+    <p>
+  <table class="table table-striped">
+    <tr>
+      <th>Task List</th><th>Description</th>
+    </tr>
+    {% for t in tasklists %}
+    <tr><td><a href="{% url 'tasks' t.slug %}">{{ t.name }}</a></td>
+        <td>{{ t.description }}</td></tr>
+    {% endfor %}
+    </table>
+    <h1>Notes // <a href="{% url 'notes' project.pk %}">Create new</a></h1>
+    <p>
+  <table class="table table-striped">
+    <tr>
+      <th>Title</th><th>Description</th>
+    </tr>
+    {% for t in notes %}
+    <tr><td><a href="{% url 'note' t.slug %}">{{ t.name }}</a></td>
+        <td>{{ t.description }}</td></tr>
+    {% endfor %}
+    </table>
+ {% endblock %}

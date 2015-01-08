@@ -1,0 +1,32 @@
+{% extends "two-col.html" %}
+{% load crispy_forms_tags %}
+{% block title %}
+<h1 class="pagetitle">Projects for user {{ user.username }}.</h1>
+{% if message %}
+<p>{{ message %}</p>
+{% endif %}
+<p>Project planning made simple.</p>
+{% endblock %}
+{% block left %}
+<h1>Projects</h1>
+  {% if projects %}
+  <table class="table table-striped">
+    <tr>
+      <th>Name</th><th>Description</th>
+    </tr>
+    {% for p in projects %}
+    <tr>
+      <td><a href="{% url 'viewProject' p.slug %}">{{ p.name }}</a></td>
+      <td>{{ p.description }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+  <p>No projects found</p>
+  {% endif %}
+  {% endblock left %}
+  {% block right %}
+  <h2>Create a new project:</h2>
+  {% crispy form %}
+  {% endblock right %}
+  
