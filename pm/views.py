@@ -76,7 +76,8 @@ class NotesView(generic.FormView):
     def get_context_data(self, **kwargs):
         context = super(NotesView, self).get_context_data(**kwargs)
         context.update({
-            'notes': Note.objects.filter(project__slug=self.kwargs['project']),
+            'notes': Note.objects.filter(project__pk=self.kwargs['project']),
+            'project': get_object_or_404(Project, pk=self.kwargs['project']),
         })
         return context
     
@@ -93,27 +94,22 @@ class NotesView(generic.FormView):
 
 
 class TaskListsView(generic.FormView):
-    """Display task lists.
+    """Display task lists for a specific project specified by pk
     """
     template_name = 'pm/tasklists.html'
     form_class = TaskListForm
-
-    def get_success_url(self, **kwargs):
-        return reverse_lazy('taskLists',
-                            args=[get_object_or_404(Project, pk=self.kwargs['project']).slug])
+    success_url = '.'
 
     def get_context_data(self, **kwargs):
         context = super(TaskListsView, self).get_context_data(**kwargs)
         context.update({
-            'task_lists': TaskList.objects.filter(project__slug=self.kwargs['project']),
+            'task_lists': TaskList.objects.filter(project__pk=self.kwargs['pk']),
         })
         return context
     
     def form_valid(self, form):
-        print "Form submitted: ", form
-        self.kwargs['form_data']=form.cleaned_data
         t = form.save(commit=False)
-        t.project = get_object_or_404(Project, pk=self.kwargs['project'])
+        t.project = get_object_or_404(Project, pk=self.kwargs['pk'])
         t.slug = slugify(form.cleaned_data['name'])
         t.save()
         form.save_m2m()
