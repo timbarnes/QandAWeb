@@ -51,8 +51,8 @@ class ProjectView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(ProjectView, self).get_context_data(**kwargs)
         context.update({
-            'tasklists': TaskList.objects.filter(project__name=self.kwargs['slug']),
-            'notes': Note.objects.filter(project__name=self.kwargs['slug']),
+            'tasklists': TaskList.objects.filter(project__slug=self.kwargs['slug']),
+            'notes': Note.objects.filter(project__slug=self.kwargs['slug']),
             })
         return context
 
