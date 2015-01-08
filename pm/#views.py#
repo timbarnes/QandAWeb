@@ -70,8 +70,8 @@ class NotesView(generic.FormView):
     template_name = 'pm/notes.html'
     form_class = NoteForm
     
-    def get_success_url(self, **kwargs):
-        return reverse_lazy('notes', args=[self.kwargs['project']])
+    def get_success_url(self, request):
+        return reverse_lazy('notes', args=['project', self.kwargs['project']])
 
     def get_context_data(self, **kwargs):
         context = super(NotesView, self).get_context_data(**kwargs)
@@ -84,7 +84,6 @@ class NotesView(generic.FormView):
         print "Form submitted: ", form
         self.kwargs['form_data']=form.cleaned_data
         n = form.save(commit=False)
-        n.project = get_object_or_404(Project, pk=self.kwargs['project'])
         n.slug = slugify(form.cleaned_data['title'])
         n.save()
         form.save_m2m()
@@ -100,7 +99,8 @@ class TaskListsView(generic.FormView):
 
     def get_success_url(self, **kwargs):
         return reverse_lazy('taskLists',
-                            args=[get_object_or_404(Project, pk=self.kwargs['project']).slug])
+                            args=['project',
+                                  get_object_or_404(Project, pk=self.kwargs['project']).pk])
 
     def get_context_data(self, **kwargs):
         context = super(TaskListsView, self).get_context_data(**kwargs)
@@ -186,7 +186,7 @@ class NoteView(generic.UpdateView):
 
 class TaskView(generic.UpdateView):
     """Alter an existing user task.
-    """
+√√    """
     template_name = 'pm/task.html'
     model = Task
     form_class = TaskForm
