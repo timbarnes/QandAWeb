@@ -1,8 +1,8 @@
-{% extends "base.html" %}
+{% extends "two-col.html" %}
 {% block title %}
 <h1 class="pagetitle"><span class="glyphicon glyphicon-tower" aria-hidden="true"></span> Project: {{ project.name }}</h1>
 {% endblock %}
-{% block content %}
+{% block left %}
     <h1>Task Lists // <a href="{% url 'taskLists' project.pk %}">Create new</a></h1>
     <p>
   <table class="table table-striped">
@@ -13,6 +13,8 @@
     <tr><td><a href="{% url 'tasks' t.slug %}">{{ t.name }}</a></td></tr>
     {% endfor %}
     </table>
+    {% endblock left %}
+    {% block right %}
     <h1>Notes // <a href="{% url 'notes' project.pk %}">Create new</a></h1>
     <p>
   <table class="table table-striped">
@@ -24,4 +26,4 @@
         <td>{{ t.body|safe|truncatewords_html:30 }}</td></tr>
     {% endfor %}
     </table>
- {% endblock %}
+ {% endblock right %}
