@@ -32,12 +32,12 @@
 {% endblock left %}
 {% block right %}
   <h1>Task Lists</h1>
-  {% if tasklists %}
+  {% if taskslists %}
   <table class="table table-striped">
     <tr>
       <th>Task Lists</th>
     </tr>
-    {% for tlist in tasklists %}
+    {% for tlist in taskslists %}
     <tr>
       <td><a href="{% url 'tasks' tlist.slug %}">{{ tlist.name }}</a></td>
     </tr>
