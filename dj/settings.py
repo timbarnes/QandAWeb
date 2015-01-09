@@ -119,7 +119,7 @@ USE_TZ = True
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # Base folder locations
-#STATIC_FILES_DIRS = os.path.join(BASE_DIR, parms['static-dir'])
+STATICFILES_DIRS = (parms['static-dir'],)
 STATIC_ROOT = os.path.join(BASE_DIR, parms['static-root'])
 STATIC_URL = '/static/'
 
