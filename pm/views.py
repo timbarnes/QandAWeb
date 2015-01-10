@@ -62,10 +62,11 @@ class EditProjectView(generic.UpdateView):
     """
     template_name = 'pm/editproject.html'
     model = Project
-
+    success_url = reverse_lazy('projects');
+    
     
 class NotesView(generic.FormView):
-    """List of all notes.
+    """List of all notes. Includes edit functionality.
     """
     template_name = 'pm/notes.html'
     form_class = NoteForm
@@ -94,7 +95,8 @@ class NotesView(generic.FormView):
 
 
 class TaskListsView(generic.FormView):
-    """Display task lists for a specific project specified by pk
+    """Display task lists for a specific project specified by pk.
+       Includes edit functionality.
     """
     template_name = 'pm/tasklists.html'
     form_class = TaskListForm
@@ -125,7 +127,8 @@ class TasksView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super(TasksView, self).get_context_data(**kwargs)
         context.update({
-            'taskslists': TaskList.objects.filter(project__slug=self.kwargs['slug']),
+            'project': get_object_or_404(Project, slug=self.kwargs['project']),
+            'taskslists': TaskList.objects.filter(project__slug=self.kwargs['project']),
             'tasklist': get_object_or_404(TaskList, slug=self.kwargs['slug']),
             'tasks': Task.objects.filter(tasklist__slug=self.kwargs['slug']).order_by('done'),
         })
@@ -153,12 +156,14 @@ class NewTaskView(generic.CreateView):
     model = Task
 
     def get_success_url(self, **kwargs):
-        return reverse('tasks', args=[self.object.tasklist.slug])
+        return reverse('tasks', args=[self.object.tasklist.project.slug,
+                                      self.object.tasklist.slug])
 
     def get_context_data(self, **kwargs):
         context = super(NewTaskView, self).get_context_data(**kwargs)
         tlist = get_object_or_404(TaskList, slug=self.kwargs['slug'])
         context.update({
+            'project': get_object_or_404(Project, slug=self.kwargs['project']),
             'tasklist': tlist,
             'form': TaskForm({'tasklist': tlist.pk, }),
         })
@@ -177,7 +182,9 @@ class NoteView(generic.UpdateView):
     template_name = 'pm/note.html'
     model = Note
     form_class = NoteForm
-    success_url = reverse_lazy('notes')
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('notes', args=[self.kwargs['project']])
 
 
 class TaskView(generic.UpdateView):

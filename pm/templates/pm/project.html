@@ -10,7 +10,7 @@
       <th>Task List</th>
     </tr>
     {% for t in tasklists %}
-    <tr><td><a href="{% url 'tasks' t.slug %}">{{ t.name }}</a></td></tr>
+    <tr><td><a href="{% url 'tasks' project.slug t.slug %}">{{ t.name }}</a></td></tr>
     {% endfor %}
     </table>
     {% endblock left %}
@@ -22,7 +22,7 @@
       <th>Title</th><th>Description</th>
     </tr>
     {% for t in notes %}
-    <tr><td><a href="{% url 'note' t.slug %}">{{ t.title }}</a></td>
+    <tr><td><a href="{% url 'note' project.pk t.slug %}">{{ t.title }}</a></td>
         <td>{{ t.body|safe|truncatewords_html:30 }}</td></tr>
     {% endfor %}
     </table>

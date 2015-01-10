@@ -1,11 +1,11 @@
 {% extends "two-col.html" %}
 {% load crispy_forms_tags %}
 {% block title %}
-<h1 class="pagetitle">Tasks for list: {{ tasklist.name }}.</h1>
+<h1 class="pagetitle">Tasks for {{ project.name }} // {{ tasklist.name }}.</h1>
 {% if message %}
 <p>{{ message %}</p>
 {% endif %}
-<p><a href="{% url 'newTask' tasklist.slug %}">Create a new task</a></p>
+<p><a href="{% url 'newTask' project=project.slug slug=tasklist.slug %}">Create a new task</a></p>
 {% endblock %}
 {% block left %}
 <h1>Tasks</h1>
@@ -16,7 +16,7 @@
     </tr>
     {% for t in tasks %}
     <tr>
-      <td><a href="{% url 'task' t.pk %}">{{ t.task }}</a></td>
+      <td><a href="{% url 'task' project.slug tasklist.slug t.pk %}">{{ t.task }}</a></td>
       <td>{{ t.due }}</td>
       {% if t.done %}
       <td><span class="glyphicon glyphicon-ok" aria-hidden="true"</span></td>
@@ -39,7 +39,7 @@
     </tr>
     {% for tlist in taskslists %}
     <tr>
-      <td><a href="{% url 'tasks' tlist.slug %}">{{ tlist.name }}</a></td>
+      <td><a href="{% url 'tasks' project.slug tlist.slug %}">{{ tlist.name }}</a></td>
     </tr>
     {% endfor %}
   </table>
