@@ -105,6 +105,7 @@ class TaskListsView(generic.FormView):
     def get_context_data(self, **kwargs):
         context = super(TaskListsView, self).get_context_data(**kwargs)
         context.update({
+            'project': get_object_or_404(Project, slug=self.kwargs['slug']),
             'task_lists': TaskList.objects.filter(project__pk=self.kwargs['pk']),
         })
         return context
