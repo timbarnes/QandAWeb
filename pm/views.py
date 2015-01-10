@@ -195,4 +195,5 @@ class TaskView(generic.UpdateView):
     form_class = TaskForm
 
     def get_success_url(self):
-        return reverse('tasks', args=[self.object.tasklist.slug])
+        project = get_object_or_404(Project, pk=self.object.tasklist.project.pk)
+        return reverse('tasks', args=[project.slug, self.object.tasklist.slug])

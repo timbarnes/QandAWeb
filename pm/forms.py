@@ -47,6 +47,7 @@ class TaskForm(forms.ModelForm):
         self.helper.layout = Layout(
             Fieldset('',
                      'task',
+                     'notes',
                       AppendedText('resolution', 'Optional')),
             Fieldset('',
                 Div('tasklist', css_class='col-xs-4'),
@@ -57,7 +58,7 @@ class TaskForm(forms.ModelForm):
 
     class Meta:
         model = Task
-        fields = ['tasklist', 'task', 'due', 'done', 'resolution']
+        fields = ['tasklist', 'task', 'notes', 'due', 'done', 'resolution']
 
 
 class NoteForm(forms.ModelForm):

@@ -34,9 +34,11 @@ class TaskList(models.Model):
 class Task(models.Model):
     tasklist = models.ForeignKey(TaskList)
     task = models.CharField(max_length=200)
+    notes = tinymce_models.HTMLField()
     due = models.DateField(null=True, blank=True)
     resolution = models.CharField(max_length=200, null=True, blank=True)
     done = models.BooleanField(default=False)
+    created = models.DateField(auto_now_add=True)
 
     def __unicode__(self):
         return self.slug
