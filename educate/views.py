@@ -267,7 +267,7 @@ class AnswerView(MenuMixin, generic.TemplateView):
 class NewQuestionsView(MenuMixin, generic.FormView):
     """Input multiple questions for the current category.
     Uses a textfield, where each line contains a question or an answer.
-    Each line is processed into a question with associated answer, separation character '|'.
+    Each line is processed into a question with associated answer, separation character '?'.
     """
     template_name = 'educate/newquestions.html'
     form_class = NewQuestionsForm
@@ -287,15 +287,12 @@ class NewQuestionsView(MenuMixin, generic.FormView):
     def form_valid(self, form):
         qa = form.cleaned_data['questions_and_answers']
         qalist = qa.split('\n')
-        print len(qalist), 'lines found'
         for line in qalist:
-            q = line.split('|')
+            q = line.split('?')
             if len(q) != 2:
                 messages.error(self.request, "Couldn't find a Q and A")
                 return form_invalid(self, form)
             else:
-                print 'Question is', q[0]
-                print 'Answer is', q[1]
                 new_question = Question(author=self.request.user,
                                         category=get_object_or_404(Category,
                                                                    name=self.kwargs['category']),
