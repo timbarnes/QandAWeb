@@ -11,6 +11,7 @@ urlpatterns = patterns(
     url(r'^c/(?P<subject>[-_\w]+)/$', views.CategoriesView.as_view(), name='categories'),
     url(r'^ca/(?P<category>[-_\w]+)/$', views.ContentView.as_view(), name='content'),
     url(r'^q/(?P<category>[-_\w]+)/$', views.QuestionsView.as_view(), name='questions'),
+    url(r'^nq/(?P<category>[-_\w]+)/$', views.NewQuestionsView.as_view(), name='new_questions'),
     url(r'^q/(?P<category>[-_\w]+)/review/$',
         login_required(views.ReviewQuestionsView.as_view(),
                        login_url='/accounts/login'), name='review_questions'),

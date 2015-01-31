@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}
+<h1 class="pagetitle"> Add questions for category {{ category.name }}</h1>
+{% endblock title %}
+{% block content %}
+<p>Add as many new questions as you like. Each line consists of a
+single question and answer, separated by the "|" character (a single
+vertical bar, no quotes). Question marks will be added to questions automatically.</p>
+{% crispy form %}
+{% endblock content %}
+
+  

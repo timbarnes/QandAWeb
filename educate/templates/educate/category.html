@@ -22,7 +22,11 @@ aria-hidden="true"></span> <a href="{% url 'categories' subject.slug %}">{{ subj
 {% endif %}
 {% if question_subset  %}
 <h2>Questions</h2>
- <p><a href="{% url 'review_questions' category.slug  %}"><button type="button" class="btn btn-primary btn-sm">Review the answers</button></a> (logged in users only)</p>
+ <p><a href="{% url 'review_questions' category.slug  %}"><button
+    type="button" class="btn btn-primary btn-sm">Review the answers</button></a>
+ <a href="{% url 'new_questions' category.slug  %}"><button
+    type="button" class="btn btn-primary btn-sm">Add new questions</button></a>
+ (logged in users only)</p>
  <table class="table table-striped">
   <tr>
     <th>Question</th>

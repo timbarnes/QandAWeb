@@ -4,11 +4,12 @@ from django.views import generic
 from django.db.models import Q
 from django.contrib import messages
 from django.utils.text import slugify
+from django.utils.html import strip_tags
 from django import forms
 from taggit.models import Tag
 from braces import views
 
-from educate.forms import AnswerForm, SubjectForm, CategoryForm, ArticleForm
+from educate.forms import AnswerForm, SubjectForm, CategoryForm, ArticleForm, NewQuestionsForm
 from educate.models import Subject, Category, Question, Article
 from educate.score import score
 
@@ -261,8 +262,53 @@ class AnswerView(MenuMixin, generic.TemplateView):
             'answer': self.request.GET['user_answer'],
             })
         return context
-        
 
+
+class NewQuestionsView(MenuMixin, generic.FormView):
+    """Input multiple questions for the current category.
+    Uses a textfield, where each line contains a question or an answer.
+    Each line is processed into a question with associated answer, separation character '|'.
+    """
+    template_name = 'educate/newquestions.html'
+    form_class = NewQuestionsForm
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('questions', args=[self.kwargs['category']])
+
+    def get_context_data(self, **kwargs):
+        context = super(NewQuestionsView, self).get_context_data(**kwargs)
+        category = get_object_or_404(Category, slug=self.kwargs['category'])
+        context.update({
+            'subject': category.subject,
+            'category': category,
+            })
+        return context
+
+    def form_valid(self, form):
+        qa = form.cleaned_data['questions_and_answers']
+        qalist = qa.split('\n')
+        print len(qalist), 'lines found'
+        for line in qalist:
+            q = line.split('|')
+            if len(q) != 2:
+                messages.error(self.request, "Couldn't find a Q and A")
+                return form_invalid(self, form)
+            else:
+                print 'Question is', q[0]
+                print 'Answer is', q[1]
+                new_question = Question(author=self.request.user,
+                                        category=get_object_or_404(Category,
+                                                                   name=self.kwargs['category']),
+                                        question=strip_tags(q[0]),
+                                        answer=strip_tags(q[1]))
+                print 'Question object:', new_question
+                new_question.save()
+        messages.success(self.request, 'Questions saved')
+        return super(NewQuestionsView, self).form_valid(form)
+
+        
 
     
 
+
+        

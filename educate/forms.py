@@ -77,3 +77,17 @@ class ArticleForm(forms.ModelForm):
         fields = ['author', 'title', 'body', 'summary', 'slug', 'category', 'public', 'tags']
 
         
+class NewQuestionsForm(forms.Form):
+    """Add a bunch of new questions using a textfield"""
+
+    questions_and_answers = forms.CharField(
+        widget=forms.Textarea(),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(NewQuestionsForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = 'form-inline'
+        self.helper.form_class = 'blueForms'
+        self.helper.form_method = 'post'
+        self.helper.add_input(Submit('submit', 'Submit'))

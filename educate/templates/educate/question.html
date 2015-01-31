@@ -1,12 +1,9 @@
-<h1>{{ question.category.category_text }}</h1>
-<h2>{{ question.question_text }}</h2>
-
-{% if error_message %}<p><string>{{ error_message }}</p>(% endif %}
-
-<form action="{% url 'educate:answer' question.id %}" method="post">
-{% csrf_token %}
-{{ form }}
-<input type="submit" value="Check your answer" />
-</form>
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}
+<h1 class="pagetitle"> Add questions for category {{ category.name }}</h1>
+{% block content %}
+{% crispy form %}
+{% endblock content %}
 
   
