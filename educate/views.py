@@ -1,16 +1,12 @@
 from django.shortcuts import get_object_or_404
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from django.views import generic
-from django.db.models import Q
 from django.contrib import messages
 from django.utils.text import slugify
-from django import forms
 from taggit.models import Tag
-from braces import views
 
-from educate.forms import AnswerForm, SubjectForm, CategoryForm, ArticleForm
 from educate.models import Subject, Category, Question, Article
-from educate.score import score
+from educate.forms import AnswerForm, SubjectForm, CategoryForm, ArticleForm
 
 
 class MenuMixin(object):
@@ -29,7 +25,7 @@ class TagIndexView(MenuMixin, generic.TemplateView):
     """Present everything associated with a tag.
     """
     template_name = 'educate/tags.html'
-    
+
     def get_context_data(self, **kwargs):
         context = super(TagIndexView, self).get_context_data(**kwargs)
         slug = self.kwargs['slug']
@@ -63,15 +59,15 @@ class ContentView(MenuMixin, generic.ListView):
         return context
 
     def get_queryset(self):
-        return 
-    
+        return
+
 
 class HomeView(MenuMixin, generic.TemplateView):
     """Home page for the Educate project.
     """
     template_name = 'educate/home.html'
 
-    
+
 class AllArticlesView(MenuMixin, generic.ListView):
     """List of all the public articles.
     """
@@ -95,7 +91,7 @@ class AllSubjectsView(MenuMixin, generic.FormView):
             'form': SubjectForm(initial={'author': self.request.user, 'public': False}),
         })
         return context
-    
+
     def form_valid(self, form):
         n=form.save(commit=False)
         n.slug = slugify(form.cleaned_data['name'])
@@ -155,7 +151,7 @@ class ArticleView(MenuMixin, generic.DetailView):
             'article': get_object_or_404(Article, slug=self.kwargs['slug']),
         })
         return context
-    
+
 
 class NewArticleView(MenuMixin, generic.CreateView):
     """Create a new article.
@@ -178,7 +174,7 @@ class NewArticleView(MenuMixin, generic.CreateView):
     def form_invalid(self, form):
         messages.error(self.request, 'Error: please try again')
         return super(NewArticleView, self).form_invalid(form)
-        
+
     def form_valid(self, form):
         a = form.save(commit=False)
         a.slug = slugify(form.cleaned_data['title'])
@@ -207,10 +203,10 @@ class QuestionsView(MenuMixin, generic.ListView):
             'category': get_object_or_404(Category, slug=self.kwargs['category']),
         })
         return context
-    
+
     def get_queryset(self):
         return Question.objects.filter(category__slug=self.kwargs['category'])
-                
+
 
 class ReviewQuestionsView(MenuMixin, generic.ListView):
     """List of all the questions in a category.
@@ -225,7 +221,7 @@ class ReviewQuestionsView(MenuMixin, generic.ListView):
             'review': True,
         })
         return context
-    
+
     def get_queryset(self):
         return Question.objects.filter(category__slug=self.kwargs['category'])
 
@@ -247,7 +243,7 @@ class AskView(MenuMixin, generic.FormView):
     def form_valid(self, form):
         self.kwargs['user_answer'] = form.cleaned_data['user_answer']
         return super(AskView, self).form_valid(form)
-        
+
 
 class AnswerView(MenuMixin, generic.TemplateView):
     """Display the answer to a single question.
@@ -261,8 +257,3 @@ class AnswerView(MenuMixin, generic.TemplateView):
             'answer': self.request.GET['user_answer'],
             })
         return context
-        
-
-
-    
-

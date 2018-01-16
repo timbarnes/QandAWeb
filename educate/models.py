@@ -6,13 +6,13 @@ from taggit.managers import TaggableManager
 
 
 class EContent(models.Model):
-    author = models.ForeignKey(User)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     public = models.BooleanField(default=True)
     tags = TaggableManager(blank=True)
 
     class Meta:
         abstract = True
-    
+
 
 class Subject(EContent):
     name = models.CharField(max_length=40)
@@ -27,7 +27,7 @@ class Subject(EContent):
 
 
 class Category(EContent):
-    subject = models.ForeignKey(Subject)
+    subject = models.ForeignKey('Subject', on_delete=models.CASCADE)
     name = models.CharField(max_length=40)
     description = models.CharField(max_length=200, default='-description-')
     slug = models.SlugField()
@@ -36,13 +36,13 @@ class Category(EContent):
         ordering = ['name']
         verbose_name_plural = 'Categories'
         unique_together = ('subject', 'slug')
-        
+
     def __unicode__(self):
         return self.name
 
 
 class Question(EContent):
-    category = models.ForeignKey(Category)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE)
     question = models.CharField(max_length=200)
     answer = models.CharField(max_length=200)
 
@@ -55,7 +55,7 @@ class Question(EContent):
 
 
 class Article(EContent):
-    category = models.ForeignKey(Category)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     body = tinymce_models.HTMLField()
     summary = models.CharField(max_length=200, default="")

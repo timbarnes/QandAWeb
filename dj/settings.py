@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 from YamJam import yamjam
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 
 parms = yamjam()['dj']
 
@@ -38,8 +38,6 @@ ALLOWED_HOSTS = [parms['allowed-hosts']]
 # Application definition
 
 INSTALLED_APPS = (
-    'grappelli',
-    'filebrowser',
     'tinymce',
     'taggit',
     'crispy_forms',
@@ -51,15 +49,16 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'users',
     'registration',
     'educate',
-    'users',
 )
 
 if DEBUG:
-    INSTALLED_APPS =('debug_toolbar',) + INSTALLED_APPS
+    INSTALLED_APPS = ('debug_toolbar',) + INSTALLED_APPS
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -114,7 +113,7 @@ USE_TZ = True
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # Base folder locations
-#STATIC_FILES_DIRS = os.path.join(BASE_DIR, parms['static-dir'])
+# STATIC_FILES_DIRS = os.path.join(BASE_DIR, parms['static-dir'])
 STATIC_ROOT = os.path.join(BASE_DIR, parms['static-root'])
 STATIC_URL = '/static/'
 
@@ -122,8 +121,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, parms['media-root'])
 
 # Inline editor for articles
 
-#TINYMCE_JS_URL = parms['tinymce-js-url']
-#TINYMCE_JS_ROOT = parms['tinymce-js-root']
+# TINYMCE_JS_URL = parms['tinymce-js-url']
+# TINYMCE_JS_ROOT = parms['tinymce-js-root']
 TINYMCE_DEFAULT_CONFIG = {
     'plugins': "table,spellchecker,paste,searchreplace",
     'theme': "advanced",
@@ -132,4 +131,3 @@ TINYMCE_DEFAULT_CONFIG = {
     }
 TINYMCE_COMPRESSOR = True
 TINYMCE_SPELLCHECKER = True
-

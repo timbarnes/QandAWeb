@@ -1,14 +1,10 @@
-from django.shortcuts import render, get_object_or_404
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.shortcuts import get_object_or_404
+from django.urls import reverse, reverse_lazy
 from django.utils.text import slugify
 from django.views import generic
-from django import forms
 from django.contrib import messages
-from django.dispatch import receiver
 from django.contrib.auth.models import User
 from registration.views import RegistrationView
-
-from taggit.models import Tag
 
 from educate.models import Subject, Category, Article
 from users.models import Profile, Favorites, Note, Task, TaskList
@@ -25,8 +21,8 @@ class UserRegistrationView(RegistrationView):
     def register(self, request, **cleaned_data):
         """Custom registration view.
         """
-        print 'Starting registration'
-        print cleaned_data
+        print('Starting registration')
+        print(cleaned_data)
         u = User.objects.create_user(
             cleaned_data['username'],
             '',
@@ -105,16 +101,16 @@ class UpdateUserDataView(generic.edit.UpdateView):
             'user_form': user_form,
             'profile_form': profile_form,
             })
-        print 'UpdateUserDataView: ', context
+        print('UpdateUserDataView: ', context)
         return context
 
     def form_invalid(self, form):
-        print "form invalid", form
+        print("form invalid", form)
         messages.error(self.request, 'User data not successfully updated.')
         return super(UpdateUserDataView, self).form_invalid(form)
 
     def form_valid(self, form):
-        print "Form submitted: ", form
+        print("Form submitted: ", form)
         self.kwargs['form_data']=form.cleaned_data
         messages.success(self.request, 'User data successfully updated')
         return super(UpdateUserDataView, self).form_valid(form)
@@ -126,7 +122,7 @@ class MyHomeView(generic.TemplateView):
     template_name = 'users/myhome.html'
 
     def get_context_data(self, **kwargs):
-        print 'MYHOME'
+        print('MYHOME')
         context = super(MyHomeView, self).get_context_data(**kwargs)
         context.update({
             'profile': get_object_or_404(Profile, user=self.request.user),
@@ -137,10 +133,10 @@ class MyHomeView(generic.TemplateView):
             'category_subset': Category.objects.filter(author=self.request.user),
             'article_subset': Article.objects.filter(author=self.request.user),
         })
-        print context
+        print(context)
         return context
 
-    
+
 class NotesView(generic.FormView):
     """Home page for each user.
     """
@@ -154,9 +150,9 @@ class NotesView(generic.FormView):
             'notes': Note.objects.filter(user=self.request.user),
         })
         return context
-    
+
     def form_valid(self, form):
-        print "Form submitted: ", form
+        print("Form submitted: ", form)
         self.kwargs['form_data']=form.cleaned_data
         n = form.save(commit=False)
         n.user = self.request.user
@@ -180,9 +176,9 @@ class TaskListsView(generic.FormView):
             'task_lists': TaskList.objects.filter(user=self.request.user),
         })
         return context
-    
+
     def form_valid(self, form):
-        print "Form submitted: ", form
+        print("Form submitted: ", form)
         self.kwargs['form_data']=form.cleaned_data
         t = form.save(commit=False)
         t.user = self.request.user
@@ -192,7 +188,7 @@ class TaskListsView(generic.FormView):
         messages.success(self.request, 'Task list created')
         return super(TaskListsView, self).form_valid(form)
 
-    
+
 class TasksView(generic.TemplateView):
     """Display tasks associated with a tasklist.
     """
@@ -208,7 +204,7 @@ class TasksView(generic.TemplateView):
         })
         return context
 
-    
+
 class NewNoteView(generic.FormView):
     """Add a note.
     """
@@ -243,17 +239,17 @@ class NewTaskView(generic.FormView):
         return context
 
     def form_valid(self, form):
-        print 'Due =', form.cleaned_data['due'], '='
+        print('Due =', form.cleaned_data['due'], '=')
         if not form.cleaned_data['due']:
             form.cleaned_data['due'] = None
-            print form
-        print form
+            print(form)
+        print(form)
         t = form.save()
         t.slug = slugify(form.cleaned_data['task'])
         t.save()
         messages.success(self.request, 'Task created.')
         return super(NewTaskView, self).form_valid(form)
-    
+
 
 class NoteView(generic.UpdateView):
     """Alter an existing user note.

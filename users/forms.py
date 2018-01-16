@@ -1,13 +1,12 @@
 from django import forms
-from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Field, Row, Fieldset, Div
+from crispy_forms.layout import Layout, Submit, Field, Fieldset, Div
 from crispy_forms.bootstrap import FormActions, AppendedText
 
-from models import Profile, TaskList, Task, Note
+from users.models import Profile, TaskList, Task, Note
 
 
 class RegistrationForm(UserCreationForm):
@@ -23,7 +22,7 @@ class RegistrationForm(UserCreationForm):
             FormActions(Submit('register', 'Register', css_class='btn-primary.btn-block'))
             )
         super(RegistrationForm, self).__init__(*args, **kwargs)
-        
+
 
 class LoginForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
@@ -93,7 +92,7 @@ class UserDataForm(forms.ModelForm):
         fields = ['username', 'password', 'first_name', 'last_name',
                   'email', 'date_joined', 'last_login']
 
-        
+
 class TaskListForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(TaskListForm, self).__init__(*args, **kwargs)
