@@ -20,7 +20,5 @@ urlpatterns = [
          name='password_change'),
     path(r'accounts/', include('registration.backends.default.urls')),
     path(r'tinymce/', include('tinymce.urls')),
-#    path(r'^admin/filebrowser/', include(site.urls)),
-#    path(r'^grappelli/', include('grappelli.urls')),
     path(r'admin/', admin.site.urls),
 ]
