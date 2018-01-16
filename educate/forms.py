@@ -11,7 +11,7 @@ class AnswerForm(forms.Form):
     """
     user_answer = forms.CharField(
         label='Enter your answer:',
-        )
+    )
 
     def __init__(self, *args, **kwargs):
         super(AnswerForm, self).__init__(*args, **kwargs)
@@ -37,7 +37,7 @@ class SubjectForm(forms.ModelForm):
             'name', 'description', 'public', 'tags',
             Field('author', type='hidden'),
             FormActions(Submit('create', 'Create',
-                        css_class='btn-primary.btn-block')))
+                               css_class='btn-primary.btn-block')))
 
     class Meta:
         model = Subject
@@ -56,7 +56,7 @@ class CategoryForm(forms.ModelForm):
             'name', 'description', 'public', 'tags',
             Field('author', type='hidden'),
             FormActions(Submit('create', 'Create',
-                        css_class='btn-primary.btn-block')))
+                               css_class='btn-primary.btn-block')))
 
     class Meta:
         model = Category

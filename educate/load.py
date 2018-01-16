@@ -36,9 +36,8 @@ def save_topics(subject, topic_set):
                 cat = Category(name=entry, subject=sub)
                 cat.save()
     else:
-        print 'Subject not found:', sub
+        print('Subject not found:', sub)
     return
-
 
 
 def read_questions(filename):
@@ -61,18 +60,18 @@ def save_questions(questions):
         cat = Category.objects.filter(name=q[0])
         if cat:
             qu = Question(category=cat[0],
-                         question=q[1],
-                         answer=q[2])
+                          question=q[1],
+                          answer=q[2])
             qu.save()
         else:
-            print "Please load categories first."
+            print("Please load categories first.")
 
 
 def main():
     args = sys.argv[1:]
 
     if not args:
-        print 'usage: [-c subject] file '
+        print('usage: [-c subject] file ')
         sys.exit(1)
 
     questions = []
@@ -81,14 +80,15 @@ def main():
         if topics:
             save_topics(args[1], topics)
         else:
-            print args[2], ': No topics found.'
+            print(args[2], ': No topics found.')
     else:
         questions = read_questions(args[0])
 
     if len(questions) > 0:
         save_questions(questions)
     else:
-        print "No questions found."
+        print("No questions found.")
+
 
 if __name__ == '__main__':
-  main()
+    main()

@@ -12,6 +12,7 @@ from educate.forms import AnswerForm, SubjectForm, CategoryForm, ArticleForm
 class MenuMixin(object):
     """Gets public articles, subjects and categories. All tags are public.
     """
+
     def get_context_data(self, **kwargs):
         context = super(MenuMixin, self).get_context_data(**kwargs)
         context['article_list'] = Article.objects.filter(public=True)
@@ -55,7 +56,7 @@ class ContentView(MenuMixin, generic.ListView):
             'category': get_object_or_404(Category, slug=cat),
             'article_subset': Article.objects.filter(category__slug=cat),
             'question_subset': Question.objects.filter(category__slug=cat),
-            })
+        })
         return context
 
     def get_queryset(self):
@@ -88,12 +89,13 @@ class AllSubjectsView(MenuMixin, generic.FormView):
     def get_context_data(self, **kwargs):
         context = super(AllSubjectsView, self).get_context_data(**kwargs)
         context.update({
-            'form': SubjectForm(initial={'author': self.request.user, 'public': False}),
+            'form': SubjectForm(initial={'author': self.request.user,
+                                         'public': False}),
         })
         return context
 
     def form_valid(self, form):
-        n=form.save(commit=False)
+        n = form.save(commit=False)
         n.slug = slugify(form.cleaned_data['name'])
         n.save()
         form.save_m2m()
@@ -119,8 +121,10 @@ class CategoriesView(MenuMixin, generic.FormView):
         context = super(CategoriesView, self).get_context_data(**kwargs)
         context.update({
             'subject': get_object_or_404(Subject, slug=self.kwargs['subject']),
-            'category_subset': Category.objects.filter(subject__slug=self.kwargs['subject']),
-            'form': CategoryForm(initial={'author': self.request.user, 'public': False})
+            'category_subset':
+            Category.objects.filter(subject__slug=self.kwargs['subject']),
+            'form': CategoryForm(initial={'author':
+                                          self.request.user, 'public': False})
         })
         return context
 
@@ -129,7 +133,7 @@ class CategoriesView(MenuMixin, generic.FormView):
         return super(CategoriesView, self).form_invalid(form)
 
     def form_valid(self, form):
-        n=form.save(commit=False)
+        n = form.save(commit=False)
         n.subject = get_object_or_404(Subject, slug=self.kwargs['subject'])
         n.slug = slugify(form.cleaned_data['name'])
         n.save()
@@ -162,8 +166,9 @@ class NewArticleView(MenuMixin, generic.CreateView):
     success_url = reverse_lazy('all_articles')
 
     def get_initial(self):
-        parms = {'author': self.request.user, 'slug':'temp_slug'}
-        # slug will be replaced by the form_valid function, but is needed for validation
+        parms = {'author': self.request.user, 'slug': 'temp_slug'}
+        # slug will be replaced by the form_valid function,
+        # but is needed for validation
         try:
             if self.kwargs['category']:
                 parms['category'] = self.kwargs['category']
@@ -200,7 +205,8 @@ class QuestionsView(MenuMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(QuestionsView, self).get_context_data(**kwargs)
         context.update({
-            'category': get_object_or_404(Category, slug=self.kwargs['category']),
+            'category': get_object_or_404(Category,
+                                          slug=self.kwargs['category']),
         })
         return context
 
@@ -217,7 +223,8 @@ class ReviewQuestionsView(MenuMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(ReviewQuestionsView, self).get_context_data(**kwargs)
         context.update({
-            'category': get_object_or_404(Category, slug=self.kwargs['category']),
+            'category': get_object_or_404(Category,
+                                          slug=self.kwargs['category']),
             'review': True,
         })
         return context
@@ -236,8 +243,9 @@ class AskView(MenuMixin, generic.FormView):
     def get_context_data(self, **kwargs):
         context = super(AskView, self).get_context_data(**kwargs)
         context.update({
-            'question': get_object_or_404(Question, pk=self.kwargs['question_id'])
-            })
+            'question': get_object_or_404(Question,
+                                          pk=self.kwargs['question_id'])
+        })
         return context
 
     def form_valid(self, form):
@@ -253,7 +261,8 @@ class AnswerView(MenuMixin, generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super(AnswerView, self).get_context_data(**kwargs)
         context.update({
-            'question': get_object_or_404(Question, pk=self.kwargs['question_id']),
+            'question': get_object_or_404(Question,
+                                          pk=self.kwargs['question_id']),
             'answer': self.request.GET['user_answer'],
-            })
+        })
         return context

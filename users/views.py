@@ -8,7 +8,8 @@ from registration.views import RegistrationView
 
 from educate.models import Subject, Category, Article
 from users.models import Profile, Favorites, Note, Task, TaskList
-from users.forms import ProfileForm, UserDataForm, TaskListForm, NoteForm, TaskForm, RegistrationForm
+from users.forms import ProfileForm, UserDataForm, TaskListForm,
+    NoteForm, TaskForm, RegistrationForm
 
 
 class UserRegistrationView(RegistrationView):
@@ -30,7 +31,8 @@ class UserRegistrationView(RegistrationView):
         p = Profile()
         p.user = u
         p.save()
-        messages.success(self.request, 'Thank you for registering. Now you can login.')
+        messages.success(self.request,
+                         'Thank you for registering. Now you can login.')
 
 
 class ProfileView(generic.TemplateView):
@@ -43,13 +45,16 @@ class ProfileView(generic.TemplateView):
         user_form = UserDataForm(instance=self.request.user)
         profile = get_object_or_404(Profile, user=self.request.user)
         profile_form = ProfileForm(instance=profile)
-        user_form.helper.form_action = reverse_lazy('userdataUpdate', args=[self.request.user.pk])
-        profile_form.helper.form_action = reverse_lazy('profileUpdate', args=[profile.pk])
+        user_form.helper.form_action = reverse_lazy('userdataUpdate',
+                                                    args=[self.request.user.pk])
+        profile_form.helper.form_action =
+            reverse_lazy('profileUpdate', args=[profile.pk])
         context.update({
-            'profile': get_object_or_404(Profile, user__username=self.request.user.username),
+            'profile': get_object_or_404(Profile,
+                                         user__username=self.request.user.username),
             'user_form': user_form,
             'profile_form': profile_form,
-            })
+        })
         return context
 
 
@@ -66,18 +71,19 @@ class UpdateProfileView(generic.edit.UpdateView):
         user_form = UserDataForm(instance=self.request.user)
         profile = get_object_or_404(Profile, user=self.request.user)
         profile_form = ProfileForm(instance=profile)
-        user_form.helper.form_action = reverse_lazy('userdataUpdate', args=[self.request.user.pk])
-        profile_form.helper.form_action = reverse_lazy('profileUpdate', args=[profile.pk])
+        user_form.helper.form_action =
+        reverse_lazy('userdataUpdate', args=[self.request.user.pk])
+        profile_form.helper.form_action =
+        reverse_lazy('profileUpdate', args=[profile.pk])
         context.update({
             'profile': get_object_or_404(Profile, user__username=self.request.user.username),
             'user_form': user_form,
             'profile_form': profile_form,
-            })
+        })
         return context
 
-
     def form_valid(self, form):
-        self.kwargs['form_data']=form.cleaned_data
+        self.kwargs['form_data'] = form.cleaned_data
         messages.success(self.request, 'Profile successfully updated')
         return super(UpdateProfileView, self).form_valid(form)
 
@@ -94,13 +100,17 @@ class UpdateUserDataView(generic.edit.UpdateView):
         user_form = UserDataForm(instance=self.request.user)
         profile = get_object_or_404(Profile, user=self.request.user)
         profile_form = ProfileForm(instance=profile)
-        user_form.helper.form_action = reverse_lazy('userdataUpdate', args=[self.request.user.pk])
-        profile_form.helper.form_action = reverse_lazy('profileUpdate', args=[profile.pk])
+        user_form.helper.form_action = reverse_lazy('userdataUpdate',
+                                                    args=[self.request.user.pk])
+        profile_form.helper.form_action = reverse_lazy('profileUpdate',
+                                                       args=[profile.pk])
         context.update({
-            'profile': get_object_or_404(Profile, user__username=self.request.user.username),
+            'profile':
+            get_object_or_404(Profile,
+                              user__username=self.request.user.username),
             'user_form': user_form,
             'profile_form': profile_form,
-            })
+        })
         print('UpdateUserDataView: ', context)
         return context
 
@@ -111,7 +121,7 @@ class UpdateUserDataView(generic.edit.UpdateView):
 
     def form_valid(self, form):
         print("Form submitted: ", form)
-        self.kwargs['form_data']=form.cleaned_data
+        self.kwargs['form_data'] = form.cleaned_data
         messages.success(self.request, 'User data successfully updated')
         return super(UpdateUserDataView, self).form_valid(form)
 
@@ -153,7 +163,7 @@ class NotesView(generic.FormView):
 
     def form_valid(self, form):
         print("Form submitted: ", form)
-        self.kwargs['form_data']=form.cleaned_data
+        self.kwargs['form_data'] = form.cleaned_data
         n = form.save(commit=False)
         n.user = self.request.user
         n.slug = slugify(form.cleaned_data['title'])
@@ -179,7 +189,7 @@ class TaskListsView(generic.FormView):
 
     def form_valid(self, form):
         print("Form submitted: ", form)
-        self.kwargs['form_data']=form.cleaned_data
+        self.kwargs['form_data'] = form.cleaned_data
         t = form.save(commit=False)
         t.user = self.request.user
         t.slug = slugify(form.cleaned_data['name'])

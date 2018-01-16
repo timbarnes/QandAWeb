@@ -19,8 +19,9 @@ class RegistrationForm(UserCreationForm):
             'username',
             'password1',
             'password2',
-            FormActions(Submit('register', 'Register', css_class='btn-primary.btn-block'))
-            )
+            FormActions(Submit('register', 'Register',
+                               css_class='btn-primary.btn-block'))
+        )
         super(RegistrationForm, self).__init__(*args, **kwargs)
 
 
@@ -33,8 +34,9 @@ class LoginForm(AuthenticationForm):
         self.helper.layout = Layout(
             'username',
             'password',
-            FormActions(Submit('login', 'Login', css_class='btn-primary.btn-block'))
-            )
+            FormActions(Submit('login', 'Login',
+                               css_class='btn-primary.btn-block'))
+        )
         super(LoginForm, self).__init__(*args, **kwargs)
 
 
@@ -48,8 +50,9 @@ class PasswordForm(PasswordChangeForm):
             'old_password',
             'new_password1',
             'new_password2',
-            FormActions(Submit('update', 'Update', css_class='btn-primary.btn-block'))
-            )
+            FormActions(Submit('update', 'Update',
+                               css_class='btn-primary.btn-block'))
+        )
         super(PasswordForm, self).__init__(*args, **kwargs)
 
 
@@ -64,7 +67,8 @@ class ProfileForm(forms.ModelForm):
             'home',
             'interests',
             'objectives',
-            FormActions(Submit('update', 'Update', css_class='btn-primary.btn-block')))
+            FormActions(Submit('update', 'Update',
+                               css_class='btn-primary.btn-block')))
 
     class Meta:
         model = Profile
@@ -79,13 +83,14 @@ class UserDataForm(forms.ModelForm):
         self.helper.form_class = 'blueForms'
         self.helper.layout = Layout(
             'username',
-             Field('password', type='hidden'),
-             Field('date_joined', type='hidden'),
-             Field('last_login', type='hidden'),
+            Field('password', type='hidden'),
+            Field('date_joined', type='hidden'),
+            Field('last_login', type='hidden'),
             'first_name',
             'last_name',
             'email',
-            FormActions(Submit('update', 'Update', css_class='btn-primary.btn-block')))
+            FormActions(Submit('update', 'Update',
+                               css_class='btn-primary.btn-block')))
 
     class Meta:
         model = User
@@ -101,7 +106,8 @@ class TaskListForm(forms.ModelForm):
         self.helper.form_class = 'blueForms'
         self.helper.layout = Layout(
             'name', 'tags',
-            FormActions(Submit('create', 'Create', css_class='btn-primary.btn-block')))
+            FormActions(Submit('create', 'Create',
+                               css_class='btn-primary.btn-block')))
 
     class Meta:
         model = TaskList
@@ -116,13 +122,15 @@ class TaskForm(forms.ModelForm):
         self.helper.layout = Layout(
             Fieldset('',
                      'task',
-                      AppendedText('resolution', 'Optional')),
+                     AppendedText('resolution', 'Optional')),
             Fieldset('',
-                Div('tasklist', css_class='col-xs-4'),
-                Div(AppendedText('due', 'Optional'), css_class='col-xs-4'),
-                Div('done', css_class='col-xs-2'),
-                css_class='row-fluid'),
-            FormActions(Submit('submit', 'Submit', css_class='btn-primary.btn-block')))
+                     Div('tasklist', css_class='col-xs-4'),
+                     Div(AppendedText('due', 'Optional'),
+                         css_class='col-xs-4'),
+                     Div('done', css_class='col-xs-2'),
+                     css_class='row-fluid'),
+            FormActions(Submit('submit', 'Submit',
+                               css_class='btn-primary.btn-block')))
 
     class Meta:
         model = Task
@@ -136,7 +144,8 @@ class NoteForm(forms.ModelForm):
         self.helper.form_class = 'blueForms'
         self.helper.layout = Layout(
             'title', 'body', 'tags',
-            FormActions(Submit('submit', 'Submit', css_class='btn-primary.btn-block')))
+            FormActions(Submit('submit', 'Submit',
+                               css_class='btn-primary.btn-block')))
 
     class Meta:
         model = Note
